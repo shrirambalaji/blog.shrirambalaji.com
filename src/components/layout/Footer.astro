@@ -1,0 +1,35 @@
+---
+import { menuLinks, siteConfig } from "@/site-config";
+
+const year = new Date().getFullYear();
+---
+
+<footer
+	class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pb-4 pt-20 text-center align-top text-gray-500 sm:flex-row sm:justify-between sm:text-xs"
+
+	<hr class="border-1 mb-6 w-full border-ghostindigo-200/20 dark:border-ghostindigo-800/20"></hr>
+      <p class="text-xs leading-6 text-gray-500 dark:text-ghostindigo-400">
+        <span>Made with&nbsp;</span>
+        <a
+          href="https://astro.build"
+          class="text-indigo-400 underline-offset-2 hover:underline dark:text-indigo-300"
+        >
+          Astro
+        </a>
+		<span>&nbsp;&bull;&nbsp;</span>
+		<a
+          href="https://tailwindcss.com"
+          class="text-indigo-400 underline-offset-2 hover:underline dark:text-indigo-300"
+        >
+          Tailwind
+        </a>
+        <span>&nbsp;&bull;&nbsp;View source on&nbsp;</span>
+		
+        <a
+          href="https://github.com/shrirambalaji/blog.shrirambalaji.com"
+          class="text-indigo-400 underline-offset-2 hover:underline dark:text-indigo-300"
+        >
+          GitHub
+        </a>
+      </p>
+</footer>

@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		color-scheme: light;
+		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
+		--theme-bg: 0deg 0% 98%;
+		--theme-link: 172deg 18% 41%;
+		--theme-text: 203deg 11% 15%;
+		--theme-accent: 234.45deg 89.47% 73.92%;
+		--theme-accent-2: 0deg 0% 7%;
+		--theme-quote: 234.45deg 89.47% 60%;
+
+		--astro-code-color-foreground: #000;
+		--astro-code-color-background: #fff;
+		--astro-code-token-default: #000;
+		--astro-code-token-constant: #000;
+		--astro-code-token-string: #000;
+		--astro-code-token-comment: #000;
+		--astro-code-token-keyword: #000;
+		--astro-code-token-parameter: #000;
+		--astro-code-token-function: #000;
+		--astro-code-token-string-expression: #000;
+		--astro-code-token-info: #000;
+		--astro-code-token-warn: #000;
+		--astro-code-token-warn: #000;
+		--astro-code-token-debug: #000;
+		--astro-code-token-strong: #000;
+		--astro-code-token-punctuation: #000;
+		--astro-code-token-link: #000;
+		--astro-code-color-text: #000;
+	}
+
+	:root.dark {
+		color-scheme: dark;
+		--theme-bg: 240deg 17.1% 8%;
+		--theme-link: 229.66 93.55% 81.76%;
+		--theme-text: 0deg 0% 100%;
+		--theme-accent: 229.66 93.55% 81.76%;
+		--theme-accent-2: 229.66 93.55% 81.76%;
+		--theme-quote: 229.66 93.55% 81.76%;
+
+		/** available variables when using theme="custom" */
+		--astro-code-color-foreground: #959cbd;
+		--astro-code-color-background: #0b0b0f;
+		--astro-code-token-default: #79b8ff;
+		--astro-code-token-constant: #79B8FF;
+		--astro-code-token-string: #FFAB70;
+		--astro-code-token-comment: #6B737C;
+		--astro-code-token-keyword: #F97583;
+		--astro-code-token-parameter:#FF9800;
+		--astro-code-token-function: #b392f0;
+		--astro-code-token-string-expression: #fff;
+		--astro-code-token-info: #316BCD;
+		--astro-code-token-warn: #CD9731;
+		--astro-code-token-error: #CD3131;
+		--astro-code-token-debug: #fff;
+		--astro-code-token-strong: #fff;
+		--astro-code-token-punctuation: #BBBBBB;
+		--astro-code-token-link: #1976D2;
+		--astro-code-color-text: #fff;
+	}
+
+	html {
+		@apply scroll-smooth;
+	}
+
+	html body {
+		@apply mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor px-8 pt-16 font-sans text-lg font-normal text-textColor antialiased;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.shiki.dark-plus {
+		display: none;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.shiki.light-plus {
+		display: none;
+	}
+}
+
+.prose :where(img):not(:where([class~="not-prose"] *)) {
+	border-radius: 6px;
+}
+
+*::selection {
+	background-color: #818cf8;
+	color:#f8fafc;
+}
+
+.dark *::selection {
+	background-color: #c7d2fe;
+	color: #111118;
+}
+
+.twitter-tweet:not(.twitter-tweet-rendered) {
+	border: 1px solid;
+	border-radius: 6px;
+	font-style: normal;
+}
