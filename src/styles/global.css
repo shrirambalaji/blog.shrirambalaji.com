@@ -6,31 +6,33 @@
 	:root {
 		color-scheme: light;
 		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
-		--theme-bg: 0deg 0% 98%;
-		--theme-link: 172deg 18% 41%;
+		--theme-bg: 0deg 0% 100%;
+		--theme-link: 234.45deg 89.47% 73.92%;
 		--theme-text: 203deg 11% 15%;
 		--theme-accent: 234.45deg 89.47% 73.92%;
 		--theme-accent-2: 0deg 0% 7%;
 		--theme-quote: 234.45deg 89.47% 60%;
 
-		--astro-code-color-foreground: #000;
-		--astro-code-color-background: #fff;
-		--astro-code-token-default: #000;
-		--astro-code-token-constant: #000;
-		--astro-code-token-string: #000;
-		--astro-code-token-comment: #000;
-		--astro-code-token-keyword: #000;
-		--astro-code-token-parameter: #000;
-		--astro-code-token-function: #000;
-		--astro-code-token-string-expression: #000;
-		--astro-code-token-info: #000;
-		--astro-code-token-warn: #000;
-		--astro-code-token-warn: #000;
-		--astro-code-token-debug: #000;
-		--astro-code-token-strong: #000;
-		--astro-code-token-punctuation: #000;
-		--astro-code-token-link: #000;
-		--astro-code-color-text: #000;
+		--astro-code-color-foreground: #212121;
+		--astro-code-color-background: #fefefe;
+		--astro-code-token-default: #1976D2;
+		--astro-code-token-constant: #1976D2;
+		--astro-code-token-string: #22863A;
+		--astro-code-token-comment: #C2C3C5;
+		--astro-code-token-keyword: #D32F2F;
+		--astro-code-token-parameter: #FF9800;
+		--astro-code-token-function: #6f42c1;
+		--astro-code-token-string-expression: #212121;
+		--astro-code-token-info: #316BCD;
+		--astro-code-token-warn: #CD9731;
+		--astro-code-token-error: #CD3131;
+		--astro-code-token-debug: #800080;
+		--astro-code-token-strong: #212121;
+		--astro-code-token-punctuation: #212121;
+		--astro-code-token-link: #1976D2;
+		--astro-code-color-text: #212121;
+
+		--astro-code-border: #f5f5f5
 	}
 
 	:root.dark {
@@ -44,7 +46,7 @@
 
 		/** available variables when using theme="custom" */
 		--astro-code-color-foreground: #959cbd;
-		--astro-code-color-background: #0b0b0f;
+		--astro-code-color-background: #111118;
 		--astro-code-token-default: #79b8ff;
 		--astro-code-token-constant: #79B8FF;
 		--astro-code-token-string: #FFAB70;
@@ -56,11 +58,12 @@
 		--astro-code-token-info: #316BCD;
 		--astro-code-token-warn: #CD9731;
 		--astro-code-token-error: #CD3131;
-		--astro-code-token-debug: #fff;
+		--astro-code-token-debug: #800080;
 		--astro-code-token-strong: #fff;
 		--astro-code-token-punctuation: #BBBBBB;
 		--astro-code-token-link: #1976D2;
 		--astro-code-color-text: #fff;
+		--astro-code-border: #262636;
 	}
 
 	html {
@@ -82,6 +85,10 @@
 	.shiki.light-plus {
 		display: none;
 	}
+}
+
+.prose-lg :where(pre):not(:where([class~="not-prose"] *)) {
+	border: 1px solid var(--astro-code-border);
 }
 
 .prose :where(img):not(:where([class~="not-prose"] *)) {
