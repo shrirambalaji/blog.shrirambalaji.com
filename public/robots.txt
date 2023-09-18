@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://blog.shrirambalaji.comsitemap-index.xml
+Sitemap: https://blog.shrirambalaji.com/sitemap-index.xml

@@ -1,7 +1,7 @@
 {
-	"name": "Astro Theme Cactus Demo",
-	"short_name": "Astro_Cactus",
-	"description": "Starter blog site for Astro",
+	"name": "Shriram Balaji's Blog",
+	"short_name": "blog.shrirambalaji.com",
+	"description": "Shriram Balaji's Blog",
 	"icons": [
 		{
 			"src": "/192x192.png",
@@ -15,7 +15,7 @@
 		}
 	],
 	"start_url": "/",
-	"background_color": "#1d1f21",
-	"theme_color": "#2bbc8a",
+	"background_color": "#111118",
+	"theme_color": "#A0A0BB",
 	"display": "standalone"
 }
