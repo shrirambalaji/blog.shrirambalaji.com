@@ -8,6 +8,7 @@ export type SiteConfig = {
 		locale: string | string[] | undefined;
 		options: Intl.DateTimeFormatOptions;
 	};
+	handle: string;
 };
 
 export type PaginationLink = {

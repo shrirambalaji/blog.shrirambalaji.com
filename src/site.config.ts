@@ -20,6 +20,8 @@ export const siteConfig: SiteConfig = {
 			year: "numeric",
 		},
 	},
+
+	handle: "@shrirambalaji",
 };
 
 // Used to generate links in both the Header & Footer.
