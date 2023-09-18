@@ -8,7 +8,7 @@ import "@pagefind/default-ui/css/ui.css";
 	<button
 		data-open-modal
 		disabled
-		class="flex h-9 w-9 items-center justify-center rounded-md ring-zinc-400 transition-all hover:ring-2"
+		class="flex h-9 w-9 items-center justify-center rounded-md ring-gray-400 transition-all hover:ring-2"
 	>
 		<svg
 			aria-label="search"
@@ -29,12 +29,12 @@ import "@pagefind/default-ui/css/ui.css";
 	</button>
 	<dialog
 		aria-label="search"
-		class="h-full max-h-full w-full max-w-full border border-zinc-400 bg-bgColor shadow backdrop:backdrop-blur sm:mx-auto sm:mb-auto sm:mt-16 sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-md"
+		class="h-full max-h-full w-full max-w-full border border-gray-400 bg-bgColor shadow backdrop:backdrop-blur sm:mx-auto sm:mb-auto sm:mt-16 sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-md"
 	>
 		<div class="dialog-frame flex flex-col gap-4 p-6 pt-12 sm:pt-6">
 			<button
 				data-close-modal
-				class="ms-auto cursor-pointer rounded-md bg-zinc-200 p-2 font-semibold dark:bg-zinc-700"
+				class="ms-auto cursor-pointer rounded-md bg-gray-200 dark:bg-indigo-500 p-2 font-semibold"
 				>Close</button
 			>
 			{
@@ -190,7 +190,7 @@ import "@pagefind/default-ui/css/ui.css";
 		--pagefind-ui-primary: theme("colors.accent");
 		--pagefind-ui-text: theme("colors.textColor");
 		--pagefind-ui-background: theme("colors.bgColor");
-		--pagefind-ui-border: theme("colors.zinc.400");
+		--pagefind-ui-border: theme("colors.accent");
 		--pagefind-ui-border-width: 1px;
 	}
 </style>

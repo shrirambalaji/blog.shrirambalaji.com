@@ -12,22 +12,19 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-6">Tags</h1>
-	<ul class="space-y-4">
+	<h1 class="text-2xl font-semibold mb-6">Tags</h1>
+	<ul class="flex flex-row flex-wrap gap-3">
 		{
 			allTags.map(([tag, val]) => (
-				<li class="flex items-center gap-x-2">
+				<li class="flex items-center gap-x-2 font-medium rounded-full px-2 py-2 bg-gray-100 dark:bg-ghostindigo-700 text-black dark:text-white">
 					<a
-						class="inline-block"
+						class="inline-block font-mono text-sm"
 						href={`/tags/${tag}/`}
 						title={`View posts with the tag: ${tag}`}
 						rel="prefetch"
 					>
 						&#35;{tag}
 					</a>
-					<span class="inline-block">
-						- {val} Post{val > 1 && "s"}
-					</span>
 				</li>
 			))
 		}

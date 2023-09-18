@@ -133,12 +133,10 @@ export default {
 		plugin(function ({ addComponents }) {
 			addComponents({
 				".cactus-link": {
-					"@apply bg-[size:100%_6px] bg-bottom bg-repeat-x": {},
-					backgroundImage:
-						"linear-gradient(transparent,transparent 5px,hsl(var(--theme-text)) 5px,hsl(var(--theme-text)))",
+					"@apply bg-[size:100%_6px] bg-bottom bg-repeat-x underline underline-offset-8 decoration-transparent decoration-2 underline":
+						{},
 					"&:hover": {
-						backgroundImage:
-							"linear-gradient(transparent,transparent 4px,hsl(var(--theme-link)) 4px,hsl(var(--theme-link)))",
+						"@apply underline underline-offset-8 transition-all decoration-indigo-400": {},
 					},
 				},
 				".title": {
