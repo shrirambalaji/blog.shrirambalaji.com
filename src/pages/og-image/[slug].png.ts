@@ -36,7 +36,9 @@ const markup = (title: string, pubDate: string) =>
 	>
 		<div tw="flex flex-col flex-1 w-full p-10 justify-center items-center">
 			<p tw="text-2xl mb-0">${pubDate}</p>
-			<h1 tw="text-6xl font-bold leading-snug text-white">${title}</h1>
+			<h1 tw="text-6xl max-w-3xl text-center font-bold break-words leading-snug text-white">
+				${title}
+			</h1>
 		</div>
 		<div tw="flex items-center justify-center w-full p-10 text-xl">
 			<div tw="flex items-center">
