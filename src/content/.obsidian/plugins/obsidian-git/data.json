@@ -49,5 +49,5 @@
     "ignoreWhitespace": false,
     "gutterSpacingFallbackLength": 5
   },
-  "autoCommitMessage": "vault backup: {{date}}"
+  "autoCommitMessage": "updating posts: {{date}}"
 }
