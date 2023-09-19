@@ -11,11 +11,9 @@
             "id": "58ce9664dd39dbc7",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "src/content/post/rust-aoc-day-01.md",
-                "mode": "source",
-                "source": false
+                "file": "public/apple-touch-icon.png"
               }
             }
           }
@@ -85,7 +83,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/post/rust-aoc-day-01.md",
+                "file": "public/apple-touch-icon.png",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +100,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "src/content/post/rust-aoc-day-01.md",
+                "file": "public/apple-touch-icon.png",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +123,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "src/content/post/rust-aoc-day-01.md"
+                "file": "public/apple-touch-icon.png"
               }
             }
           }
@@ -141,13 +139,16 @@
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
-      "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false
     }
   },
   "active": "58ce9664dd39dbc7",
   "lastOpenFiles": [
+    "public/512x512.png",
+    "public/192x192.png",
+    "README.md",
+    "src/content/post/rust-aoc-day-01.md",
     "src/content/post/mutability-in-rust.md"
   ]
 }
