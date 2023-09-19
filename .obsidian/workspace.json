@@ -1,173 +1,171 @@
 {
-	"main": {
-		"id": "3fef808d646bc30d",
-		"type": "split",
-		"children": [
-			{
-				"id": "ea0b46ece4020c55",
-				"type": "tabs",
-				"children": [
-					{
-						"id": "58ce9664dd39dbc7",
-						"type": "leaf",
-						"state": {
-							"type": "image",
-							"state": {
-								"file": "src/content/post/hello-new-blog.mdx",
-								"mode": "source",
-								"source": true
-							}
-						}
-					}
-				]
-			}
-		],
-		"direction": "vertical"
-	},
-	"left": {
-		"id": "d173c9d3aa154d09",
-		"type": "split",
-		"children": [
-			{
-				"id": "59eef2d1470697b3",
-				"type": "tabs",
-				"children": [
-					{
-						"id": "5919a37ccee6cc78",
-						"type": "leaf",
-						"state": {
-							"type": "file-explorer",
-							"state": {
-								"sortOrder": "alphabetical"
-							}
-						}
-					},
-					{
-						"id": "effb05fb51ed6791",
-						"type": "leaf",
-						"state": {
-							"type": "search",
-							"state": {
-								"query": "",
-								"matchingCase": false,
-								"explainSearch": false,
-								"collapseAll": false,
-								"extraContext": false,
-								"sortOrder": "alphabetical"
-							}
-						}
-					},
-					{
-						"id": "de4287a9e9159af9",
-						"type": "leaf",
-						"state": {
-							"type": "bookmarks",
-							"state": {}
-						}
-					}
-				],
-				"currentTab": 1
-			}
-		],
-		"direction": "horizontal",
-		"width": 300
-	},
-	"right": {
-		"id": "b9da8a232c7f6d6e",
-		"type": "split",
-		"children": [
-			{
-				"id": "706eacf9d36978b8",
-				"type": "tabs",
-				"children": [
-					{
-						"id": "f6b9ae928b1449f6",
-						"type": "leaf",
-						"state": {
-							"type": "backlink",
-							"state": {
-								"file": "src/content/post/hello-new-blog.mdx",
-								"collapseAll": false,
-								"extraContext": false,
-								"sortOrder": "alphabetical",
-								"showSearch": false,
-								"searchQuery": "",
-								"backlinkCollapsed": false,
-								"unlinkedCollapsed": true
-							}
-						}
-					},
-					{
-						"id": "44979fe68ed603ea",
-						"type": "leaf",
-						"state": {
-							"type": "outgoing-link",
-							"state": {
-								"file": "src/content/post/hello-new-blog.mdx",
-								"linksCollapsed": false,
-								"unlinkedCollapsed": true
-							}
-						}
-					},
-					{
-						"id": "b1871beef94d3f86",
-						"type": "leaf",
-						"state": {
-							"type": "tag",
-							"state": {
-								"sortOrder": "frequency",
-								"useHierarchy": true
-							}
-						}
-					},
-					{
-						"id": "fe966f7194870c8b",
-						"type": "leaf",
-						"state": {
-							"type": "outline",
-							"state": {
-								"file": "src/content/post/hello-new-blog.mdx"
-							}
-						}
-					}
-				]
-			}
-		],
-		"direction": "horizontal",
-		"width": 300,
-		"collapsed": true
-	},
-	"left-ribbon": {
-		"hiddenItems": {
-			"switcher:Open quick switcher": false,
-			"graph:Open graph view": false,
-			"canvas:Create new canvas": false,
-			"templates:Insert template": false,
-			"command-palette:Open command palette": false
-		}
-	},
-	"active": "58ce9664dd39dbc7",
-	"lastOpenFiles": [
-		"conflict-files-obsidian-git.md",
-		"src/content/post/hello-new-blog.mdx",
-		"src/content/templates/blogpost.mdx",
-		"Readme.md",
-		"src/content/templates/Untitled.md",
-		"src/content/post/getting-started-with-open-source.md",
-		"src/content/post/hello-new-blog/index.mdx.md",
-		"src/content/post/building-blocks-of-3d/index.mdx",
-		"src/content/post/hello-new-blog.mdx.md",
-		"src/content/post/hello-new-blog/hello-new-blog.mdx.md",
-		"src/content/post/hello-new-blog",
-		"src/content/post/mutability-in-rust.md",
-		"src/content/post/hello-new-blog.md",
-		"src/content/post/rust-aoc-day-01.md",
-		"src/content/templates/blogpost.md.md",
-		"public/apple-touch-icon.png",
-		"public/512x512.png",
-		"public/192x192.png",
-		"README.md",
-		"src/content/post/rust-aoc-day-01.md",
-		"src/content/post/mutability-in-rust.md"
-	]
+  "main": {
+    "id": "3fef808d646bc30d",
+    "type": "split",
+    "children": [
+      {
+        "id": "14eb4ea38e638caa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ba57502f71f10f9e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/templates/blogpost.mdx",
+                "mode": "source",
+                "source": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d173c9d3aa154d09",
+    "type": "split",
+    "children": [
+      {
+        "id": "59eef2d1470697b3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5919a37ccee6cc78",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "effb05fb51ed6791",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "de4287a9e9159af9",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "b9da8a232c7f6d6e",
+    "type": "split",
+    "children": [
+      {
+        "id": "706eacf9d36978b8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f6b9ae928b1449f6",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "src/content/templates/blogpost.mdx",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "44979fe68ed603ea",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "src/content/templates/blogpost.mdx",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b1871beef94d3f86",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "fe966f7194870c8b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "src/content/templates/blogpost.mdx"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "templater-obsidian:Templater": false
+    }
+  },
+  "active": "ba57502f71f10f9e",
+  "lastOpenFiles": [
+    "src/content/post/hello-new-blog.mdx",
+    "src/content/post/mutability-in-rust.md",
+    "Readme.md",
+    "src/content/templates/blogpost.mdx",
+    "conflict-files-obsidian-git.md",
+    "src/content/templates/Untitled.md",
+    "src/content/post/getting-started-with-open-source.md",
+    "src/content/post/hello-new-blog/index.mdx.md",
+    "src/content/post/building-blocks-of-3d/index.mdx",
+    "src/content/post/hello-new-blog.mdx.md",
+    "src/content/post/hello-new-blog/hello-new-blog.mdx.md",
+    "src/content/post/hello-new-blog",
+    "src/content/post/hello-new-blog.md",
+    "src/content/post/rust-aoc-day-01.md",
+    "src/content/templates/blogpost.md.md",
+    "public/apple-touch-icon.png",
+    "public/512x512.png",
+    "public/192x192.png",
+    "README.md"
+  ]
 }
