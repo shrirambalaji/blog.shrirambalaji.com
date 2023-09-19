@@ -4,16 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "ea0b46ece4020c55",
+        "id": "14eb4ea38e638caa",
         "type": "tabs",
         "children": [
           {
-            "id": "58ce9664dd39dbc7",
+            "id": "ba57502f71f10f9e",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "public/apple-touch-icon.png"
+                "file": "src/content/post/hello-new-blog.mdx.md",
+                "mode": "source",
+                "source": true
               }
             }
           }
@@ -83,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "public/apple-touch-icon.png",
+                "file": "src/content/post/hello-new-blog.mdx.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "public/apple-touch-icon.png",
+                "file": "src/content/post/hello-new-blog.mdx.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -123,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "public/apple-touch-icon.png"
+                "file": "src/content/post/hello-new-blog.mdx.md"
               }
             }
           }
@@ -140,15 +142,20 @@
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false
+      "command-palette:Open command palette": false,
+      "templater-obsidian:Templater": false
     }
   },
-  "active": "58ce9664dd39dbc7",
+  "active": "ba57502f71f10f9e",
   "lastOpenFiles": [
+    "src/content/post/mutability-in-rust.md",
+    "src/content/post/hello-new-blog.mdx.md",
+    "src/content/post/building-blocks-of-3d/index.mdx",
+    "src/content/post/rust-aoc-day-01.md",
+    "src/content/templates/blogpost.md",
+    "public/apple-touch-icon.png",
     "public/512x512.png",
     "public/192x192.png",
-    "README.md",
-    "src/content/post/rust-aoc-day-01.md",
-    "src/content/post/mutability-in-rust.md"
+    "README.md"
   ]
 }
