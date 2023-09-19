@@ -82,7 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 356.5
   },
   "right": {
     "id": "b9da8a232c7f6d6e",
@@ -160,6 +160,7 @@
   },
   "active": "5919a37ccee6cc78",
   "lastOpenFiles": [
+    "src/content/post/attachments/hashnode-github-backup.png",
     "src/content/post/attachments/hashnode-github-exports.png",
     "src/content/post/attachments",
     "Pasted image 20230920014219.png.md",
