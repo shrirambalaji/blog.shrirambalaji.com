@@ -65,7 +65,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -148,8 +149,10 @@
   },
   "active": "ba57502f71f10f9e",
   "lastOpenFiles": [
-    "src/content/templates/blogpost.mdx",
+    "conflict-files-obsidian-git.md",
     "src/content/post/hello-new-blog.mdx",
+    "src/content/templates/blogpost.mdx",
+    "Readme.md",
     "src/content/templates/Untitled.md",
     "src/content/post/getting-started-with-open-source.md",
     "src/content/post/hello-new-blog/index.mdx.md",
