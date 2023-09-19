@@ -118,3 +118,7 @@
 .twitter-tweet:not(.twitter-tweet-rendered)> :last-child {
 	margin-bottom: 0;
 }
+
+.tweet-embed iframe {
+	border-radius: 12px;
+}
