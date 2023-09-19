@@ -7,6 +7,7 @@ import prefetch from "@astrojs/prefetch";
 import remarkUnwrapImages from "remark-unwrap-images";
 // @ts-ignore:next-line
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
+import embeds from "astro-embed/integration";
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,7 +20,12 @@ export default defineConfig({
 			wrap: true,
 		},
 	},
+	// @ts-ignore
+	image: {
+		domains: ["og.shrirambalaji.com"],
+	},
 	integrations: [
+		embeds(),
 		mdx({}),
 		tailwind({
 			applyBaseStyles: false,

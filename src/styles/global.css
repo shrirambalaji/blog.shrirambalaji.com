@@ -110,3 +110,11 @@
 	border-radius: 6px;
 	font-style: normal;
 }
+
+.twitter-tweet:not(.twitter-tweet-rendered)> :first-child {
+	margin-top: 0;
+}
+
+.twitter-tweet:not(.twitter-tweet-rendered)> :last-child {
+	margin-bottom: 0;
+}
