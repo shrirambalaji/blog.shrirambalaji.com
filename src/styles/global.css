@@ -114,9 +114,11 @@
 }
 
 .dark img:not([src*=".svg"]) {
+	@apply brightness-50 contrast-50;;
 	filter: var(--image-filter);
 }
 
 .dark .prose :where(img):not(:where([class~="not-prose"] *)) {
+		@apply brightness-50 contrast-50;
 	filter: var(--image-filter);
 }
