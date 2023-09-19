@@ -5,6 +5,7 @@
 @layer base {
 	:root {
 		color-scheme: light;
+		--image-filter: grayscale(0%);
 		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
 		--theme-bg: 0deg 0% 100%;
 		--theme-link: 234.45deg 89.47% 73.92%;
@@ -15,28 +16,29 @@
 
 		--astro-code-color-foreground: #212121;
 		--astro-code-color-background: #fefefe;
-		--astro-code-token-default: #1976D2;
-		--astro-code-token-constant: #1976D2;
-		--astro-code-token-string: #22863A;
-		--astro-code-token-comment: #C2C3C5;
-		--astro-code-token-keyword: #D32F2F;
-		--astro-code-token-parameter: #FF9800;
+		--astro-code-token-default: #1976d2;
+		--astro-code-token-constant: #1976d2;
+		--astro-code-token-string: #22863a;
+		--astro-code-token-comment: #c2c3c5;
+		--astro-code-token-keyword: #d32f2f;
+		--astro-code-token-parameter: #ff9800;
 		--astro-code-token-function: #6f42c1;
 		--astro-code-token-string-expression: #212121;
-		--astro-code-token-info: #316BCD;
-		--astro-code-token-warn: #CD9731;
-		--astro-code-token-error: #CD3131;
+		--astro-code-token-info: #316bcd;
+		--astro-code-token-warn: #cd9731;
+		--astro-code-token-error: #cd3131;
 		--astro-code-token-debug: #800080;
 		--astro-code-token-strong: #212121;
 		--astro-code-token-punctuation: #212121;
-		--astro-code-token-link: #1976D2;
+		--astro-code-token-link: #1976d2;
 		--astro-code-color-text: #212121;
 
-		--astro-code-border: #f5f5f5
+		--astro-code-border: #f5f5f5;
 	}
 
 	:root.dark {
 		color-scheme: dark;
+		--image-filter: grayscale(50%);
 		--theme-bg: 240deg 17.1% 8%;
 		--theme-link: 229.66 93.55% 81.76%;
 		--theme-text: 0deg 0% 100%;
@@ -48,20 +50,20 @@
 		--astro-code-color-foreground: #959cbd;
 		--astro-code-color-background: #111118;
 		--astro-code-token-default: #79b8ff;
-		--astro-code-token-constant: #79B8FF;
-		--astro-code-token-string: #FFAB70;
-		--astro-code-token-comment: #6B737C;
-		--astro-code-token-keyword: #F97583;
-		--astro-code-token-parameter:#FF9800;
+		--astro-code-token-constant: #79b8ff;
+		--astro-code-token-string: #ffab70;
+		--astro-code-token-comment: #6b737c;
+		--astro-code-token-keyword: #f97583;
+		--astro-code-token-parameter: #ff9800;
 		--astro-code-token-function: #b392f0;
 		--astro-code-token-string-expression: #fff;
-		--astro-code-token-info: #316BCD;
-		--astro-code-token-warn: #CD9731;
-		--astro-code-token-error: #CD3131;
+		--astro-code-token-info: #316bcd;
+		--astro-code-token-warn: #cd9731;
+		--astro-code-token-error: #cd3131;
 		--astro-code-token-debug: #800080;
 		--astro-code-token-strong: #fff;
-		--astro-code-token-punctuation: #BBBBBB;
-		--astro-code-token-link: #1976D2;
+		--astro-code-token-punctuation: #bbbbbb;
+		--astro-code-token-link: #1976d2;
 		--astro-code-color-text: #fff;
 		--astro-code-border: #262636;
 	}
@@ -75,18 +77,6 @@
 	}
 }
 
-@media (prefers-color-scheme: light) {
-	.shiki.dark-plus {
-		display: none;
-	}
-}
-
-@media (prefers-color-scheme: dark) {
-	.shiki.light-plus {
-		display: none;
-	}
-}
-
 .prose-lg :where(pre):not(:where([class~="not-prose"] *)) {
 	border: 1px solid var(--astro-code-border);
 }
@@ -97,7 +87,7 @@
 
 *::selection {
 	background-color: #818cf8;
-	color:#f8fafc;
+	color: #f8fafc;
 }
 
 .dark *::selection {
@@ -111,14 +101,22 @@
 	font-style: normal;
 }
 
-.twitter-tweet:not(.twitter-tweet-rendered)> :first-child {
+.twitter-tweet:not(.twitter-tweet-rendered) > :first-child {
 	margin-top: 0;
 }
 
-.twitter-tweet:not(.twitter-tweet-rendered)> :last-child {
+.twitter-tweet:not(.twitter-tweet-rendered) > :last-child {
 	margin-bottom: 0;
 }
 
 .tweet-embed iframe {
 	border-radius: 12px;
+}
+
+.dark img:not([src*=".svg"]) {
+	filter: var(--image-filter);
+}
+
+.dark .prose :where(img):not(:where([class~="not-prose"] *)) {
+	filter: var(--image-filter);
 }
