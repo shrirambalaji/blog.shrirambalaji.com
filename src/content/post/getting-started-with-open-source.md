@@ -7,7 +7,7 @@ tags: ["open-source", "FOSS"]
 
 ![pexels-negative-space-97077.jpg](https://cdn.hashnode.com/res/hashnode/image/upload/v1609583881817/z9XjczAxu.jpeg)
 
-Effectively navigating through an unfamiliar codebase is a skill that can be learned over time, and is one that comes handy while contributing to open source. Open Source software is a great way for a lot of people to come together and contribute to something that they feel is meaningful to them. It can also help growing developers to understand how software at scale is written, and how bigger projects tend to operate in general. It might also help to see clear patterns of doing things in a more idiomatic way, for programmers of all skill levels.
+Open Source software is a great way for a lot of people to come together and contribute to something that they feel is meaningful to them. It can also help growing developers to understand how software at scale is written, and how bigger projects tend to operate in general. It might also help to see clear patterns of doing things in a more idiomatic way, for programmers of all skill levels.
 
 However contributing to open source is useful to both contributors and maintainers when done the right way. In my limited experience contributing to some projects and interacting with maintainers, there are some things that helped me not feel overwhelmed while getting started with contributions.
 
