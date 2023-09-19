@@ -6,7 +6,7 @@ tags: ["rust", "adventofcode"]
 slug: rust-advent-of-code-2020-day-01
 ---
 
-Hello!
+Hello there!
 
 Spoilers ahead for the solutions of Advent of Code 2020 - Day 01 in Rust. The full solution is available [here](https://github.com/Shriram-Balaji/rust-advent-of-code-2020/tree/main/day-one).
 

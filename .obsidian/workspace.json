@@ -1,19 +1,19 @@
 {
   "main": {
-    "id": "344a286021fe6ca4",
+    "id": "3fef808d646bc30d",
     "type": "split",
     "children": [
       {
-        "id": "79fd438dbc77bc66",
+        "id": "ea0b46ece4020c55",
         "type": "tabs",
         "children": [
           {
-            "id": "66f3f1b274213559",
+            "id": "58ce9664dd39dbc7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "post/getting-started-with-open-source.md",
+                "file": "src/content/post/rust-aoc-day-01.md",
                 "mode": "source",
                 "source": false
               }
@@ -25,15 +25,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "637e4ae4f8874ddf",
+    "id": "d173c9d3aa154d09",
     "type": "split",
     "children": [
       {
-        "id": "b31153045f270468",
+        "id": "59eef2d1470697b3",
         "type": "tabs",
         "children": [
           {
-            "id": "ec1a90a06b6625a9",
+            "id": "5919a37ccee6cc78",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -43,7 +43,7 @@
             }
           },
           {
-            "id": "14c1abb3d643181a",
+            "id": "effb05fb51ed6791",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -58,7 +58,7 @@
             }
           },
           {
-            "id": "4b9d489d429293eb",
+            "id": "de4287a9e9159af9",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -72,20 +72,20 @@
     "width": 300
   },
   "right": {
-    "id": "4dbee93858077d81",
+    "id": "b9da8a232c7f6d6e",
     "type": "split",
     "children": [
       {
-        "id": "48effbffbeaed4b8",
+        "id": "706eacf9d36978b8",
         "type": "tabs",
         "children": [
           {
-            "id": "dd0b9f09e3eb5ff3",
+            "id": "f6b9ae928b1449f6",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "post/getting-started-with-open-source.md",
+                "file": "src/content/post/rust-aoc-day-01.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,19 +97,19 @@
             }
           },
           {
-            "id": "65bc725b8e2c9c0d",
+            "id": "44979fe68ed603ea",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "post/getting-started-with-open-source.md",
+                "file": "src/content/post/rust-aoc-day-01.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "bc02d2d0b60881ad",
+            "id": "b1871beef94d3f86",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -120,12 +120,12 @@
             }
           },
           {
-            "id": "a1d6217adf52446f",
+            "id": "fe966f7194870c8b",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "post/getting-started-with-open-source.md"
+                "file": "src/content/post/rust-aoc-day-01.md"
               }
             }
           }
@@ -146,10 +146,8 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "66f3f1b274213559",
+  "active": "58ce9664dd39dbc7",
   "lastOpenFiles": [
-    "post/what-is-smtp.md",
-    "post/rust-aoc-day-03.md",
-    "post/mutability-in-rust.md"
+    "src/content/post/mutability-in-rust.md"
   ]
 }
