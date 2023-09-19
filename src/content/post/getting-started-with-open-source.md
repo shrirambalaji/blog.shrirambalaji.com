@@ -15,7 +15,7 @@ Once you have found a project that excites you to contribute, here are some thin
 
 ## 1. Find the right issue to contribute
 
-If you have found a "good first issue" or something tagged beginner friendly, great - that's our starting point. It's also a good practice to mention in the issue that you would like to try fixing it. This helps other contributors not work on the same issue, and avoids competing PRs.
+If you have found a **"good first issue"** or something tagged beginner friendly, great - that's our starting point. It's also a good practice to mention in the issue that you would like to try fixing it. This helps other contributors not work on the same issue, and avoids competing PRs.
 
 ![Find](https://media.giphy.com/media/3orieUe6ejxSFxYCXe/giphy.gif)
 
