@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/post/hello-new-blog/index.mdx.md",
+                "file": "src/content/post/hello-new-blog.mdx",
                 "mode": "source",
                 "source": true
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/post/hello-new-blog/index.mdx.md",
+                "file": "src/content/post/hello-new-blog.mdx",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "src/content/post/hello-new-blog/index.mdx.md",
+                "file": "src/content/post/hello-new-blog.mdx",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "src/content/post/hello-new-blog/index.mdx.md"
+                "file": "src/content/post/hello-new-blog.mdx"
               }
             }
           }
@@ -148,16 +148,19 @@
   },
   "active": "ba57502f71f10f9e",
   "lastOpenFiles": [
-    "src/content/post/index 1.mdx",
-    "src/content/post/building-blocks-of-3d/index.mdx",
+    "src/content/templates/blogpost.mdx",
+    "src/content/post/hello-new-blog.mdx",
+    "src/content/templates/Untitled.md",
+    "src/content/post/getting-started-with-open-source.md",
     "src/content/post/hello-new-blog/index.mdx.md",
+    "src/content/post/building-blocks-of-3d/index.mdx",
     "src/content/post/hello-new-blog.mdx.md",
     "src/content/post/hello-new-blog/hello-new-blog.mdx.md",
     "src/content/post/hello-new-blog",
     "src/content/post/mutability-in-rust.md",
     "src/content/post/hello-new-blog.md",
     "src/content/post/rust-aoc-day-01.md",
-    "src/content/templates/blogpost.md",
+    "src/content/templates/blogpost.md.md",
     "public/apple-touch-icon.png",
     "public/512x512.png",
     "public/192x192.png",
