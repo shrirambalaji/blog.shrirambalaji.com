@@ -27,7 +27,7 @@
               "state": {
                 "file": "src/content/post/hello-new-blog.mdx",
                 "mode": "source",
-                "source": false
+                "source": true
               }
             }
           }
@@ -158,14 +158,17 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ca97d97c70f33b9e",
+  "active": "5919a37ccee6cc78",
   "lastOpenFiles": [
+    "src/content/post/attachments/hashnode-github-exports.png",
+    "src/content/post/attachments",
+    "Pasted image 20230920014219.png.md",
+    "src/content/post/hello-new-blog.mdx",
+    "Readme.md",
     "Pasted image 20230920014219.png",
     "Untitled.md",
     "src/content/templates/blogpost.mdx",
-    "src/content/post/hello-new-blog.mdx",
     "src/content/post/mutability-in-rust.md",
-    "Readme.md",
     "conflict-files-obsidian-git.md",
     "src/content/templates/Untitled.md",
     "src/content/post/getting-started-with-open-source.md",

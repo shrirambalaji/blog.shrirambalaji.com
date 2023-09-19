@@ -6,7 +6,11 @@ tags: ["astro"]
 draft: true
 ---
 
+import {Image} from "astro:assets"
+import hashnodeGithubExportsScreenshot from "./attachments/hashnode-github-exports.png"
+
 import Tweet from "../../components/Tweet.astro";
+
 
 I've been using [hashnode.dev](https://hashnode.dev) for the last couple of years as my primary blogging platform. It served well for the last couple of years, but I think it's time for a change.
 
@@ -40,6 +44,8 @@ Apart from these, there were some interesting things I wanted to try:
 
 ## Exporting Documents from Hashnode
 
-I originally expected exports to be markdown files, but to my surprise it was a json dump of all my articles. Fortunately, hashnode has a neat Github Backup integration which I had enabled. So
+I originally expected exports to be markdown files, but to my surprise it was a json dump of all my articles. Fortunately, hashnode has a neat Github Backup integration that backed up all my articles as markdown files. Neat!
 
-![[Pasted image 20230920014219.png]]
+Since they were all backed up, it was just a matter of cloning them from the repo.
+
+<Image src={hashnodeGithubExportsScreenshot} alt="Screenshot of Hashnode Github Exports"/>
