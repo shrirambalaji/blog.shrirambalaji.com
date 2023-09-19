@@ -7,7 +7,7 @@ tags: ["rust", "mutability"]
 
 ## Shared and Exclusive References
 
-When learning Rust's ownership and borrowing system, we come across the terms - mutable and immutable references, wherein `&T` is said to be an **immutable reference** and `&mut T` is called a **mutable reference**.
+When learning Rust's ownership and borrowing system, we come across the terms - **mutable** and **immutable** references, wherein `&T` is said to be an **immutable reference** and `&mut T` is called a **mutable reference**.
 This works out to be a great starting point, to initially understand how references work in Rust but sometimes falls apart when diving slightly into intermediate territory, say for eg. while building a lib.
 
 Essentially, `&T` is not an "immutable reference" to data of type T — it is a "shared reference". And `&mut T` is not a "mutable reference" — it is an "exclusive reference".
