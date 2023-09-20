@@ -54,7 +54,11 @@ These are screenshots from running pagespeed insights on my [hashnode blog](http
 	width={800}
 />
 
-Around `760ms` was being spend on just fonts, and I couldn't do anything about it ☹️. But hey, this isn't a post to dunk on hashnode - I know that it's a small team doing incredible work. I also had some interesting things I wanted to try and making a blog felt like the perfect starting point:
+Around `760ms` was being spend on just fonts, and I couldn't do anything about it 🙁.
+
+> This isn't a post to dunk on hashnode - I know that it's a small team doing incredible work!
+
+I also had some interesting things I wanted to try and making a blog felt like the perfect starting point:
 
 - I've started using [Obsidian](https://obsidian.md) as my primary way to write down notes. I wanted to experiment with this for publishing blogs from anywhere.
 - I've tried Astro for some projects, but wanted to try it out since their 3.0 release. [Content Collections](https://docs.astro.build/en/guides/content-collections/) also seemed like a very cool way to manage content.
@@ -68,11 +72,11 @@ Around `760ms` was being spend on just fonts, and I couldn't do anything about i
 
 ## Exporting Documents from Hashnode
 
-I originally expected exports to be markdown files, but to my surprise it was a json dump of all my articles. Fortunately, hashnode has a neat Github Backup integration that backed up all my articles as markdown files. Neat!
+I originally expected exports to be markdown files, but to my surprise it was a json dump of all my articles. Fortunately, hashnode has a nifty Github Backup integration that backed up all my articles as markdown files. Neat!
 
 ## Setting up Astro
 
-Since I wanted to move over things quickly and not spend a lot of time crafting the blog, I wanted to find an astro starter / theme. After searching a bit, on [Astro's Theme Search](https://astro.build/themes/?search=&categories%5B%5D=blog) I found an opinionated starter that I liked - [Astro Theme Cactus by Chris Williams](https://github.com/chrismwilliams/astro-theme-cactus)
+Since I wanted to move over things quickly and not spend a lot of time crafting the blog, a astro starter / theme was of essence. After searching a bit on [Astro's Theme Search](https://astro.build/themes/?search=&categories%5B%5D=blog), I found an opinionated starter that I liked - [Astro Theme Cactus by Chris Williams](https://github.com/chrismwilliams/astro-theme-cactus).
 
 ### Features
 
@@ -94,7 +98,7 @@ The feature list was exactly what I was looking for, and also supported **View T
 
 ### Theming and Code Highlighting
 
-Since my portfolio was also on tailwind, it was pretty straightforward to port the themes to this site. I just had to update a couple of `css-variables` and replace the fonts to use `Inter` (probably the best font ever, thanks [@rsms](https://twitter.com/rsms)) and it was done. I still had to make some more stylistic changes to how tags looked like in the default starter, but the starter was pretty good out of the box.
+Since my portfolio was also on tailwind, it was pretty straightforward to port styles. I just had to update a couple of `css-variables` and replace the fonts to use `Inter` (probably the best font ever, thanks [@rsms](https://twitter.com/rsms)). I still had to make some more stylistic changes to how tags looked like in the default starter, but the starter was pretty good out of the box.
 
 For code highlighting however, the default Astro + Shiki configuration didn't allow me to switch themes. This is because Shiki generates themes at build time, client-side theme switching support is not built in. Shiki supports adding CSS Variables that allow to customize tokens in a theme individiually, and then changing those variables for light & dark theme.
 
