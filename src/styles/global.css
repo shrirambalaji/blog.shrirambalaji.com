@@ -14,7 +14,7 @@
 		--theme-accent-2: 0deg 0% 7%;
 		--theme-quote: 234.45deg 89.47% 60%;
 
-		--astro-code-color-foreground: #212121;
+		/* --astro-code-color-foreground: #212121;
 		--astro-code-color-background: #fefefe;
 		--astro-code-token-default: #1976d2;
 		--astro-code-token-constant: #1976d2;
@@ -31,7 +31,7 @@
 		--astro-code-token-strong: #212121;
 		--astro-code-token-punctuation: #212121;
 		--astro-code-token-link: #1976d2;
-		--astro-code-color-text: #212121;
+		--astro-code-color-text: #212121; */
 
 		--astro-code-border: #f5f5f5;
 	}
@@ -46,7 +46,7 @@
 		--theme-accent-2: 229.66 93.55% 81.76%;
 		--theme-quote: 229.66 93.55% 81.76%;
 
-		/** available variables when using theme="custom" */
+		/* * available variables when using theme="custom"
 		--astro-code-color-foreground: #959cbd;
 		--astro-code-color-background: #111118;
 		--astro-code-token-default: #79b8ff;
@@ -65,6 +65,7 @@
 		--astro-code-token-punctuation: #bbbbbb;
 		--astro-code-token-link: #1976d2;
 		--astro-code-color-text: #fff;
+		*/
 		--astro-code-border: #262636;
 	}
 
@@ -73,7 +74,11 @@
 	}
 
 	html body {
-		@apply mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor px-8 pt-16 font-sans text-lg font-normal text-textColor antialiased;
+		@apply mx-auto flex min-h-screen max-w-7xl flex-col bg-bgColor px-8 pt-16 font-sans text-lg font-normal text-textColor antialiased;
+	}
+
+	.prose {
+		@apply !max-w-5xl;
 	}
 }
 
@@ -109,16 +114,33 @@
 	margin-bottom: 0;
 }
 
+.twitter-tweet-rendered {
+	@apply shadow-3xl;
+	border-radius: 12px;
+}
+
 .tweet-embed iframe {
 	border-radius: 12px;
 }
 
 .dark img:not([src*=".svg"]) {
-	@apply brightness-50 contrast-50;;
+	@apply brightness-50 contrast-50;
 	filter: var(--image-filter);
 }
 
 .dark .prose :where(img):not(:where([class~="not-prose"] *)) {
-		@apply brightness-50 contrast-50;
+	@apply brightness-50 contrast-50;
 	filter: var(--image-filter);
+}
+
+.shiki,
+.shiki span {
+	@apply text-base leading-7;
+	tab-size: 2;
+}
+
+.dark .shiki,
+.dark .shiki span {
+	color: var(--shiki-dark) !important;
+	background-color: hsl(var(--theme-bg)) !important;
 }

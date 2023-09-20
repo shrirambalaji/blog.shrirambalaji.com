@@ -1,3 +1,4 @@
+import { apply } from "node_modules/astro/dist/core/polyfill";
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
@@ -40,8 +41,13 @@ export default {
 					900: "#111118",
 				},
 			},
+			boxShadow: {
+				"2.5xl": "0px 0px 30px -10px #111118",
+				"3xl": "0px 0px 30px 0px #111118",
+			},
 			fontFamily: {
 				// Add any custom fonts here
+				mono: ["JetBrains Mono Variable", "JetBrains Mono", ...fontFamily.mono],
 				sans: ["InterVariable", "Inter", ...fontFamily.sans],
 				serif: [...fontFamily.serif],
 			},
@@ -52,7 +58,7 @@ export default {
 			// @ts-ignore
 			// Remove above once tailwindcss exposes theme type
 			typography: (theme) => ({
-				cactus: {
+				astro: {
 					css: {
 						"--tw-prose-body": theme("colors.textColor / 1"),
 						"--tw-prose-headings": theme("colors.accent-2 / 1"),
@@ -70,7 +76,7 @@ export default {
 				DEFAULT: {
 					css: {
 						a: {
-							"@apply cactus-link no-underline": "",
+							"@apply astro-link no-underline": "",
 						},
 						strong: {
 							fontWeight: "700",
@@ -132,7 +138,7 @@ export default {
 		require("@tailwindcss/aspect-ratio"),
 		plugin(function ({ addComponents }) {
 			addComponents({
-				".cactus-link": {
+				".astro-link": {
 					"@apply bg-[size:100%_6px] bg-bottom bg-repeat-x underline underline-offset-8 decoration-transparent decoration-2 underline":
 						{},
 					"&:hover": {

@@ -1,7 +1,7 @@
 ---
 title: Astro-nomical switch - hashnode → astro
 description: Building this website with Astro and Tailwind, moving away from hashnode and setting up Obsidian Git Sync for publishing blogs from anywhere.
-publishDate: Dec 20 2023
+publishDate: Sept 20 2023
 tags: ["astro"]
 draft: true
 ---
@@ -31,7 +31,7 @@ Another slightly tangential issue was with code highlighting. I didn't particula
 
 Apart from these, there were some interesting things I wanted to try:
 
-- I've started using [Obsidian](https://obsidian.md) as my primary way to write down notes. With iCloud and Git sync, its much easier for me to take my notes everywhere and I wanted to experiment with this for blogging.
+- I've started using [Obsidian](https://obsidian.md) as my primary way to write down notes. I wanted to experiment with this for publishing blogs from anywhere.
 - I've tried Astro for some projects, but wanted to try it out since their 3.0 release. [Content Collections](https://docs.astro.build/en/guides/content-collections/) also seemed like a very cool way to manage content.
 
 ## The Process
@@ -72,3 +72,55 @@ The feature list was exactly what I was looking for, and also supported **View T
 - Auto-generated [sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)
 - [Pagefind](https://pagefind.app/) static search library integration
 - [Astro Icon](https://github.com/natemoo-re/astro-icon) svg icon component
+
+### Theming and Code Highlighting
+
+Since my portfolio was also on tailwind, it was pretty straightforward to port the themes to this site. I just had to update a couple of `css-variables` and replace the fonts to use `Inter` (probably the best font ever, thanks [@rsms](https://twitter.com/rsms)) and it was done. I still had to make some more stylistic changes to how tags looked like in the default starter, but the starter was pretty good out of the box.
+
+For code highlighting however, the default Astro + Shiki configuration didn't allow me to switch themes. This is because Shiki generates themes at build time, client-side theme switching support is not built in. Shiki supports adding CSS Variables that allow to customize tokens in a theme individiually, and then changing those variables for light & dark theme.
+
+#### Shikiji to the rescue
+
+[Shikiji](https://github.com/antfu/shikiji), a pure ESM focused rewrite of Shiki has native support for dark-light mode theme switching. [Nate Moore](https://twitter.com/n_moore) who co-created astro suggested using this as an alternative to using CSS variables with Astro + Shiki in their discord community. Thanks Nate!
+
+```bash
+$ pnpm add rehype-shikiji
+```
+
+We need to disable the astro's in-built `shiki` syntax highlighting by setting it to `false`, and configure `rehype-shikiji` as a plugin in `astro.config.mjs`.
+
+```js
+export default defineConfig({
+	markdown: {
+		syntaxHighlight: false,
+		rehypePlugins: [
+			[
+				shikiji,
+				{
+					themes: {
+						light: "github-light",
+						dark: "github-dark",
+					},
+				},
+			],
+		],
+	})
+```
+
+Voila! We have beautiful syntax highlighting that switches between dark & light.
+
+### Publishing Blogs from Anywhere with Obsidian
+
+I wanted to write blog drafts from anywhere, and possibly turn this site into a digital garden of some sort when I have enough time. Obsidian has been amazing, and having come from Notion it was super nice. I loved the software, been using it for a couple of years and as someone who never used to take notes - Obsidian has helped build a habit.
+
+> Narrator: Can Obsidian help build a habit of writing too, only time will tell.
+
+#### [Obsidian-Git](https://github.com/denolehov/obsidian-git)
+
+This obsidian plugin has a bunch of cool git features that allows it to auto backup, sync, pull, push, fetch repositories inside of obsidian, and treat a repository as a vault.
+
+For setting it up on the web, I followed this article [Fleeting Notes - Obsidian Git Setup](https://linked-blog-starter.vercel.app/connect-obsidian-vault-with-github). This was pretty straightforward to do, and I was able to set it up pretty quickly.
+
+On mobile, I had some hiccups but the [Obsidian Git - Mobile Docs](https://publish.obsidian.md/git-doc/Getting+Started#Clone+via+plugin) was pretty descriptive. I wanted to have only the `content` directory of this site, in n obsidian vault but that seemed impossible with this plugin, so I just resorted to using the entire site as an obsidian vault.
+
+As a workaround,I tried the [`File Hider`](https://github.com/Oliver-Akins/file-hider) plugin to hide the rest of the `src` folder and now the setup was ready. I wanted to write [`MDX`](https://mdxjs.com/) to use Astro components,

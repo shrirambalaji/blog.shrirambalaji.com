@@ -5,22 +5,29 @@ import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import prefetch from "@astrojs/prefetch";
 import remarkUnwrapImages from "remark-unwrap-images";
-// @ts-ignore:next-line
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
 import embeds from "astro-embed/integration";
+import shikiji from "rehype-shikiji";
 
 // https://astro.build/config
 export default defineConfig({
 	site: "https://blog.shrirambalaji.com",
 	markdown: {
+		syntaxHighlight: false,
+		rehypePlugins: [
+			[
+				shikiji,
+				{
+					themes: {
+						light: "github-light",
+						dark: "github-dark",
+					},
+				},
+			],
+		],
 		remarkPlugins: [remarkUnwrapImages, remarkReadingTime],
 		remarkRehype: { footnoteLabelProperties: { className: [""] } },
-		shikiConfig: {
-			theme: "css-variables",
-			wrap: true,
-		},
 	},
-	// @ts-ignore
 	image: {
 		domains: ["og.shrirambalaji.com"],
 	},
@@ -41,7 +48,7 @@ export default defineConfig({
 	},
 });
 
-function rawFonts(ext: Array<string>) {
+function rawFonts(ext) {
 	return {
 		name: "vite-plugin-raw-fonts",
 		// @ts-ignore:next-line
