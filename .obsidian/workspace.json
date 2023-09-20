@@ -23,9 +23,11 @@
             "id": "ca97d97c70f33b9e",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "src/content/post/attachments/Pasted image 20230921000635.png"
+                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+                "mode": "preview",
+                "source": false
               }
             }
           }
@@ -96,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/post/attachments/Pasted image 20230921000635.png",
+                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "src/content/post/attachments/Pasted image 20230921000635.png",
+                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -136,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "src/content/post/attachments/Pasted image 20230921000635.png"
+                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx"
               }
             }
           }
@@ -156,12 +158,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5919a37ccee6cc78",
+  "active": "ca97d97c70f33b9e",
   "lastOpenFiles": [
+    "Pasted image 20230921000042.png.md",
+    "src/content/templates/blogpost.mdx",
+    "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+    "src/content/post/attachments/blog-pagespeed-result.png",
     "src/content/post/attachments/hashnode-pagespeed-result-opportunities.png",
     "src/content/post/attachments/hashnode-pagespeed-result.png",
-    "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
-    "src/content/post/attachments/Pasted image 20230921000635.png",
     "dist/_pagefind/index/en-us_62be46d.pf_index",
     "dist/_pagefind/fragment/en-us_ef3c6e1.pf_fragment",
     "dist/_pagefind/fragment/en-us_cf30c8b.pf_fragment",
@@ -170,7 +174,6 @@
     "dist/_pagefind/fragment/en-us_c0f5d0c.pf_fragment",
     "dist/_pagefind/fragment/en-us_ba2bae2.pf_fragment",
     "dist/_pagefind/fragment/en-us_b6fbe22.pf_fragment",
-    "dist/_pagefind/fragment/en-us_af7afea.pf_fragment",
     "dist/_astro/cover.5979bf5e_Z1fyXQF.webp",
     "dist/_astro/obsidian-git-ios-screenshot.6f55d4a3_2vl4vQ.webp",
     "dist/_astro/hashnode-github-backup.cdd105f7_1r4zIK.webp",

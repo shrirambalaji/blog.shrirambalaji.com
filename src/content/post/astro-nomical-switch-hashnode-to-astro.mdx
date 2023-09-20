@@ -11,6 +11,9 @@ tags:
 import { Image } from "astro:assets";
 import hashnodeGithubBackup from "./attachments/hashnode-github-backup.png";
 import obsidianGitiOSScreenshot from "./attachments/obsidian-git-ios-screenshot.png";
+import hashnodePageSpeedResult from "./attachments/hashnode-pagespeed-result.png";
+import hashnodePageSpeedResultOpportunities from "./attachments/hashnode-pagespeed-result-opportunities.png";
+import blogPageSpeedResult from "./attachments/blog-pagespeed-result.png";
 
 import Tweet from "../../components/Tweet.astro";
 
@@ -36,11 +39,15 @@ Another slightly tangential issue was with code highlighting. I didn't particula
 
 ### Lack of control on initial load performance
 
-
 These are screenshots from running pagespeed insights on my [hashnode blog](https://pagespeed.web.dev/analysis/https-shriram-balaji-hashnode-dev/tdlaljm956?form_factor=mobile)
 
-![[Pasted image 20230921000042.png]]
-![[Pasted image 20230921000216.png]]
+<Image src={hashnodePageSpeedResult} alt="Screenshot of Hashnode PageSpeed Result" width={500} />
+
+<Image
+	src={hashnodePageSpeedResultOpportunities}
+	alt="Screenshot of Hashnode PageSpeed Result opportunities"
+	width={500}
+/>
 
 Around `760ms` was being spend on just fonts, and I couldn't do anything about it.
 
@@ -154,13 +161,18 @@ draft: true
 ---
 ```
 
+### Running Pagespeed Insights
 
-### Running Pagespeed Insights 
+Ah, a perfect [100](https://pagespeed.web.dev/analysis/https-blog-shrirambalaji-com/gcnypx9m5r?form_factor=mobile) 🥳. Isn't that a sight!
 
-Ah, a perfect [100](https://pagespeed.web.dev/analysis/https-blog-shrirambalaji-com/gcnypx9m5r?form_factor=mobile) 🥳. Isn't that a sight! 
+<Image
+	src={blogPageSpeedResult}
+	alt="Screenshot of blog.shrirambalaji.com PageSpeed Results"
+	width={500}
+/>
 
-![[Pasted image 20230921000635.png]]
-
-(I'm fully aware that Lighthouse scores don't always reflect perceived user experience based on [many]( https://calibreapp.com/blog/downsides-of-performance-score ) [writings](https://www.matuzo.at/blog/building-the-most-inaccessible-site-possible-with-a-perfect-lighthouse-score/) but hey - gotta be happy with the 100.)
+(I'm fully aware that Lighthouse scores don't always reflect perceived user experience based on [many](https://calibreapp.com/blog/downsides-of-performance-score)
+[writings](https://www.matuzo.at/blog/building-the-most-inaccessible-site-possible-with-a-perfect-lighthouse-score/)
+but hey - gotta be happy with the 100.)
 
 You can view the source code for this blog on [GitHub](https://github.com/shrirambalaji/blog.shrirambalaji.com). Astro and the ecosystem around it enabled me to make this change in a couple of days. Looking forward to write more here. Let's see ✌️
