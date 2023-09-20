@@ -62,7 +62,7 @@ export default {
 					css: {
 						"--tw-prose-body": theme("colors.textColor / 1"),
 						"--tw-prose-headings": theme("colors.accent-2 / 1"),
-						"--tw-prose-links": theme("colors.textColor / 1"),
+						"--tw-prose-links": theme("colors.accent / 1"),
 						"--tw-prose-bold": theme("colors.textColor / 1"),
 						"--tw-prose-bullets": theme("colors.textColor / 1"),
 						"--tw-prose-quotes": theme("colors.quote / 1"),
