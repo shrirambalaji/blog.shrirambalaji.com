@@ -1,6 +1,7 @@
 # Shriram Balaji’s Blog
 
 Built with:
-- Astro
-- Tailwind
-- MDX
+
+- [Astro](https://astro.build)
+- [Tailwind](https://tailwindcss.com)
+- [MDX](https://mdxjs.com)
