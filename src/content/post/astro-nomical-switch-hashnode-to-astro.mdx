@@ -61,7 +61,7 @@ Around `760ms` was being spend on just fonts, and I couldn't do anything about i
 I also had some interesting things I wanted to try and making a blog felt like the perfect starting point:
 
 - I've started using [Obsidian](https://obsidian.md) as my primary way to write down notes. I wanted to experiment with this for publishing blogs from anywhere.
-- I've tried Astro for some projects, but wanted to try it out since their 3.0 release. [Content Collections](https://docs.astro.build/en/guides/content-collections/) also seemed like a very cool way to manage content.
+- I've tried Astro for some projects, but wanted to try it out since their 3.0 release. [Content Collections](https://docs.astro.build/en/guides/content-collections/) also seemed like a great way to manage content.
 
 ## The Process
 
@@ -138,23 +138,23 @@ Voila! We have beautiful syntax highlighting that switches between dark & light.
 
 ## Publishing Blogs from Anywhere with Obsidian
 
-I wanted to able to draft articles from anywhere, and possibly turn this site into some sort of a digital garden. Obsidian has been amazing, and having come from Notion it was super nice. I loved the software, been using it for a couple of years and as someone who never used to take notes - Obsidian has helped build a habit.
+I wanted to able to draft articles from anywhere, and possibly turn this site into some sort of a digital garden. Obsidian has been amazing, I loved the idea of it being "local-first" and tbh **Obsidian was a breathe of fresh air, in a sea of notetaking apps.** I've been using it for a couple of years and as someone who never used to take notes - Obsidian has helped build a habit.
 
-> Narrator: Can Obsidian help build a habit of writing too, only time will tell.
+> Narrator: Can Obsidian help build a habit of writing blogs too, only time will tell.
 
 ### Obsidian Git & Plugins
 
-This obsidian plugin has a bunch of cool git features that allows it to auto backup, sync, pull, push, fetch repositories inside of obsidian, and treat a repository as a vault.
+[Obsidian-git](https://github.com/denolehov/obsidian-git) is a plugin that has a bunch of nice git features which supercharge an Obsidian vault with features like: auto backup, sync, pull, push, fetch, clone and treat any git repository as a vault.
 
 For setting it up on the web, I followed this article [Fleeting Notes - Obsidian Git Setup](https://linked-blog-starter.vercel.app/connect-obsidian-vault-with-github). This was pretty straightforward to do, and I was able to set it up pretty quickly.
 
-On mobile, I had some hiccups but the [Obsidian Git - Mobile Docs](https://publish.obsidian.md/git-doc/Getting+Started#Clone+via+plugin) was pretty descriptive. I wanted to have only the `content` directory of this site, in n obsidian vault but that seemed impossible with this plugin, so I just resorted to using the entire site as an obsidian vault.
+On mobile, I had some hiccups but [Obsidian Git - Mobile Docs](https://publish.obsidian.md/git-doc/Getting+Started#Clone+via+plugin) was pretty descriptive. I wanted to have only the `content` directory of this site, in n obsidian vault but that seemed impossible, so I just resorted to using the entire site as an obsidian vault.
 
-As a workaround, I tried the [`File Hider`](https://github.com/Oliver-Akins/file-hider) plugin to hide the rest of the `src` folder and now the setup was ready. I wanted to write [`MDX`](https://mdxjs.com/) to use Astro components in my blogposts, so I also had to install [mdx-as-md](https://github.com/git-no/obsidian-markdown-file-suffix) which allows editing MDX files within Obsidian.
+As a workaround, I tried the [`File Hider`](https://github.com/Oliver-Akins/file-hider) plugin to hide the rest of the `src` folder. I wanted to write [`MDX`](https://mdxjs.com/) to use Astro components in my blogposts, so I also had to install [mdx-as-md](https://github.com/git-no/obsidian-markdown-file-suffix) which allows editing MDX files within Obsidian.
 
 #### Auto Deploying with Vercel
 
-Thanks to [vercel](https://vercel.com), anytime we make a vault backup with Obsidian-Git (it just commits, and pushes files in the background) blogs can automatically be published.
+Thanks to [vercel](https://vercel.com), anytime Obsidian-Git made a backup ie. stage, commit and push behind the scenes - the site gets auto-deployed with the latest changes. The fun part being - I don't even need access to my laptop for it.
 
 <Image src={obsidianGitiOSScreenshot} alt="Obsidian Git iOS Screenshot" width={500} />
 
