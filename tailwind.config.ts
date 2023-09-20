@@ -67,7 +67,7 @@ export default {
 						"--tw-prose-bullets": theme("colors.textColor / 1"),
 						"--tw-prose-quotes": theme("colors.quote / 1"),
 						"--tw-prose-quote-borders": theme("colors.quote / 1"),
-
+						"--tw-prose-pre-bg": theme("colors.bgColor / 1"),
 						"--tw-prose-code": theme("colors.textColor / 1"),
 						"--tw-prose-hr": "0.5px dashed #666",
 						"--tw-prose-th-borders": "#666",

@@ -116,7 +116,7 @@ I wanted to write blog drafts from anywhere, and possibly turn this site into a 
 
 > Narrator: Can Obsidian help build a habit of writing too, only time will tell.
 
-#### [Obsidian-Git](https://github.com/denolehov/obsidian-git) & other plugins
+####  Obsidian Plugins (Obsidian Git, File Hider, mdx-as-md)
 
 This obsidian plugin has a bunch of cool git features that allows it to auto backup, sync, pull, push, fetch repositories inside of obsidian, and treat a repository as a vault.
 
@@ -126,4 +126,17 @@ On mobile, I had some hiccups but the [Obsidian Git - Mobile Docs](https://publi
 
 As a workaround, I tried the [`File Hider`](https://github.com/Oliver-Akins/file-hider) plugin to hide the rest of the `src` folder and now the setup was ready. I wanted to write [`MDX`](https://mdxjs.com/) to use Astro components in my blogposts, so I also had to install [mdx-as-md](https://github.com/git-no/obsidian-markdown-file-suffix) which allows editing MDX files within Obsidian.
 
-<Image src={obsidianGitiOSScreenshot}  alt="" />
+#### Auto Deploying with Vercel
+
+Thanks to [vercel](https://vercel.com), anytime we make a vault backup with Obsidian-Git (it just commits, and pushes files in the background) blogs can automatically be published.
+
+<Image src={obsidianGitiOSScreenshot}  alt="Obsidian Git iOS Screenshot" />
+
+Also, another cool thing in this starter is that it allows me to work on draft posts by setting `draft` to `true` in the frontmatter, which are viewable only in `DEV` mode.
+
+```md
+----
+draft: true
+----
+
+```
