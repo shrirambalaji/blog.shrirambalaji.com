@@ -98,9 +98,13 @@ The feature list was exactly what I was looking for, and also supported **View T
 
 ### Theming and Code Highlighting
 
-Since my portfolio was also on tailwind, it was pretty straightforward to port styles. I just had to update a couple of `css-variables` and replace the fonts to use `Inter` (probably the best font ever, thanks [@rsms](https://twitter.com/rsms)). I still had to make some more stylistic changes to how tags looked like in the default starter, but the starter was pretty good out of the box.
+Since my portfolio was also on tailwind, it was pretty straightforward to port styles. I just had to update a couple of `css-variables` and replace the fonts to use `Inter` (probably the best font ever, thanks [@rsms](https://twitter.com/rsms)). I still had to make some more stylistic changes to make the starter attuned to my liking (for eg. appearance of tags, switching from a monospace font to sans-serif font for readability etc.,)
 
-For code highlighting however, the default Astro + Shiki configuration didn't allow me to switch themes. This is because Shiki generates themes at build time, client-side theme switching support is not built in. Shiki supports adding CSS Variables that allow to customize tokens in a theme individiually, and then changing those variables for light & dark theme.
+But I ran into some troubles with code highlighting. The default Astro + Shiki configuration didn't allow me to switch themes.
+
+> Shiki generates themes at build time, client-side theme switching support is not built in.
+
+However, Shiki supports adding CSS Variables that allow to customize tokens in a theme individiually, and then changing those variables for light & dark theme.
 
 ### Shikiji to the rescue
 
@@ -134,7 +138,7 @@ Voila! We have beautiful syntax highlighting that switches between dark & light.
 
 ## Publishing Blogs from Anywhere with Obsidian
 
-I wanted to write blog drafts from anywhere, and possibly turn this site into a digital garden of some sort when I have enough time. Obsidian has been amazing, and having come from Notion it was super nice. I loved the software, been using it for a couple of years and as someone who never used to take notes - Obsidian has helped build a habit.
+I wanted to able to draft articles from anywhere, and possibly turn this site into some sort of a digital garden. Obsidian has been amazing, and having come from Notion it was super nice. I loved the software, been using it for a couple of years and as someone who never used to take notes - Obsidian has helped build a habit.
 
 > Narrator: Can Obsidian help build a habit of writing too, only time will tell.
 
