@@ -115,7 +115,6 @@
 }
 
 .twitter-tweet-rendered {
-	@apply shadow-3xl;
 	border-radius: 12px;
 }
 
