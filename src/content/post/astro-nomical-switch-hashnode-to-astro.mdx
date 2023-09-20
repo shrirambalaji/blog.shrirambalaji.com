@@ -2,23 +2,26 @@
 title: Astro-nomical switch - hashnode → astro
 description: Building this website with Astro and Tailwind, moving away from hashnode and setting up Obsidian Git Sync for publishing blogs from anywhere.
 publishDate: Sept 20 2023
-tags: ["astro"]
+tags:
+  - astro
+  - blog
+  - hashnode
 draft: true
 ---
 
 import { Image } from "astro:assets";
 import hashnodeGithubBackup from "./attachments/hashnode-github-backup.png";
-import obsidianGitiOSScreenshot from './attachments/obsidian-git-ios-screenshot.png';
+import obsidianGitiOSScreenshot from "./attachments/obsidian-git-ios-screenshot.png";
 
 import Tweet from "../../components/Tweet.astro";
 
-I've been using [hashnode.dev](https://hashnode.dev) for the last couple of years as my primary blogging platform. It served well for the last couple of years, but I think it's time for a change.
+I've been using [hashnode.dev](https://hashnode.dev) for the last couple of years as my primary blogging platform. It has served me well, but I think it's time for a change.
 
-## Why I'm moving away from hashnode
+## Why I'm moving away from hashnode?
 
-Don't get me wrong, hashnode is great to get started and helps build a habit of writing. But over time I've realized that I don't really write a lot, but when I do - I want it to look the way I want.
+Don't get me wrong, hashnode is great to get started and helps build a habit of writing. But over time I've realized that I don't really write a lot, but when I do - I want it to look the way I want. Let me explain.
 
-### Custom CSS is difficult to main
+### Custom CSS is difficult to maintain
 
 Hashnode had custom CSS for a couple of years, and I've raved about in the past.
 
@@ -26,7 +29,9 @@ Hashnode had custom CSS for a couple of years, and I've raved about in the past.
 	<Tweet id="https://twitter.com/shrirambalaji/status/1341662028843241474" />
 </div>
 
-But over time, as with custom stylesheets - _things broke_. The theming was inconsistent with my site at [shrirambalaji.com](https://shrirambalaji.com) and it was hard to maintain. In hindsight, I should have realized that adding custom stylesheets without having any form of guarantee of it not breaking, would eventually turn out to be an issue. I did spend a couple days to get it to match the theme, but that's mainly because I couldn't find extensive theming options on hashnode, and felt it to be limiting. (whether or not I write often - atleast the site should look consistent 😅)
+But over time, as it happens with custom stylesheets - _things broke_. The theming was inconsistent with my site at [shrirambalaji.com](https://shrirambalaji.com) and it was hard to maintain. In hindsight, I should have realized that adding custom stylesheets without having any form of guarantee of it not breaking, would eventually turn out to be an issue.
+
+I remember spending a couple of days to get it to match my theme when I first set it up, but that's mainly because I couldn't find extensive theming options on hashnode, and felt it to be limiting. (whether or not I write often - atleast the site should look consistent 😅)
 
 Another slightly tangential issue was with code highlighting. I didn't particularly like the highlighting theme, and also the code theme didn't switch when going from Dark to Light.
 
@@ -116,7 +121,7 @@ I wanted to write blog drafts from anywhere, and possibly turn this site into a 
 
 > Narrator: Can Obsidian help build a habit of writing too, only time will tell.
 
-####  Obsidian Plugins (Obsidian Git, File Hider, mdx-as-md)
+#### Obsidian Plugins (Obsidian Git, File Hider, mdx-as-md)
 
 This obsidian plugin has a bunch of cool git features that allows it to auto backup, sync, pull, push, fetch repositories inside of obsidian, and treat a repository as a vault.
 
@@ -130,15 +135,14 @@ As a workaround, I tried the [`File Hider`](https://github.com/Oliver-Akins/file
 
 Thanks to [vercel](https://vercel.com), anytime we make a vault backup with Obsidian-Git (it just commits, and pushes files in the background) blogs can automatically be published.
 
-<Image src={obsidianGitiOSScreenshot}  alt="Obsidian Git iOS Screenshot" />
+<Image src={obsidianGitiOSScreenshot} alt="Obsidian Git iOS Screenshot" />
 
 Also, another cool thing in this starter is that it allows me to work on draft posts by setting `draft` to `true` in the frontmatter, which are viewable only in `DEV` mode.
 
 ```md
-----
-draft: true
-----
+---
 
+## draft: true
 ```
 
 All in all, I was able to make this change in a couple of days. Looking forward to write more here. Let's see ✌️

@@ -33,7 +33,7 @@ export default defineConfig({
 						tagName: "svg",
 						properties: {
 							viewBox: "0 0 20 20",
-							fill: "currentColor",
+							fill: "#8282A6",
 							class: "ml-4 w-4 h-4 inline-block",
 						},
 						children: [

@@ -8,11 +8,11 @@
 		--image-filter: grayscale(0%);
 		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
 		--theme-bg: 0deg 0% 100%;
-		--theme-link: 234.45deg 89.47% 73.92%;
+		--theme-link: 234.45deg 89.47% 65%;
 		--theme-text: 203deg 11% 15%;
-		--theme-accent: 234.45deg 89.47% 73.92%;
+		--theme-accent: 234.45deg 89.47% 65%;
 		--theme-accent-2: 0deg 0% 7%;
-		--theme-quote: 234.45deg 89.47% 60%;
+		--theme-quote: 234.45deg 89.47% 65%;
 
 		/* --astro-code-color-foreground: #212121;
 		--astro-code-color-background: #fefefe;
@@ -91,7 +91,7 @@
 }
 
 .prose :where(a):not(:where([class~="not-prose"] *)) {
-	@apply hover:underline underline-offset-4 group;
+	@apply hover:underline underline-offset-4;
 }
 
 .prose :where(a):not(:where([class~="not-prose"] *)) span {
