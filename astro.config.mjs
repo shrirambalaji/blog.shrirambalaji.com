@@ -25,6 +25,12 @@ export default defineConfig({
 					},
 				},
 			],
+			[
+				rehypeExternalLinks,
+				{
+					content: { type: "text", value: " 🔗" },
+				},
+			],
 		],
 		remarkPlugins: [remarkUnwrapImages, remarkReadingTime],
 		remarkRehype: { footnoteLabelProperties: { className: [""] } },
