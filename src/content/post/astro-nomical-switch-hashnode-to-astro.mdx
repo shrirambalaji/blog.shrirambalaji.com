@@ -33,7 +33,7 @@ Hashnode had custom CSS for a couple of years, and I've raved about in the past.
 
 But over time, as it happens with custom stylesheets - _things broke_. The theming was inconsistent with my site at [shrirambalaji.com](https://shrirambalaji.com) and it was hard to maintain. In hindsight, I should have realized that adding custom stylesheets without having any form of guarantee of it not breaking, would eventually turn out to be an issue.
 
-I remember spending a couple of days to get it to match my theme when I first set it up, but that's mainly because I couldn't find extensive theming options on hashnode, and felt it to be limiting. (whether or not I write often - atleast the site should look consistent 😅)
+I remember spending a couple of days to get it to match my theme when I first set it up, but that was mainly because I couldn't find extensive theming options on hashnode, and felt it to be limiting. (whether or not I write often - atleast the site should look consistent 😅)
 
 Another slightly tangential issue was with code highlighting. I didn't particularly like the highlighting theme, and also the code theme didn't switch when going from Dark to Light.
 
@@ -41,17 +41,20 @@ Another slightly tangential issue was with code highlighting. I didn't particula
 
 These are screenshots from running pagespeed insights on my [hashnode blog](https://pagespeed.web.dev/analysis/https-shriram-balaji-hashnode-dev/tdlaljm956?form_factor=mobile)
 
-<Image src={hashnodePageSpeedResult} alt="Screenshot of Hashnode PageSpeed Result" width={500} />
+<Image
+	src={hashnodePageSpeedResult}
+	alt="Screenshot of Hashnode PageSpeed Result"
+	width={800}
+	quality="max"
+/>
 
 <Image
 	src={hashnodePageSpeedResultOpportunities}
 	alt="Screenshot of Hashnode PageSpeed Result opportunities"
-	width={500}
+	width={800}
 />
 
-Around `760ms` was being spend on just fonts, and I couldn't do anything about it.
-
-Apart from these, there were some interesting things I wanted to try:
+Around `760ms` was being spend on just fonts, and I couldn't do anything about it ☹️. But hey, this isn't a post to dunk on hashnode - I know that it's a small team doing incredible work. I also had some interesting things I wanted to try and making a blog felt like the perfect starting point:
 
 - I've started using [Obsidian](https://obsidian.md) as my primary way to write down notes. I wanted to experiment with this for publishing blogs from anywhere.
 - I've tried Astro for some projects, but wanted to try it out since their 3.0 release. [Content Collections](https://docs.astro.build/en/guides/content-collections/) also seemed like a very cool way to manage content.
@@ -67,13 +70,9 @@ Apart from these, there were some interesting things I wanted to try:
 
 I originally expected exports to be markdown files, but to my surprise it was a json dump of all my articles. Fortunately, hashnode has a neat Github Backup integration that backed up all my articles as markdown files. Neat!
 
-Since they were all backed up, it was just a matter of cloning them from the repo.
-
-<Image src={hashnodeGithubBackup} alt="Screenshot of Hashnode Github Backup" width={500} />
-
 ## Setting up Astro
 
-Since I wanted to move over things quickly and not spend a lot of time crafting the block, I wanted to find an astro starter / theme.
+Since I wanted to move over things quickly and not spend a lot of time crafting the blog, I wanted to find an astro starter / theme.
 
 After searching a bit, on [Astro's Theme Search](https://astro.build/themes/?search=&categories%5B%5D=blog) I found an opinionated starter that I liked - [Astro Theme Cactus by Chris Williams](https://github.com/chrismwilliams/astro-theme-cactus)
 
@@ -168,11 +167,12 @@ Ah, a perfect [100](https://pagespeed.web.dev/analysis/https-blog-shrirambalaji-
 <Image
 	src={blogPageSpeedResult}
 	alt="Screenshot of blog.shrirambalaji.com PageSpeed Results"
-	width={500}
+	width={800}
+	quality="max"
 />
 
-(I'm fully aware that Lighthouse scores don't always reflect perceived user experience based on [many](https://calibreapp.com/blog/downsides-of-performance-score)
+I'm fully aware that Lighthouse scores don't always reflect perceived user experience based on [many](https://calibreapp.com/blog/downsides-of-performance-score)
 [writings](https://www.matuzo.at/blog/building-the-most-inaccessible-site-possible-with-a-perfect-lighthouse-score/)
-but hey - gotta be happy with the 100.)
+but hey - gotta be happy with the 100.
 
-You can view the source code for this blog on [GitHub](https://github.com/shrirambalaji/blog.shrirambalaji.com). Astro and the ecosystem around it enabled me to make this change in a couple of days. Looking forward to write more here. Let's see ✌️
+You can view the source code for this blog on [GitHub](https://github.com/shrirambalaji/blog.shrirambalaji.com). **Astro** and the ecosystem around it enabled me to make this change in a couple of days. Looking forward to write more here. Let's see ✌️
