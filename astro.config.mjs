@@ -8,6 +8,7 @@ import remarkUnwrapImages from "remark-unwrap-images";
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
 import embeds from "astro-embed/integration";
 import shikiji from "rehype-shikiji";
+import rehypeExternalLinks from "rehype-external-links";
 
 // https://astro.build/config
 export default defineConfig({
