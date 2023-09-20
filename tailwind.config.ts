@@ -138,13 +138,7 @@ export default {
 		require("@tailwindcss/aspect-ratio"),
 		plugin(function ({ addComponents }) {
 			addComponents({
-				".astro-link": {
-					"@apply bg-[size:100%_6px] bg-bottom bg-repeat-x underline underline-offset-8 decoration-transparent decoration-2 underline":
-						{},
-					"&:hover": {
-						"@apply underline underline-offset-8 transition-all decoration-indigo-400": {},
-					},
-				},
+				".astro-link": {},
 				".title": {
 					"@apply text-3xl font-bold text-accent-2": {},
 				},
