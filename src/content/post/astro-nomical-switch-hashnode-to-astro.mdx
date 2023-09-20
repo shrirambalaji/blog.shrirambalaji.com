@@ -1,7 +1,7 @@
 ---
 title: Astro-nomical switch - hashnode → astro
 description: Building this website with Astro and Tailwind, moving away from hashnode and setting up Obsidian Git Sync for publishing blogs from anywhere.
-publishDate: Sept 20 2023
+publishDate: Sept 21 2023
 tags:
   - astro
   - blog
@@ -35,6 +35,14 @@ I remember spending a couple of days to get it to match my theme when I first se
 Another slightly tangential issue was with code highlighting. I didn't particularly like the highlighting theme, and also the code theme didn't switch when going from Dark to Light.
 
 ### Lack of control on initial load performance
+
+
+These are screenshots from running pagespeed insights on my [hashnode blog](https://pagespeed.web.dev/analysis/https-shriram-balaji-hashnode-dev/tdlaljm956?form_factor=mobile)
+
+![[Pasted image 20230921000042.png]]
+![[Pasted image 20230921000216.png]]
+
+Around `760ms` was being spend on just fonts, and I couldn't do anything about it.
 
 Apart from these, there were some interesting things I wanted to try:
 
@@ -145,5 +153,10 @@ Also, another cool thing in this starter is that it allows me to work on draft p
 draft: true
 ---
 ```
+
+
+### Running Pagespeed Insights 
+
+
 
 You can view the source code for this blog on [GitHub](https://github.com/shrirambalaji/blog.shrirambalaji.com). Astro and the ecosystem around it enabled me to make this change in a couple of days. Looking forward to write more here. Let's see ✌️
