@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/post/rust-aoc-day-05.md",
+                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "src/content/post/rust-aoc-day-05.md",
+            "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
         "state": {
           "type": "outgoing-link",
           "state": {
-            "file": "src/content/post/rust-aoc-day-05.md",
+            "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
             "linksCollapsed": false,
             "unlinkedCollapsed": true
           }
@@ -114,7 +114,7 @@
         "state": {
           "type": "outline",
           "state": {
-            "file": "src/content/post/rust-aoc-day-05.md"
+            "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx"
           }
         }
       }
@@ -130,8 +130,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "6e2659db9babe972",
+  "active": "fddfde0fb13a113f",
   "lastOpenFiles": [
+    "src/content/post/rust-aoc-day-05.md",
     "Readme.md",
     "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
     "astro.config.mjs",
