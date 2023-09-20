@@ -94,6 +94,9 @@
 	@apply hover:underline underline-offset-4;
 }
 
+.prose :where(a):not(:where([class~="not-prose"] *)) span {
+}
+
 *::selection {
 	background-color: #818cf8;
 	color: #f8fafc;
