@@ -10,7 +10,6 @@ import embeds from "astro-embed/integration";
 import shikiji from "rehype-shikiji";
 import rehypeExternalLinks from "rehype-external-links";
 
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://blog.shrirambalaji.com",
