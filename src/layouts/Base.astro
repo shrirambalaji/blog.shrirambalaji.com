@@ -1,7 +1,7 @@
 ---
 import { ViewTransitions } from "astro:transitions";
-import "@fontsource-variable/inter"
-import "@fontsource-variable/jetbrains-mono"
+import "@fontsource-variable/inter";
+import "@fontsource-variable/jetbrains-mono";
 
 import type { SiteMeta } from "@/types";
 import BaseHead from "@/components/BaseHead";
@@ -10,6 +10,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SkipLink from "@/components/SkipLink";
 import { siteConfig } from "@/site-config";
+import { Umami } from "astro-analytics";
 
 interface Props {
 	meta: SiteMeta;
@@ -20,6 +21,7 @@ const {
 } = Astro.props;
 ---
 
+<Umami id="4fb7fa4c-5b46-438d-94b3-3a8fb9bc2e8b" src="https://your-umami-app.com/umami.js" />
 <html lang={siteConfig.lang}>
 	<head>
 		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
