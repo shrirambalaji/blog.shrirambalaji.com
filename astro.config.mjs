@@ -10,7 +10,6 @@ import embeds from "astro-embed/integration";
 import shikiji from "rehype-shikiji";
 import rehypeExternalLinks from "rehype-external-links";
 
-import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
@@ -69,7 +68,6 @@ export default defineConfig({
       exclude: ["@resvg/resvg-js"]
     }
   },
-  adapter: vercel()
 });
 function rawFonts(ext) {
   return {
