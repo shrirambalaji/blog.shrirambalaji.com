@@ -69,7 +69,6 @@ export default defineConfig({
       exclude: ["@resvg/resvg-js"]
     }
   },
-  output: "server",
   adapter: vercel()
 });
 function rawFonts(ext) {
