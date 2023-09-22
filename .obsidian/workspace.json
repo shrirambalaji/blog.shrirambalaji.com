@@ -25,9 +25,9 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/templates/blogpost.mdx",
+                "file": "src/content/post/designing-ai-for-tomorrow.mdx",
                 "mode": "source",
-                "source": false
+                "source": true
               }
             }
           }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/templates/blogpost.mdx",
+                "file": "src/content/post/designing-ai-for-tomorrow.mdx",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "src/content/templates/blogpost.mdx",
+                "file": "src/content/post/designing-ai-for-tomorrow.mdx",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "src/content/templates/blogpost.mdx"
+                "file": "src/content/post/designing-ai-for-tomorrow.mdx"
               }
             }
           }
@@ -160,8 +160,10 @@
   },
   "active": "ca97d97c70f33b9e",
   "lastOpenFiles": [
-    "src/content/templates/blogpost 1.mdx",
     "src/content/templates/blogpost.mdx",
+    "src/content/post/designing-ai-for-tomorrow.mdx",
+    "Untitled.md",
+    "src/content/post/rust-aoc-day-04.md",
     "src/content/post/rust-aoc-day-02.md",
     "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
     "src/content/post/Untitled.md",
@@ -185,7 +187,6 @@
     "dist/og-image/rust-advent-of-code-2020-day-08.png",
     "Readme.md",
     "Pasted image 20230920014219.png.md",
-    "Untitled.md",
     "src/content/post/mutability-in-rust.md",
     "conflict-files-obsidian-git.md",
     "src/content/templates/Untitled.md",
