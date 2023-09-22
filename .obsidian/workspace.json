@@ -25,8 +25,8 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
-                "mode": "preview",
+                "file": "src/content/templates/blogpost.mdx",
+                "mode": "source",
                 "source": false
               }
             }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+                "file": "src/content/templates/blogpost.mdx",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+                "file": "src/content/templates/blogpost.mdx",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx"
+                "file": "src/content/templates/blogpost.mdx"
               }
             }
           }
@@ -160,10 +160,13 @@
   },
   "active": "ca97d97c70f33b9e",
   "lastOpenFiles": [
+    "src/content/templates/blogpost 1.mdx",
+    "src/content/templates/blogpost.mdx",
+    "src/content/post/rust-aoc-day-02.md",
+    "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+    "src/content/post/Untitled.md",
     "pnpm-lock.yaml.2364220546",
     "Pasted image 20230921000042.png.md",
-    "src/content/templates/blogpost.mdx",
-    "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
     "src/content/post/attachments/blog-pagespeed-result.png",
     "src/content/post/attachments/hashnode-pagespeed-result-opportunities.png",
     "src/content/post/attachments/hashnode-pagespeed-result.png",
@@ -173,8 +176,6 @@
     "dist/_pagefind/fragment/en-us_ccb21b6.pf_fragment",
     "dist/_pagefind/fragment/en-us_c3f1b2a.pf_fragment",
     "dist/_pagefind/fragment/en-us_c0f5d0c.pf_fragment",
-    "dist/_pagefind/fragment/en-us_ba2bae2.pf_fragment",
-    "dist/_pagefind/fragment/en-us_b6fbe22.pf_fragment",
     "dist/_astro/cover.5979bf5e_Z1fyXQF.webp",
     "dist/_astro/obsidian-git-ios-screenshot.6f55d4a3_2vl4vQ.webp",
     "dist/_astro/hashnode-github-backup.cdd105f7_1r4zIK.webp",
