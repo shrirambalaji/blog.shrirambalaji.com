@@ -74,11 +74,11 @@
 	}
 
 	html body {
-		@apply mx-auto flex min-h-screen max-w-7xl flex-col bg-bgColor px-8 pt-16 font-sans text-lg font-normal text-textColor antialiased;
+		@apply mx-auto flex min-h-screen max-w-4xl xl:max-w-6xl flex-col bg-bgColor px-8 pt-16 font-sans text-lg font-normal text-textColor antialiased;
 	}
 
 	.prose {
-		@apply !max-w-5xl;
+		@apply !max-w-3xl xl:max-w-4xl;
 	}
 }
 
