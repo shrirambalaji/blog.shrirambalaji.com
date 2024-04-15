@@ -138,7 +138,9 @@ export default {
 		require("@tailwindcss/aspect-ratio"),
 		plugin(function ({ addComponents }) {
 			addComponents({
-				".astro-link": {},
+				".astro-link": {
+					"@apply hover:underline hover:underline-offset-4": {},
+				},
 				".title": {
 					"@apply text-3xl font-bold text-accent-2": {},
 				},
