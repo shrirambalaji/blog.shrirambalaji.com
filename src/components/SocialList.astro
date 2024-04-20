@@ -12,9 +12,10 @@ const socialLinks = [
 		link: "https://github.com/shrirambalaji",
 	},
 	{
-		name: "mdi:twitter",
-		friendlyName: "Twitter",
-		link: "https://twitter.com/shrirambalaji",
+		name: "twitter",
+		friendlyName: "Twitter-X",
+		link: "https://x.com/shrirambalaji",
+		iconClass: "w-5 h-5",
 	},
 	{
 		name: "mdi:linkedin",
@@ -26,10 +27,10 @@ const socialLinks = [
 		friendlyName: "email",
 		link: "mailto:hello@shrirambalaji.com",
 	},
-		{
+	{
 		name: "mdi:rss",
 		friendlyName: "RSS Feed",
-		link: "/rss.xml"
+		link: "/rss.xml",
 	},
 ];
 ---
@@ -37,7 +38,7 @@ const socialLinks = [
 <div class="flex flex-wrap items-end gap-x-4">
 	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
 		{
-			socialLinks.map(({ link, name, friendlyName }) => {
+			socialLinks.map(({ link, name, friendlyName,iconClass }) => {
 				const isEmail = name.includes("email") || friendlyName.toLowerCase().includes("email");
 				return (
 					<li class="flex">
@@ -47,7 +48,7 @@ const socialLinks = [
 							target="_blank"
 							rel={`noopener noreferrer me ${isEmail ? "authn" : ""}`}
 						>
-							<Icon class="h-6 w-6" name={name} aria-hidden="true" focusable="false" />
+							<Icon class={iconClass ?? "h-6 w-6"} name={name} aria-hidden="true" focusable="false" />
 							<span class="sr-only">{friendlyName}</span>
 						</a>
 					</li>

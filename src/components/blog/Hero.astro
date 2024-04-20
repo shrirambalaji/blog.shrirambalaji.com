@@ -70,12 +70,12 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 			{data.tags.map((tag, i) => (
 				<>
 					<a
-						class="astro-link inline-block before:content-['#'] font-mono text-sm"
+						class="astro-link inline-block font-mono text-sm hover:underline-offset-4 hover:underline"
 						aria-label={`View more blogs with the tag ${tag}`}
 						href={`/tags/${tag}/`}
 						data-pagefind-filter="tag"
 					>
-						{tag}
+						#{tag}
 					</a>
 					{i < data.tags.length - 1 && ", "}
 				</>

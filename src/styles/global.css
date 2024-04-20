@@ -74,11 +74,11 @@
 	}
 
 	html body {
-		@apply mx-auto flex min-h-screen max-w-7xl flex-col bg-bgColor px-8 pt-16 font-sans text-lg font-normal text-textColor antialiased;
+		@apply mx-auto flex min-h-screen max-w-5xl xl:max-w-6xl flex-col bg-bgColor px-8 pt-8 font-sans text-lg font-normal text-textColor antialiased;
 	}
 
 	.prose {
-		@apply !max-w-5xl;
+		@apply !max-w-3xl xl:max-w-4xl;
 	}
 }
 
@@ -88,6 +88,11 @@
 
 .prose :where(img):not(:where([class~="not-prose"] *)) {
 	border-radius: 6px;
+}
+
+.prose-lg :where(li):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	margin-top: 0.2rem;
+	margin-bottom: 0.2rem;
 }
 
 .prose :where(a):not(:where([class~="not-prose"] *)) {
@@ -108,37 +113,6 @@
 	color: #111118;
 }
 
-.twitter-tweet:not(.twitter-tweet-rendered) {
-	border: 1px solid;
-	border-radius: 6px;
-	font-style: normal;
-}
-
-.twitter-tweet:not(.twitter-tweet-rendered) > :first-child {
-	margin-top: 0;
-}
-
-.twitter-tweet:not(.twitter-tweet-rendered) > :last-child {
-	margin-bottom: 0;
-}
-
-.twitter-tweet-rendered {
-	border-radius: 12px;
-}
-
-.tweet-embed iframe {
-	border-radius: 12px;
-}
-
-.dark img:not([src*=".svg"]) {
-	@apply brightness-50 contrast-50;
-	filter: var(--image-filter);
-}
-
-.dark .prose :where(img):not(:where([class~="not-prose"] *)) {
-	@apply brightness-50 contrast-50;
-	filter: var(--image-filter);
-}
 
 .shiki,
 .shiki span {
@@ -150,4 +124,71 @@
 .dark .shiki span {
 	color: var(--shiki-dark) !important;
 	background-color: hsl(var(--theme-bg)) !important;
+}
+
+/* astro-tweet dark theme */
+@media (prefers-color-scheme: dark) {
+	:where(.astro-tweet-theme) {
+		--tweet-border: 2px solid hsla(234, 100%, 83%, 0.233) !important;
+		--tweet-font-color: rgb(247, 249, 249);
+		--tweet-font-color-secondary: rgb(139, 152, 165);
+		--tweet-bg-color: hsl(240, 20%, 8%) !important;
+		--tweet-bg-color-hover: hsl(240 15% 9%) !important;
+		--tweet-color-blue-secondary:hsl(234, 94%, 80%) !important;
+		--tweet-color-blue-secondary-hover: hsla(234, 94%, 80%, 0.147) !important;
+	}
+}
+
+/* astro-tweet light theme */
+html:not(.dark) :where(.astro-tweet-theme) {
+	--tweet-border: 2px solid hsl(234deg 85.16% 59.38% / 23.3%) !important;
+	--tweet-font-color: rgb(6, 6, 6) !important;
+	--tweet-font-color-secondary: rgb(139, 152, 165) !important;
+	--tweet-bg-color: hsl(240, 100%, 100%) !important;
+	--tweet-bg-color-hover: hsl(240, 41%, 99%) !important;
+	--tweet-color-blue-secondary: hsl(234, 95%, 71%) !important;
+	--tweet-verified-blue-color: hsl(234, 100%, 75%) !important;
+}
+
+@media (prefers-color-scheme: light) {
+	:where(.astro-tweet-theme) {
+		--tweet-border: 2px solid hsl(234deg 85.16% 59.38% / 23.3%) !important;
+		--tweet-font-color: rgb(6, 6, 6) !important;
+		--tweet-font-color-secondary: rgb(139, 152, 165) !important;
+		--tweet-bg-color: hsl(240, 100%, 100%) !important;
+		--tweet-bg-color-hover: hsl(240, 41%, 99%) !important;
+		--tweet-color-blue-secondary: hsl(234, 95%, 71%) !important;
+		--tweet-verified-blue-color: hsl(234, 100%, 75%) !important;
+	}
+}
+
+.tweet-embed a img {
+	max-width: 100%;
+	max-height: 100%;
+	margin: 0;
+}
+
+.prose-lg p {
+	letter-spacing: -0.05px;
+	word-spacing: -0.05px;
+	margin-bottom: 1em;
+	font-size: 1em;
+}
+
+h2, p, a {
+	letter-spacing: -0.05px;
+		word-spacing: -0.05px;
+}
+
+.prose-lg h2 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *))::before {
+	content: "";
+}
+
+.prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *))::after {
+	content: "";
 }

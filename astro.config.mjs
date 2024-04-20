@@ -61,7 +61,11 @@ export default defineConfig({
 			],
 		],
 		remarkPlugins: [remarkUnwrapImages, remarkReadingTime],
-		remarkRehype: { footnoteLabelProperties: { className: [""] } },
+		remarkRehype: {
+			footnoteLabelProperties: {
+				className: [""],
+			},
+		},
 	},
 	image: {
 		domains: ["og.shrirambalaji.com"],
@@ -82,7 +86,6 @@ export default defineConfig({
 		},
 	},
 });
-
 function rawFonts(ext) {
 	return {
 		name: "vite-plugin-raw-fonts",
