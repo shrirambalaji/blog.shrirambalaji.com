@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+                "file": "src/content/post/how-does-rust-linkage-work.mdx",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+            "file": "src/content/post/how-does-rust-linkage-work.mdx",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
         "state": {
           "type": "outgoing-link",
           "state": {
-            "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+            "file": "src/content/post/how-does-rust-linkage-work.mdx",
             "linksCollapsed": false,
             "unlinkedCollapsed": true
           }
@@ -114,7 +114,7 @@
         "state": {
           "type": "outline",
           "state": {
-            "file": "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx"
+            "file": "src/content/post/how-does-rust-linkage-work.mdx"
           }
         }
       }
@@ -132,30 +132,31 @@
   },
   "active": "6e2659db9babe972",
   "lastOpenFiles": [
+    "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+    "src/content/post/how-does-rust-linkage-work.mdx",
+    "src/components/MicrosoftLogo.astro",
+    "public/avatar.jpeg",
+    "src/icons",
+    "src/components/Avatar.astro",
+    "src/icons/twitter.svg",
+    "/src/styles/global.css",
+    "/pnpm-lock.yaml",
+    "/src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+    "/src/components/layout/Header.astro",
+    "/package.json",
+    "/tailwind.config.ts",
+    "/src/icons/twitter.svg",
+    "/public/social-card.png",
+    "/public/avatar.jpeg",
     "src/content/post/rust-aoc-day-05.md",
     "Readme.md",
-    "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
-    "astro.config.mjs",
     "src/content/post/attachments/hashnode-pagespeed-result-opportunities.png",
     "src/content/post/attachments/hashnode-pagespeed-result.png",
     "src/content/post/attachments/blog-pagespeed-result.png",
     "src/content/post/attachments/obsidian-git-ios-screenshot.png",
-    "/tailwind.config.ts",
-    "/src/styles/global.css",
-    "/src/pages/og-image/[slug].png.ts",
-    "/src/layouts/BlogPost.astro",
-    "/src/layouts/Base.astro",
-    "/src/content/templates/blogpost.mdx",
     "/src/content/post/attachments/obsidian-git-ios-screenshot.png",
-    "/src/content/post/attachments/hashnode-pagespeed-result.png",
-    "/src/content/post/attachments/hashnode-pagespeed-result-opportunities.png",
-    "/src/content/post/attachments/blog-pagespeed-result.png",
-    "/src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
-    "/src/components/blog/PostPreview.astro",
     "/Readme.md",
     "Untitled.md",
-    "src/content/post/attachments/hashnode-github-backup.png",
-    "/src/content/post/attachments/hashnode-github-backup.png",
     "/Untitled.md",
     "src/content/templates/blogpost.md",
     "src/content/post/getting-started-with-open-source.md",
