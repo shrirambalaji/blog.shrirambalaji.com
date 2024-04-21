@@ -23,8 +23,12 @@
             "id": "ca97d97c70f33b9e",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "src/content/post/how-does-rust-linkage-work.mdx",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ],
@@ -78,7 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 476.5
+    "width": 337.5
   },
   "right": {
     "id": "b9da8a232c7f6d6e",
@@ -94,6 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "src/content/post/how-does-rust-linkage-work.mdx",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,6 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "src/content/post/how-does-rust-linkage-work.mdx",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -131,7 +137,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "src/content/post/how-does-rust-linkage-work.mdx"
+              }
             }
           }
         ]
@@ -152,6 +160,7 @@
   },
   "active": "ca97d97c70f33b9e",
   "lastOpenFiles": [
+    "src/content/post/how-does-rust-linkage-work.mdx",
     "src/content/templates/blogpost.mdx",
     "src/content/post/designing-ai-for-tomorrow.mdx",
     "Untitled.md",
