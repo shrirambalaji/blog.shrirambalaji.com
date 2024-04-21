@@ -23,12 +23,8 @@
             "id": "ca97d97c70f33b9e",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "src/content/post/designing-ai-for-tomorrow.mdx",
-                "mode": "source",
-                "source": true
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ],
@@ -98,7 +94,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/post/designing-ai-for-tomorrow.mdx",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +110,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "src/content/post/designing-ai-for-tomorrow.mdx",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,9 +131,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "src/content/post/designing-ai-for-tomorrow.mdx"
-              }
+              "state": {}
             }
           }
         ]
