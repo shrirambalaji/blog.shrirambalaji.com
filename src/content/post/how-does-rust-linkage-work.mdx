@@ -58,30 +58,28 @@ $ sudo apt install build-essential
 
 We can also choose a different linker like [`lld`](https://lld.llvm.org)which is LLVM's linker or [mold](https://github.com/rui314/mold). [LLVM](https://llvm.org)is another compiler toolchain like gcc, but aims to be modular. Mold is a more recent alternative and is several times quicker based on their benchmarks.
 
-### Rust Compilation and the missing `.o` object file
+### Rust Compilation and the  `.o` object file
 
-When you run `cargo build` in a Rust project, it doesn't output an object file for source files unlike C. This behavior stems from differences in the compilation models and build systems of Rust and C.
+When you run `cargo build` in a Rust project, it doesn't output a single `.o` object file unlike C. This behavior stems from differences in the compilation models and build systems of Rust and C. There are a couple of reasons for it:
 
-1. **Unified Compilation Process**: Rust's compiler, `rustc`, which is invoked by `cargo`, compiles Rust code directly into an executable or library, rather than separately compiling each source file into an object file and then linking them. This is partly because Rust integrates the compilation and linking steps into a single process for convenience and efficiency.
+-  `rustc` (invoked internally by `cargo`) compiles rust source code into an executable or a library (`.rlib`), rather than separately compiling to an object file and then linking them ie. it tries to do both the phases (compilation and linking) we discussed earlier in one step.
+- `rustc` views a crate as the basic unit of compilation, not  files. hence, it typically compiles an entire crate in one go.
 
-2. **Module System**: Rust has a module system where multiple source files can be part of a single compilation unit (crate). The Rust compiler views a crate as the basic unit of compilation, not individual files. Therefore, it typically compiles the entire crate in one go, optimizing across the entire codebase, rather than compiling files individually.
+But that doesn't mean that there are no `.o` files, they are present in `/target/debug/incremental/*` directories. If you guessed it already, yes - rust supports incremental compilation ie. it compiles parts of a crate / project that have changed since the previous build. But these are typically managed by `rustc` and `cargo` internally.
 
-3. **Cargo’s Build System**: Cargo manages dependencies, compilation, and building artifacts more abstractly compared to make-based systems or direct compiler invocations typical in C. Cargo checks if the final executable or library needs to be updated based on changes in the source code or dependencies, and if not, it doesn't recompile anything. This higher level of abstraction helps manage complex dependency trees and ensures consistent builds.
-
-4. **Incremental Compilation**: Rust does support incremental compilation, where it compiles parts of the project that have changed since the last build. However, this process is managed internally by Cargo and `rustc`. The intermediate outputs (like object files) are stored in the `target/debug/incremental` directory but are not typically exposed or meant to be manipulated directly by the user.
-
-5. **Optimization and Safety**: Rust's compilation process includes numerous optimizations and checks (like borrow checking) that benefit from a holistic view of the codebase. Separating compilation into distinct object file outputs for each source file could complicate or hinder some of these optimizations and checks.
-
-If you need to generate object files explicitly, perhaps for integrating Rust code with another language or for specific kinds of analysis, you can instruct `rustc` to output object files using command line options. For example, you can use the following command to compile a single Rust source file into an object file:
+Let's say I want to dig into the output of a rust program, and do some further analysis. `rustc` has a argument that allows us to do exactly that.
 
 ```bash
-rustc --emit=obj my_file.rs
+$ rustc --emit=obj main.rs
 ```
 
-This command tells `rustc` to emit an object file (`my_file.o`) from the source file `my_file.rs`. However, this usage is less common and typically not necessary for standard Rust development practices.
-[](https://www.youtube.com/@ChrisKanich)
+This tells `rustc` to emit an object file (`main.o`) from the source file `main.rs`. The default `main.rs` source code just has a `main` function which prints out "Hello, World!"
 
-
+```rust
+fn main() {
+    println!("Hello, world!");
+}
+```
 
 
 References:
