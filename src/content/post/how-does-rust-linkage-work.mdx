@@ -46,7 +46,15 @@ error: linker `cc` not found
   = note: No such file or directory (os error 2)
 ```
 
+Hmm, an error. We run into a ```linker `cc` not found error``` because the rust installer assumes that a C linker is already installed, instead of checking for the necessary compiler toolchain. 
 
+On linux machines, the de-facto toolchain is `gcc`(GNU Compiler Collection) which is missing. The `build-essential` meta package has `gcc` and a couple other packages.
+
+```shell
+$ sudo apt install build-essential
+```
+
+However, we can choose a different linker like `lld` which
 [](https://www.youtube.com/@ChrisKanich)
 
 
