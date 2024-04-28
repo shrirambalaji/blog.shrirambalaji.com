@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 337.5
+    "width": 337.5,
+    "collapsed": true
   },
   "right": {
     "id": "b9da8a232c7f6d6e",
@@ -145,7 +146,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ca97d97c70f33b9e",
+  "active": "5919a37ccee6cc78",
   "lastOpenFiles": [
     "src/content/templates/blogpost.mdx",
     "src/content/post/how-does-rust-linkage-work.mdx",
