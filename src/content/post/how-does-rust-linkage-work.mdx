@@ -67,7 +67,7 @@ When you run `cargo build` in a Rust project, it doesn't output a single `.o` ob
 
 But that doesn't mean that there are no `.o` files, they are present in `/target/debug/incremental/*` directories. If you guessed it already, yes - rust supports incremental compilation ie. it compiles parts of a crate / project that have changed since the previous build. But these are typically managed by `rustc` and `cargo` internally.
 
-Let's say I want to dig into the output of a rust program, and do some further analysis. `rustc` has a argument that allows us to do exactly that.
+Let's say we want to emit just an`object` file similar to what happens when we compile a `C` program.
 
 ```bash
 $ rustc --emit=obj main.rs
@@ -80,6 +80,10 @@ fn main() {
     println!("Hello, world!");
 }
 ```
+
+But, there's a catch - the raw .o file doesn't have enough information that `rustc` needs to generate stubs / shims and invoke the linker. Moreover, the arguments we pass onto the linkers are crate-specific, and that information is missing in the object files. 
+
+So essentially, the generated `.o` object files are not  useful to us.
 
 
 References:
