@@ -26,6 +26,26 @@ Symbols are how we go from variable names -> memory addresses in machine instruc
 
 Compiler -> Symbols -> Linker -> Symbol Resolution 
 
+## Linking in Linux systems
+
+Let's setup a simple rust project in a Ubuntu VM, and see try to understand linking with it. I'm using [orbstack](https://docs.orbstack.dev/architecture#:~:text=OrbStack%20uses%20a%20lightweight%20Linux,integration%20with%20macOS%2C%20and%20more.) to create a "machine" on macOS which work like traditional vms, but share the same kernel. 
+
+After setting up rust in the vm using [rustup](https://rustup.rs), we use cargo to create a new rust project.
+
+```bash
+$ cargo new learning-linkers
+```
+
+Let's try to build it.
+
+```shell
+$ cd learning-linkers && cargo build
+Compiling learning-linkers v0.1.0 (/Users/shrirambalaji/Repositories/learning-linkers)
+error: linker `cc` not found
+  |
+  = note: No such file or directory (os error 2)
+```
+
 
 [](https://www.youtube.com/@ChrisKanich)
 
