@@ -26,9 +26,11 @@ Symbols are how we go from variable names -> memory addresses in machine instruc
 
 Compiler -> Symbols -> Linker -> Symbol Resolution 
 
+In compiled language like C, C++, or Rust, a build consists of two phases. In the first phase, a compiler compiles source files into object files (`.o` files). In the second phase, a linker takes all object files and combines them into a single executable or shared library file.
+
 ## Linking in Linux systems
 
-Let's setup a simple rust project in a Ubuntu VM, and see try to understand linking with it. I'm using [orbstack](https://docs.orbstack.dev/architecture#:~:text=OrbStack%20uses%20a%20lightweight%20Linux,integration%20with%20macOS%2C%20and%20more.) to create a "machine" on macOS which work like traditional vms, but share the same kernel. 
+Let's setup a simple rust project in a Ubuntu Virtual Machine, and try to understand linking with it. I'm using [orbstack](https://docs.orbstack.dev/architecture#:~:text=OrbStack%20uses%20a%20lightweight%20Linux,integration%20with%20macOS%2C%20and%20more.) to create a "machine" on macOS which work like traditional vms, but shares the same kernel. 
 
 After setting up rust in the vm using [rustup](https://rustup.rs), we use cargo to create a new rust project.
 
@@ -48,13 +50,35 @@ error: linker `cc` not found
 
 Hmm, an error. We run into a ```linker `cc` not found error``` because the rust installer assumes that a C linker is already installed, instead of checking for the necessary compiler toolchain. 
 
-On linux machines, the de-facto toolchain is `gcc`(GNU Compiler Collection) which is missing. The `build-essential` meta package has `gcc` and a couple other packages.
+On linux machines, the de-facto toolchain is `gcc`(GNU Compiler Collection) which seems to be missing. The `build-essential` meta package has `gcc` and a couple other packages. Let's install that!
 
 ```shell
 $ sudo apt install build-essential
 ```
 
-However, we can choose a different linker like `lld` which
+We can also choose a different linker like [`lld`](https://lld.llvm.org)which is LLVM's linker or [mold](https://github.com/rui314/mold). [LLVM](https://llvm.org)is another compiler toolchain like gcc, but aims to be modular. Mold is a more recent alternative and is several times quicker based on their benchmarks.
+
+### Rust Compilation and the missing `.o` object file
+
+When you run `cargo build` in a Rust project, it doesn't output an object file for source files unlike C. This behavior stems from differences in the compilation models and build systems of Rust and C.
+
+1. **Unified Compilation Process**: Rust's compiler, `rustc`, which is invoked by `cargo`, compiles Rust code directly into an executable or library, rather than separately compiling each source file into an object file and then linking them. This is partly because Rust integrates the compilation and linking steps into a single process for convenience and efficiency.
+
+2. **Module System**: Rust has a module system where multiple source files can be part of a single compilation unit (crate). The Rust compiler views a crate as the basic unit of compilation, not individual files. Therefore, it typically compiles the entire crate in one go, optimizing across the entire codebase, rather than compiling files individually.
+
+3. **Cargo’s Build System**: Cargo manages dependencies, compilation, and building artifacts more abstractly compared to make-based systems or direct compiler invocations typical in C. Cargo checks if the final executable or library needs to be updated based on changes in the source code or dependencies, and if not, it doesn't recompile anything. This higher level of abstraction helps manage complex dependency trees and ensures consistent builds.
+
+4. **Incremental Compilation**: Rust does support incremental compilation, where it compiles parts of the project that have changed since the last build. However, this process is managed internally by Cargo and `rustc`. The intermediate outputs (like object files) are stored in the `target/debug/incremental` directory but are not typically exposed or meant to be manipulated directly by the user.
+
+5. **Optimization and Safety**: Rust's compilation process includes numerous optimizations and checks (like borrow checking) that benefit from a holistic view of the codebase. Separating compilation into distinct object file outputs for each source file could complicate or hinder some of these optimizations and checks.
+
+If you need to generate object files explicitly, perhaps for integrating Rust code with another language or for specific kinds of analysis, you can instruct `rustc` to output object files using command line options. For example, you can use the following command to compile a single Rust source file into an object file:
+
+```bash
+rustc --emit=obj my_file.rs
+```
+
+This command tells `rustc` to emit an object file (`my_file.o`) from the source file `my_file.rs`. However, this usage is less common and typically not necessary for standard Rust development practices.
 [](https://www.youtube.com/@ChrisKanich)
 
 
