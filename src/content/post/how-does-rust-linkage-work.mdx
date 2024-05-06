@@ -62,13 +62,16 @@ We can also choose a different linker like [`lld`](https://lld.llvm.org)which is
 
 It's a systems language, so obviously our expectation is to be similar to C - right? Just let me compile, and give me an object file that I can link to later? That's called [dynamic linking](https://en.wikipedia.org/wiki/Dynamic_linker) and that's the default of how things work with C, C++.
 
-Rust prefers 
-When you run `cargo build` in a Rust project, it doesn't output a single `.o` object file unlike C. This behavior stems from differences in the compilation models and build systems of Rust and C. There are a couple of reasons for it:
+Rust prefers the opposite called [static linking](https://en.wikipedia.org/wiki/Static_library) wherein it will link in all Rust and native dependencies, producing a single distributable binary. This is called a `bin` crate in rust, and is the default type of crate we get when we initialize a new project with `cargo`
+
+### But, what happens if we try to get a single `.o` file in a `bin` crate?
+
+Why does rust prefer this approach, and I think there are a couple of reasons for it:
 
 -  `rustc` (invoked internally by `cargo`) compiles rust source code into an executable or a library (`.rlib`), rather than separately compiling to an object file and then linking them ie. it tries to do both the phases (compilation and linking) we discussed earlier in one step.
-- `rustc` views a crate as the basic unit of compilation, not  files. hence, it typically compiles an entire crate in one go.
+- `rustc` views a crate as the basic unit of compilation, not  files. hence, it typically compiles an entire crate at once.
 
-But that doesn't mean that there are no `.o` files, they are present in `/target/debug/incremental/*` directories. If you guessed it already, yes - rust supports incremental compilation ie. it compiles parts of a crate / project that have changed since the previous build. But these are typically managed by `rustc` and `cargo` internally.
+But that doesn't mean that there are no `.o` files when compiling a `bin` crate, they are present in `/target/debug/incremental/*` directories. If you guessed it already, yes - rust supports incremental compilation ie. it compiles parts of a crate / project that have changed since the previous build. But these are typically managed by `rustc` and `cargo` internally.
 
 Let's say we want to emit just an`object` file similar to what happens when we compile a `C` program.
 
@@ -86,7 +89,7 @@ fn main() {
 
 But, there's a catch - the raw .o file doesn't have enough information that `rustc` needs to generate stubs / shims and invoke the linker. Moreover, the arguments we pass onto the linkers are crate-specific, and that information is missing in the object files. 
 
-So essentially, the generated `.o` object files are not  useful to us.
+So back to square one - by default in the `bin` crate or with just a single file, the generated `.o` object files are not  useful.
 
 ## 
 
