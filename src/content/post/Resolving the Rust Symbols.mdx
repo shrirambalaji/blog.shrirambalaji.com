@@ -1,8 +1,8 @@
 ---
-title: 
-description:
+title: Resolving the Rust Symbols
+description: This article covers my experience with Rust linking, detailing the challenges I faced and the insights I gained about static and dynamic linking. It simplifies the key concepts involved in Rust's compilation process.
 publishDate: 
-tags: []
+tags: 
 draft: true
 ---
 Goals
@@ -24,7 +24,8 @@ What are Symbols?
 
 Symbols are how we go from variable names -> memory addresses in machine instructions. 
 
-Compiler -> Symbols -> Linker -> Symbol Resolution 
+
+![[Pasted image 20240507010016.png]]
 
 In compiled language like C, C++, or Rust, a build consists of two phases. In the first phase, a compiler compiles source files into object files (`.o` files). In the second phase, a linker takes all object files and combines them into a single executable or shared library file.
 
@@ -58,11 +59,15 @@ $ sudo apt install build-essential
 
 We can also choose a different linker like [`lld`](https://lld.llvm.org)which is LLVM's linker or [mold](https://github.com/rui314/mold). [LLVM](https://llvm.org)is another compiler toolchain like gcc, but aims to be modular. Mold is a more recent alternative and is several times quicker based on their benchmarks.
 
-###  Rust Compilation and the  `.o` object file
+##  Rust Compilation and the  `.o` object file
 
 It's a systems language, so obviously our expectation is to be similar to C - right? Just let me compile, and give me an object file that I can link to later? That's called [dynamic linking](https://en.wikipedia.org/wiki/Dynamic_linker) and that's the default of how things work with C, C++.
 
-Rust prefers the opposite called [static linking](https://en.wikipedia.org/wiki/Static_library) wherein it will link in all Rust and native dependencies, producing a single distributable binary. This is called a `bin` crate in rust, and is the default type of crate we get when we initialize a new project with `cargo`
+Rust prefers the opposite called [static linking](https://en.wikipedia.org/wiki/Static_library) wherein it will link in all Rust and native dependencies, producing a single distributable binary as described above. 
+
+> A [_crate_](https://doc.rust-lang.org/reference/crates-and-source-files.html) is a unit of compilation and linking, as well as versioning, distribution, and runtime loading. A crate contains a _tree_ of nested [module](https://doc.rust-lang.org/reference/items/modules.html) scopes. 
+
+In Rust,  called a `bin` crate in rust, and is the default type of crate we get when we initialize a new project with `cargo`
 
 ### But, what happens if we try to get a single `.o` file in a `bin` crate?
 
