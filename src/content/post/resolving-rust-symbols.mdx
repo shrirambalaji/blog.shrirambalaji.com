@@ -8,11 +8,14 @@ tags:
   - systems
 draft: true
 
+
+
 ---
-import compilerBuildSymbolsResolveLinkerImage from "./attachments/compiler-build-symbols-resolve-linker.svg"
+
+import { Picture, Image } from 'astro:assets';
 import LightImage from './attachments/compiler-build-symbols-resolve-linker.svg';
 import DarkImage from './attachments/compiler-build-symbols-resolve-linker-dark.svg';
-import { Picture, Image } from 'astro:assets';
+
 
 
 Goals
@@ -34,10 +37,10 @@ What are Symbols?
 
 Symbols are how we go from variable names -> memory addresses in machine instructions. 
 
-<Picture>
-  <source srcSet={DarkImage} media="(prefers-color-scheme: dark)" />
-  <source srcSet={LightImage} media="(prefers-color-scheme: light)" />
-  <Image src={LightImage} alt="Responsive Image" />
+<Picture alt="Compiler Build Symbols Resolved by Linker" src={LightImage}>
+  <source srcSet={DarkImage} media="(prefers-color-scheme: dark)" alt="Compiler Build Symbols Resolved by Linker"/>
+  <source srcSet={LightImage} media="(prefers-color-scheme: light)" alt="Compiler Build Symbols Resolved by Linker"/>
+  {/* <img src={LightImage} alt="Compiler Build Symbols Resolved by Linker" /> */}
 </Picture>
 
 In compiled language like C, C++, or Rust, a build consists of two phases. In the first phase, a compiler compiles source files into object files (`.o` files). In the second phase, a linker takes all object files and combines them into a single executable or shared library file.
