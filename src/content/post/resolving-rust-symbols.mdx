@@ -1,10 +1,17 @@
 ---
-title: Resolving the Rust Symbols
-description: This article covers my experience with Rust linking, detailing the challenges I faced and the insights I gained about static and dynamic linking. It simplifies the key concepts involved in Rust's compilation process.
-publishDate: 
-tags: 
+title: Resolving Rust Symbols
+description: This article is about my understanding of Rust linking, detailing learnings along the way about Linking in Unix systems, how Rust linkage differs from C, trying different linkers like mold, lld and understanding what they offer.
+publishDate: May 15 2024
+tags:
+  - rust
+  - linking
+  - systems
 draft: true
+
 ---
+import compilerBuildSymbolsResolveLinkerImage from "./attachments/compiler-build-symbols-resolve-linker.png"
+import { Image } from "astro:assets";
+
 Goals
 - Basics of Linking in Unix systems
 - Ld basics (mention mold)
@@ -25,7 +32,7 @@ What are Symbols?
 Symbols are how we go from variable names -> memory addresses in machine instructions. 
 
 
-![[Pasted image 20240507010016.png]]
+<Image src={compilerBuildSymbolsResolveLinkerImage} width={500} alt="Compiler Build Symbols Resolve Linker Diagram"/>
 
 In compiled language like C, C++, or Rust, a build consists of two phases. In the first phase, a compiler compiles source files into object files (`.o` files). In the second phase, a linker takes all object files and combines them into a single executable or shared library file.
 
