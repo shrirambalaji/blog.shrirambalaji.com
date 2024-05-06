@@ -4,12 +4,44 @@ import { Image } from "astro:assets";
 
 interface Props {
 	src: string;
+	darkSrc?: string;
 	alt: string;
 	name: string;
 	age: number;
 }
 
-const { src, alt, name, age } = Astro.props;
-let url = new URL(src, "http://blog.shrirambalaji.com");
+let { src, alt, name, age, darkSrc } = Astro.props;
+const images = import.meta.glob("/src/content/post/attachments/*.{jpeg,jpg,png,svg,gif}");
+
+if (!images[src]) {
+	throw new Error(
+		`"${src}" does not exist in glob: "/src/content/post/attachments/*.{jpeg,jpg,png,svg,gif}"`
+	);
+}
+
+if (darkSrc && !images[darkSrc]) {
+	darkSrc = src;
+}
 ---
 
+<img id="themed-image" src={src} alt={alt} data-dark-src={darkSrc} data-src={src} />
+
+<script is:inline>
+	function updateImageSrc() {
+		const isCurrentThemeDark = document.body.classList.contains("dark");
+		const isDarkMode =
+			isCurrentThemeDark || window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+		const img = document.getElementById("themed-image");
+		if (img && img.src) {
+			let attribute = isDarkMode ? img.getAttribute("data-dark-src") : img.getAttribute("data-src");
+			img.src = attribute ?? "";
+		}
+	}
+
+	window.addEventListener("DOMContentLoaded", updateImageSrc);
+	window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", updateImageSrc);
+
+	// / Observe changes to the classList of the body element
+	const observer = new MutationObserver(updateImageSrc);
+	observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+</script>
