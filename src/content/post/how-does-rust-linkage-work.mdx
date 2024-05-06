@@ -58,8 +58,11 @@ $ sudo apt install build-essential
 
 We can also choose a different linker like [`lld`](https://lld.llvm.org)which is LLVM's linker or [mold](https://github.com/rui314/mold). [LLVM](https://llvm.org)is another compiler toolchain like gcc, but aims to be modular. Mold is a more recent alternative and is several times quicker based on their benchmarks.
 
-### Rust Compilation and the  `.o` object file
+###  Rust Compilation and the  `.o` object file
 
+It's a systems language, so obviously our expectation is to be similar to C - right? Just let me compile, and give me an object file that I can link to later? That's called [dynamic linking](https://en.wikipedia.org/wiki/Dynamic_linker) and that's the default of how things work with C, C++.
+
+Rust prefers 
 When you run `cargo build` in a Rust project, it doesn't output a single `.o` object file unlike C. This behavior stems from differences in the compilation models and build systems of Rust and C. There are a couple of reasons for it:
 
 -  `rustc` (invoked internally by `cargo`) compiles rust source code into an executable or a library (`.rlib`), rather than separately compiling to an object file and then linking them ie. it tries to do both the phases (compilation and linking) we discussed earlier in one step.
@@ -84,6 +87,8 @@ fn main() {
 But, there's a catch - the raw .o file doesn't have enough information that `rustc` needs to generate stubs / shims and invoke the linker. Moreover, the arguments we pass onto the linkers are crate-specific, and that information is missing in the object files. 
 
 So essentially, the generated `.o` object files are not  useful to us.
+
+## 
 
 
 References:
