@@ -9,8 +9,11 @@ tags:
 draft: true
 
 ---
-import compilerBuildSymbolsResolveLinkerImage from "./attachments/compiler-build-symbols-resolve-linker.png"
-import { Image } from "astro:assets";
+import compilerBuildSymbolsResolveLinkerImage from "./attachments/compiler-build-symbols-resolve-linker.svg"
+import LightImage from './attachments/compiler-build-symbols-resolve-linker.svg';
+import DarkImage from './attachments/compiler-build-symbols-resolve-linker-dark.svg';
+import { Picture, Image } from 'astro:assets';
+
 
 Goals
 - Basics of Linking in Unix systems
@@ -31,8 +34,11 @@ What are Symbols?
 
 Symbols are how we go from variable names -> memory addresses in machine instructions. 
 
-
-<Image src={compilerBuildSymbolsResolveLinkerImage} width={500} alt="Compiler Build Symbols Resolve Linker Diagram"/>
+<Picture>
+  <source srcSet={DarkImage} media="(prefers-color-scheme: dark)" />
+  <source srcSet={LightImage} media="(prefers-color-scheme: light)" />
+  <Image src={LightImage} alt="Responsive Image" />
+</Picture>
 
 In compiled language like C, C++, or Rust, a build consists of two phases. In the first phase, a compiler compiles source files into object files (`.o` files). In the second phase, a linker takes all object files and combines them into a single executable or shared library file.
 
