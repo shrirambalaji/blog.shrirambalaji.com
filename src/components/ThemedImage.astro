@@ -1,0 +1,32 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+interface Props {
+	imagePath: string;
+	altText: string;
+	name: string;
+	age: number;
+}
+
+const { imagePath, altText, name, age } = Astro.props;
+const path = require("path");
+const dir = path.dirname(imagePath);
+const extension = path.extname(imagePath);
+let filename = path.basename(imagePath, extension);
+let darkImagePath = `${dir}/${filename}-dark${extension}`;
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+	"/src/content/post/attachments/*.{jpeg,jpg,png,gif}"
+);
+if (!images[imagePath])
+	throw new Error(
+		`"${imagePath}" does not exist in glob: "src/content/post/attachments/*.{jpeg,jpg,png,svg,gif}"`
+	);
+
+const darkImageExists = !!images[darkImagePath]
+
+const isDark = document.documentElement.classList.contains("dark");
+---
+
+<Image src={images[isDark && darkImageExists ? darkImagePath: imagePath]()} alt={altText} />

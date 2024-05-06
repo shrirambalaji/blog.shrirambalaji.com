@@ -147,6 +147,7 @@
   },
   "active": "ca97d97c70f33b9e",
   "lastOpenFiles": [
+    "src/components/ThemedImage.astro",
     "src/content/post/attachments/compiler-build-symbols-resolve-linker.svg",
     "src/content/post/attachments/Untitled-3.svg",
     "src/content/post/attachments/compiler-build-symbols-resolve-linker-dark.svg",
@@ -175,7 +176,6 @@
     "dist/_pagefind/fragment/en-us_cf30c8b.pf_fragment",
     "dist/_pagefind/fragment/en-us_ccb21b6.pf_fragment",
     "dist/_pagefind/fragment/en-us_c3f1b2a.pf_fragment",
-    "dist/_astro/cover.5979bf5e_Z1fyXQF.webp",
     "Readme.md",
     "Pasted image 20230920014219.png.md",
     "conflict-files-obsidian-git.md",

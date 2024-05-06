@@ -8,15 +8,12 @@ tags:
   - systems
 draft: true
 
-
-
 ---
+export let isDarkMode = null;
 
 import { Picture, Image } from 'astro:assets';
 import LightImage from './attachments/compiler-build-symbols-resolve-linker.svg';
 import DarkImage from './attachments/compiler-build-symbols-resolve-linker-dark.svg';
-
-
 
 Goals
 - Basics of Linking in Unix systems
@@ -37,7 +34,7 @@ What are Symbols?
 
 Symbols are how we go from variable names -> memory addresses in machine instructions. 
 
-<Picture alt="Compiler Build Symbols Resolved by Linker" src={LightImage}>
+<Picture alt="Compiler Build Symbols Resolved by Linker" src={isDarkMode ? DarkImage: LightImage}>
   <source srcSet={DarkImage} media="(prefers-color-scheme: dark)" alt="Compiler Build Symbols Resolved by Linker"/>
   <source srcSet={LightImage} media="(prefers-color-scheme: light)" alt="Compiler Build Symbols Resolved by Linker"/>
   {/* <img src={LightImage} alt="Compiler Build Symbols Resolved by Linker" /> */}
