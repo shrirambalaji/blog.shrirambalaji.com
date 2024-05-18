@@ -77,8 +77,11 @@ $ sudo apt install build-essential
 We can also choose a different linker like [`lld`](https://lld.llvm.org)which is LLVM's linker or [mold](https://github.com/rui314/mold). [LLVM](https://llvm.org)is another compiler toolchain like gcc, but aims to be modular. Mold is a more recent alternative and is several times quicker based on their benchmarks.
 
 
+##  Rust Compilation Pipeline
 
-##  Rust Compilation and the  `.o` object file
+The rust compilation pipeline involves a series of steps 
+
+##  Building the output - The  `.o` object file
 
 It's a systems language, so obviously our expectation is to be similar to C - right? Just let me compile, and give me an object file that I can link to later? That's called [dynamic linking](https://en.wikipedia.org/wiki/Dynamic_linker) and that's the default of how things work with C, C++.
 
