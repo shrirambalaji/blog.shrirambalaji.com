@@ -147,6 +147,8 @@
   },
   "active": "ca97d97c70f33b9e",
   "lastOpenFiles": [
+    "src/content/post/image-switching-based-on-astro-theme.md",
+    "src/content/post/resolving-rust-symbols copy.mdx",
     "src/components/ThemedImage.astro",
     "src/content/post/attachments/compiler-build-symbols-resolve-linker.svg",
     "src/content/post/attachments/Untitled-3.svg",
@@ -174,8 +176,6 @@
     "dist/_pagefind/index/en-us_62be46d.pf_index",
     "dist/_pagefind/fragment/en-us_ef3c6e1.pf_fragment",
     "dist/_pagefind/fragment/en-us_cf30c8b.pf_fragment",
-    "dist/_pagefind/fragment/en-us_ccb21b6.pf_fragment",
-    "dist/_pagefind/fragment/en-us_c3f1b2a.pf_fragment",
     "Readme.md",
     "Pasted image 20230920014219.png.md",
     "conflict-files-obsidian-git.md",
