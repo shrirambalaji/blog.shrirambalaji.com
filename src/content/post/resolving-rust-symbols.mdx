@@ -28,23 +28,25 @@ Goals
 
 # Understanding Linking
 
-"Programmers tend to build their programs on top of libraries of reusable code — for example, libc, which we talked about earlier. When turning your source code into an executable binary, a program called a linker resolves all these references by finding the library code and copying it into the binary. This process is called _static linking_, which means external code is included directly in the file that’s distributed."
+"Programmers tend to build their programs on top of libraries of reusable code. When turning your source code into an executable binary, a program called a linker resolves all these references by finding the library code and copying it into the binary. This process is called _static linking_, which means external code is included directly in the file that’s distributed."
 
 A simple analogy for a Linker:
 > Executable Linkers are basically just home theater setups - Chris Kanich
 
 What are Symbols?
 
-Symbols are how we go from variable names -> memory addresses in machine instructions. 
+Symbols are how we go from variable names to memory addresses in machine instructions. 
 
 <ThemedImage alt="Compiler Build Symbols Resolved by Linker" 
   src={"/src/content/post/attachments/compiler-build-symbols-resolve-linker.svg"} 
   darkSrc={"/src/content/post/attachments/compiler-build-symbols-resolve-linker-dark.svg"}> 
 </ThemedImage>
 
-In compiled language like C, C++, or Rust, a build consists of two phases. In the first phase, a compiler compiles source files into object files (`.o` files). In the second phase, a linker takes all object files and combines them into a single executable or shared library file.
+In compiled languages like C, C++, or Rust, a build step consists of two phases. In the first phase, a compiler compiles source files into object files (`.o` files). In the second phase, a linker takes all object files and combines them into a single executable or shared library file.
 
-## Linking in Linux systems
+## What does a Linker do (in linux)?
+
+I wanted to understand platform specific linking mechanisms, but first we will look at it from a linux perspective. 
 
 Let's setup a simple rust project in a Ubuntu Virtual Machine, and try to understand linking with it. I'm using [orbstack](https://docs.orbstack.dev/architecture#:~:text=OrbStack%20uses%20a%20lightweight%20Linux,integration%20with%20macOS%2C%20and%20more.) to create a "machine" on macOS which work like traditional vms, but shares the same kernel. 
 
@@ -73,6 +75,8 @@ $ sudo apt install build-essential
 ```
 
 We can also choose a different linker like [`lld`](https://lld.llvm.org)which is LLVM's linker or [mold](https://github.com/rui314/mold). [LLVM](https://llvm.org)is another compiler toolchain like gcc, but aims to be modular. Mold is a more recent alternative and is several times quicker based on their benchmarks.
+
+
 
 ##  Rust Compilation and the  `.o` object file
 
