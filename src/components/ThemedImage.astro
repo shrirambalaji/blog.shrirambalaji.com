@@ -27,15 +27,19 @@ if (darkSrc && !images[darkSrc]) {
 	function updateImageSrc(event) {
 		let isDarkMode = document.documentElement.classList.contains("dark");
 		if (event && event.detail?.theme === "dark") {
-            isDarkMode = true;
-        }
-		const img = document.getElementById("themed-image");
-		if (img && img.src) {
-			let attribute = isDarkMode ? img.getAttribute("data-dark-src") : img.getAttribute("data-src");
-			img.src = attribute ?? "";
+			isDarkMode = true;
+		}
+		const images = document.querySelectorAll("#themed-image");
+		for (const img of images) {
+			if (img && img.src) {
+				let attribute = isDarkMode
+					? img.getAttribute("data-dark-src")
+					: img.getAttribute("data-src");
+				img.src = attribute ?? "";
+			}
 		}
 	}
 	window.addEventListener("DOMContentLoaded", updateImageSrc);
-	window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", updateImageSrc);
-	document.addEventListener("theme-change", updateImageSrc); // Listen to the "theme-change" event
+	// window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", updateImageSrc);
+	document.addEventListener("theme-change", updateImageSrc);
 </script>

@@ -147,6 +147,9 @@
   },
   "active": "41dfe80496e3a50b",
   "lastOpenFiles": [
+    "src/content/post/attachments/rust-compilation-dark.svg",
+    "src/content/post/attachments/rust-compilation.dark.svg",
+    "src/content/post/attachments/rust-compilation.svg",
     "src/content/post/image-switching-based-on-astro-theme.md",
     "src/content/post/getting-started-with-open-source.md",
     "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
@@ -172,8 +175,6 @@
     "src/content/post/Untitled.md",
     "pnpm-lock.yaml.2364220546",
     "Pasted image 20230921000042.png.md",
-    "src/content/post/attachments/blog-pagespeed-result.png",
-    "src/content/post/attachments/hashnode-pagespeed-result-opportunities.png",
     "dist/_pagefind/index/en-us_62be46d.pf_index",
     "dist/_pagefind/fragment/en-us_ef3c6e1.pf_fragment",
     "Readme.md",
