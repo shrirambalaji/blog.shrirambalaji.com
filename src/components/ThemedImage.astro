@@ -21,7 +21,8 @@ if (darkSrc && !images[darkSrc]) {
 }
 ---
 
-<img id="themed-image" src={src} alt={alt} data-dark-src={darkSrc} data-src={src} />
+<!-- pass all props to img -->
+<img id="themed-image" {...Astro.props} src={src} alt={alt} data-dark-src={darkSrc} data-src={src} />
 
 <script is:inline>
 	function updateImageSrc(event) {
