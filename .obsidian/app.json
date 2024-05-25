@@ -1,4 +1,8 @@
 {
   "attachmentFolderPath": "./attachments",
-  "vimMode": true
+  "vimMode": true,
+  "readableLineLength": false,
+  "strictLineBreaks": false,
+  "showLineNumber": true,
+  "defaultViewMode": "source"
 }

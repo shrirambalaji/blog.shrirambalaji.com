@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "14eb4ea38e638caa",
+        "id": "f9b3368aefc0a57b",
         "type": "tabs",
         "children": [
           {
-            "id": "ca97d97c70f33b9e",
+            "id": "41dfe80496e3a50b",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -145,9 +145,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ca97d97c70f33b9e",
+  "active": "41dfe80496e3a50b",
   "lastOpenFiles": [
     "src/content/post/image-switching-based-on-astro-theme.md",
+    "src/content/post/getting-started-with-open-source.md",
+    "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
+    "src/content/post/resolving-rust-symbols.mdx",
+    "src/content/post/mutability-in-rust.md",
+    "src/content/post/attachments/obsidian-git-ios-screenshot.png",
+    "src/content/post/building-blocks-of-3d/index.mdx",
     "src/content/post/resolving-rust-symbols copy.mdx",
     "src/components/ThemedImage.astro",
     "src/content/post/attachments/compiler-build-symbols-resolve-linker.svg",
@@ -157,11 +163,7 @@
     "src/content/post/attachments/compiler-build-symbols-resolve-linker.png",
     "src/content/post/attachments/Untitled.png",
     "src/content/post/Untitled.svg",
-    "src/content/post/resolving-rust-symbols.mdx",
-    "src/content/post/getting-started-with-open-source.md",
-    "src/content/post/mutability-in-rust.md",
     "src/content/post/rust-aoc-day-01.md",
-    "src/content/post/astro-nomical-switch-hashnode-to-astro.mdx",
     "src/content/templates/blogpost.mdx",
     "src/content/post/designing-ai-for-tomorrow.mdx",
     "Untitled.md",
@@ -172,10 +174,8 @@
     "Pasted image 20230921000042.png.md",
     "src/content/post/attachments/blog-pagespeed-result.png",
     "src/content/post/attachments/hashnode-pagespeed-result-opportunities.png",
-    "src/content/post/attachments/hashnode-pagespeed-result.png",
     "dist/_pagefind/index/en-us_62be46d.pf_index",
     "dist/_pagefind/fragment/en-us_ef3c6e1.pf_fragment",
-    "dist/_pagefind/fragment/en-us_cf30c8b.pf_fragment",
     "Readme.md",
     "Pasted image 20230920014219.png.md",
     "conflict-files-obsidian-git.md",

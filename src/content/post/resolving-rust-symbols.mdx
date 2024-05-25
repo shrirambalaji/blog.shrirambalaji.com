@@ -9,12 +9,8 @@ tags:
 draft: true
 
 ---
-export let isDarkMode = null;
-
 import { Picture, Image } from 'astro:assets';
-
 import ThemedImage from "@/components/ThemedImage";
-
 import LightImage from './attachments/compiler-build-symbols-resolve-linker.svg';
 import DarkImage from './attachments/compiler-build-symbols-resolve-linker-dark.svg';
 
@@ -46,8 +42,6 @@ In compiled languages like C, C++, or Rust, a build step consists of two phases.
 
 ## What does a Linker do (in linux)?
 
-I wanted to understand platform specific linking mechanisms, but first we will look at it from a linux perspective. 
-
 Let's setup a simple rust project in a Ubuntu Virtual Machine, and try to understand linking with it. I'm using [orbstack](https://docs.orbstack.dev/architecture#:~:text=OrbStack%20uses%20a%20lightweight%20Linux,integration%20with%20macOS%2C%20and%20more.) to create a "machine" on macOS which work like traditional vms, but shares the same kernel. 
 
 After setting up rust in the vm using [rustup](https://rustup.rs), we use cargo to create a new rust project.
@@ -76,8 +70,11 @@ $ sudo apt install build-essential
 
 We can also choose a different linker like [`lld`](https://lld.llvm.org)which is LLVM's linker or [mold](https://github.com/rui314/mold). [LLVM](https://llvm.org)is another compiler toolchain like gcc, but aims to be modular. Mold is a more recent alternative and is several times quicker based on their benchmarks.
 
-
 ##  Rust Compilation Pipeline
+<ThemedImage alt="Rust Compilation Pipeline" 
+  src={"/src/content/post/attachments/compiler-build-symbols-resolve-linker.svg"} 
+  darkSrc={"/src/content/post/attachments/compiler-build-symbols-resolve-linker-dark.svg"}> 
+</ThemedImage>
 
 The rust compilation pipeline involves a series of steps 
 
