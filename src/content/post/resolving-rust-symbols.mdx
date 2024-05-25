@@ -31,18 +31,18 @@ A simple analogy for a Linker:
 
 What are Symbols?
 
-Symbols are how we go from variable names to memory addresses in machine instructions. 
+Symbols are how we go from variable names to memory addresses in machine instructions.
 
-<ThemedImage alt="Compiler Build Symbols Resolved by Linker" 
-  src={"/src/content/post/attachments/compiler-build-symbols-resolve-linker.svg"} 
-  darkSrc={"/src/content/post/attachments/compiler-build-symbols-resolve-linker-dark.svg"}> 
+<ThemedImage alt="Compiler Build Symbols Resolved by Linker"
+  src={"/src/content/post/attachments/rust-compilation.svg"}
+  darkSrc={"/src/content/post/attachments/compiler-build-symbols-resolve-linker-dark.svg"}>
 </ThemedImage>
 
 In compiled languages like C, C++, or Rust, a build step consists of two phases. In the first phase, a compiler compiles source files into object files (`.o` files). In the second phase, a linker takes all object files and combines them into a single executable or shared library file.
 
 ## What does a Linker do (in linux)?
 
-Let's setup a simple rust project in a Ubuntu Virtual Machine, and try to understand linking with it. I'm using [orbstack](https://docs.orbstack.dev/architecture#:~:text=OrbStack%20uses%20a%20lightweight%20Linux,integration%20with%20macOS%2C%20and%20more.) to create a "machine" on macOS which work like traditional vms, but shares the same kernel. 
+Let's setup a simple rust project in a Ubuntu Virtual Machine, and try to understand linking with it. I'm using [orbstack](https://docs.orbstack.dev/architecture#:~:text=OrbStack%20uses%20a%20lightweight%20Linux,integration%20with%20macOS%2C%20and%20more.) to create a "machine" on macOS which work like traditional vms, but shares the same kernel.
 
 After setting up rust in the vm using [rustup](https://rustup.rs), we use cargo to create a new rust project.
 
@@ -60,7 +60,7 @@ error: linker `cc` not found
   = note: No such file or directory (os error 2)
 ```
 
-Hmm, an error. We run into a ```linker `cc` not found error``` because the rust installer assumes that a C linker is already installed, instead of checking for the necessary compiler toolchain. 
+Hmm, an error. We run into a ```linker `cc` not found error``` because the rust installer assumes that a C linker is already installed, instead of checking for the necessary compiler toolchain.
 
 On linux machines, the de-facto toolchain is `gcc`(GNU Compiler Collection) which seems to be missing. The `build-essential` meta package has `gcc` and a couple other packages. Let's install that!
 
@@ -71,20 +71,20 @@ $ sudo apt install build-essential
 We can also choose a different linker like [`lld`](https://lld.llvm.org)which is LLVM's linker or [mold](https://github.com/rui314/mold). [LLVM](https://llvm.org)is another compiler toolchain like gcc, but aims to be modular. Mold is a more recent alternative and is several times quicker based on their benchmarks.
 
 ##  Rust Compilation Pipeline
-<ThemedImage alt="Rust Compilation Pipeline" 
-  src={"/src/content/post/attachments/compiler-build-symbols-resolve-linker.svg"} 
-  darkSrc={"/src/content/post/attachments/compiler-build-symbols-resolve-linker-dark.svg"}> 
+<ThemedImage alt="Rust Compilation Pipeline"
+  src={"/src/content/post/attachments/rust-compilation.svg"}
+  darkSrc={"/src/content/post/attachments/compiler-build-symbols-resolve-linker-dark.svg"}>
 </ThemedImage>
 
-The rust compilation pipeline involves a series of steps 
+The rust compilation pipeline involves a series of steps
 
 ##  Building the output - The  `.o` object file
 
 It's a systems language, so obviously our expectation is to be similar to C - right? Just let me compile, and give me an object file that I can link to later? That's called [dynamic linking](https://en.wikipedia.org/wiki/Dynamic_linker) and that's the default of how things work with C, C++.
 
-Rust prefers the opposite called [static linking](https://en.wikipedia.org/wiki/Static_library) wherein it will link in all Rust and native dependencies, producing a single distributable binary as described above. 
+Rust prefers the opposite called [static linking](https://en.wikipedia.org/wiki/Static_library) wherein it will link in all Rust and native dependencies, producing a single distributable binary as described above.
 
-> A [_crate_](https://doc.rust-lang.org/reference/crates-and-source-files.html) is a unit of compilation and linking, as well as versioning, distribution, and runtime loading. A crate contains a _tree_ of nested [module](https://doc.rust-lang.org/reference/items/modules.html) scopes. 
+> A [_crate_](https://doc.rust-lang.org/reference/crates-and-source-files.html) is a unit of compilation and linking, as well as versioning, distribution, and runtime loading. A crate contains a _tree_ of nested [module](https://doc.rust-lang.org/reference/items/modules.html) scopes.
 
 In Rust,  called a `bin` crate in rust, and is the default type of crate we get when we initialize a new project with `cargo`
 
@@ -111,11 +111,11 @@ fn main() {
 }
 ```
 
-But, there's a catch - the raw .o file doesn't have enough information that `rustc` needs to generate stubs / shims and invoke the linker. Moreover, the arguments we pass onto the linkers are crate-specific, and that information is missing in the object files. 
+But, there's a catch - the raw .o file doesn't have enough information that `rustc` needs to generate stubs / shims and invoke the linker. Moreover, the arguments we pass onto the linkers are crate-specific, and that information is missing in the object files.
 
 So back to square one - by default in the `bin` crate or with just a single file, the generated `.o` object files are not  useful.
 
-## 
+##
 
 
 References:
