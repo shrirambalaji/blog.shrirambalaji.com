@@ -84,17 +84,16 @@ We can also choose a different linker like [`lld`](https://lld.llvm.org)which is
 
 We'll come across LLVM again, because `rustc` relies heavily on LLVM during different stages of compilation.
 
-```shell
 
 ##  Rust Compilation Pipeline
 
 <ThemedImage alt="Rust Compilation Pipeline"
   src={"/src/content/post/attachments/rust-compilation.svg"}
-  darkSrc={"/src/content/post/attachments/rust-compilation-dark.svg"}>
-  width={500}
+  darkSrc={"/src/content/post/attachments/rust-compilation-dark.svg"}
+  width={500}>
 </ThemedImage>
 
-The rust compilation pipeline involves a series of steps 
+The rust compilation pipeline involves a series of steps, starting from the source code to the final executable.
 
 ##  Building the output - The  `.o` object file
 
