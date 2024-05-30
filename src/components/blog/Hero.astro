@@ -20,11 +20,11 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 {
 	data.coverImage && (
-		<div class="aspect-h-9 aspect-w-16 mb-6 rounded-lg">
+		<div class="aspect-h-9 aspect-w-16 rounded-lg">
 			<Image
 				src={data.coverImage.src}
 				alt={data.coverImage.alt}
-				class="object-cover rounded-lg"
+				class="rounded-lg border-1 border-indigo-400/50"
 				loading="eager"
 				fetchpriority="high"
 			/>
