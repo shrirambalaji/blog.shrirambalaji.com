@@ -20,18 +20,18 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 {
 	data.coverImage && (
-		<div class="aspect-h-9 aspect-w-16 rounded-lg">
+		<div class="aspect-h-9 aspect-w-16 mb-2 rounded-lg">
 			<Image
 				src={data.coverImage.src}
 				alt={data.coverImage.alt}
-				class="rounded-lg border-1 border-indigo-400/50"
+				class={`${data.coverImage.contain ? 'object-contain': 'object-cover'}border-1 border-indigo-400/50 rounded-lg`}
 				loading="eager"
 				fetchpriority="high"
 			/>
 		</div>
 	)
 }
-<h1 class="title mb-3 sm:mb-1">{data.title}</h1>
+<h1 class="title mb-3 mt-4 sm:mb-1">{data.title}</h1>
 <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
 	<p class="font-semibold font-mono text-gray-400 text-sm dark:text-ghostindigo-500">
 		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} /> 
