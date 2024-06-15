@@ -1,7 +1,7 @@
 ---
 title: Resolving Rust Symbols
 description: This article is about my understanding of Rust linking, detailing learnings along the way about Linking in Unix systems, how Rust linkage differs from C, trying different linkers like mold, lld and understanding what they offer.
-publishDate: May 15 2024
+publishDate: May 15, 2024
 tags:
   - rust
   - linking
@@ -87,19 +87,37 @@ We'll come across LLVM again, because `rustc` relies heavily on LLVM during diff
 
 ##  Rust Compilation Pipeline
 
-<ThemedImage alt="Rust Compilation Pipeline"
-  src={"/src/content/post/attachments/rust-compilation.svg"}
-  darkSrc={"/src/content/post/attachments/rust-compilation-dark.svg"}
-  width={500}>
-</ThemedImage>
 
-The rust compilation pipeline involves a series of steps, starting from the source code to the final executable.
+The rust compilation pipeline involves a series of steps, starting from the source code to the final executable. 
+
+### Lexing and parsing 
+
+The source code is analyzed by a [lexer (`rustc_lexer`)](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_lexer/index.html) and converted into a stream of [tokens](). Then, the [parser (`rustc_parse`)](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_parse/index.html) takes in the stream of tokens and converts it into an [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree) (AST).
+
+### HIR & MIR
+
+The AST from the previous step is converted into a HIR (High-level Intermediate Representation), which is a friendlier representation to work with. During this step the compiler does the following:
+- Performs macro expansion
+- Desugars syntactic sugar
+- [Type inference](https://rustc-dev-guide.rust-lang.org/type-inference.html) ie. automatically deducing the types of variables and expressions
+- [Trait Solving](https://rustc-dev-guide.rust-lang.org/traits/resolution.html) → Finding the correct implementation of a trait for a type
+- [Type Checking](https://rustc-dev-guide.rust-lang.org/type-checking.html) → Converting HIR types (hir::Ty) to Rustc's internal types (ty::Ty)
+
+The process of converting AST to HIR is called **lowering**. Then, the HIR is further lowered into an MIR (Middle-level Intermediate Representation), which is a more low-level representation. During this transformation, the compiler performs optimizations and does Monomorphization.
+
+Monomorphization is the fancy term for generating specialized code for each type that a generic function is called with. This helps reduce the overhead of generics in Rust, and that's why Rust is often referred to as a "zero-cost abstractions" language. But hey, let's not forget, there's no such thing as a **free lunch**. The cost is _probably_ paid during compilation.
+
+### Code Generation
+
+The MIR is then converted into LLVM IR (Intermediate Representation)is used by the LLVM toolchain. We will come back to LLVM IR, because it's pretty interesting.
+
+The LLVM-IR is passed to LLVM, which does a bunch of fancy optimizations on it, spitting out machine code that's basically assembly code with some extra low-level types and annotations (like an ELF object or WASM). Then, all the different libraries and binaries are linked together to create the final binary.
 
 ##  Building the output - The  `.o` object file
 
 It's a systems language, so obviously our expectation is to be similar to C - right? Just let me compile, and give me an object file that I can link to later? That's called [dynamic linking](https://en.wikipedia.org/wiki/Dynamic_linker) and that's the default of how things work with C, C++.
 
-Rust prefers the opposite called [static linking](https://en.wikipedia.org/wiki/Static_library) wherein it will link in all Rust and native dependencies, producing a single distributable binary as described above.
+Rust prefers the opposite - called [static linking](https://en.wikipedia.org/wiki/Static_library) wherein it will link in all Rust and native dependencies, producing a single distributable binary as described above.
 
 > A [_crate_](https://doc.rust-lang.org/reference/crates-and-source-files.html) is a unit of compilation and linking, as well as versioning, distribution, and runtime loading. A crate contains a _tree_ of nested [module](https://doc.rust-lang.org/reference/items/modules.html) scopes.
 
@@ -132,9 +150,72 @@ But, there's a catch - the raw .o file doesn't have enough information that `rus
 
 So back to square one - by default in the `bin` crate or with just a single file, the generated `.o` object files are not  useful.
 
-##
+## But I really want to see the `.o` files!
+
+If you really want to see the `.o` files, you can use the `--crate-type` flag to specify the type of crate you want to build. The `--crate-type` flag tells `rustc` to emit a specific type of crate, like a `rlib` (Rust library), `dylib` (dynamic library), or `staticlib` (static library).
+
+However, I'm not going to do that. Instead we will try the above method akin to how we will link a C program.
+
+Let's create a simple rust program, foo.rs:
+
+```rust
+    // foo.rs
+    #![no_main]
+    
+    #[no_mangle]
+    pub static mut Global: i32 = 5;
+  
+    #[no_mangle]
+    pub fn foo() {
+        unsafe {
+            Global = 10;
+       }
+   }
+```
+
+The `#![no_main]` attribute tells the compiler that there is no `main` function, and effectively not to throw a compiler error when it doesn't find one. The `#[no_mangle]` attribute tells the compiler not to mangle the function name.
+
+What's Mangling?
+
+When Rust code is compiled, identifiers are “mangled” ie. transformed into a different name to include additional information. For example, with mangling enabled (ie. by default) the above foo `Global` variable gets mangled to `__ZN11foo6Global17ha2a12041c4e557c5E`. This is done to avoid naming conflicts when linking with other libraries, however we disable it with `#[no_mangle]` so that the symbol name is preserved, and can be easily linked with other languages by name. It also helps in reading the symbol table as we will see later.
+
+
+Similarly let's create a `bar.rs` file:
+
+```rust
+    // bar.rs
+    extern "C" {
+      static mut Global: i32;
+      fn foo();
+    }
+
+    #[no_mangle]
+    pub static mut Global: i32 = 5;
+  
+    #[no_mangle]
+    pub extern "C" fn bar() {
+        let mut a = 100;
+        unsafe {
+            foo();
+            a = Global;
+        }
+        a += 200;
+   }
+
+
+   fn main() {
+      unsafe {
+          foo();
+          bar();
+      }
+   }
+```
+
+The `extern "C"` block tells the compiler that the function or variable is defined in another language. You may wonder why it's `extern C`, and that's because this doesn't mean we are inter-operating with C, but rather the ABI (Application Binary Interface) that the function or variable uses. In this case, it's the C ABI. 
+
 
 
 References:
+- [High Level Compiler Architecture - Rustc Guide](https://rustc-dev-guide.rust-lang.org/overview.html)
 - https://blog.mozilla.org/nnethercote/2019/10/10/visualizing-rust-compilation/
 - https://medium.com/@squanderingtime/manually-linking-rust-binaries-to-support-out-of-tree-llvm-passes-8776b1d037a4
