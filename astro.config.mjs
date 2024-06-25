@@ -3,28 +3,39 @@ import fs from "fs";
 import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
-import prefetch from "@astrojs/prefetch";
 import remarkUnwrapImages from "remark-unwrap-images";
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
 import embeds from "astro-embed/integration";
-import shikiji from "rehype-shikiji";
 import rehypeExternalLinks from "rehype-external-links";
+import {
+	transformerNotationHighlight,
+	transformerNotationDiff,
+	transformerNotationWordHighlight,
+	transformerNotationErrorLevel,
+	transformerMetaHighlight,
+	transformerMetaWordHighlight,
+} from "@shikijs/transformers";
 
 // https://astro.build/config
 export default defineConfig({
 	site: "https://blog.shrirambalaji.com",
 	markdown: {
-		syntaxHighlight: false,
-		rehypePlugins: [
-			[
-				shikiji,
-				{
-					themes: {
-						light: "github-light",
-						dark: "github-dark",
-					},
-				},
+		syntaxHighlight: "shiki",
+		shikiConfig: {
+			themes: {
+				dark: "github-dark",
+				light: "github-light",
+			},
+			transformers: [
+				transformerNotationHighlight(),
+				transformerNotationDiff(),
+				transformerNotationWordHighlight(),
+				transformerNotationErrorLevel(),
+				transformerMetaHighlight(),
+				transformerMetaWordHighlight(),
 			],
+		},
+		rehypePlugins: [
 			[
 				rehypeExternalLinks,
 				{
@@ -74,10 +85,9 @@ export default defineConfig({
 		embeds(),
 		mdx({}),
 		tailwind({
-			applyBaseStyles: false,
+			// applyBaseStyles: false,
 		}),
 		sitemap(),
-		prefetch(),
 	],
 	vite: {
 		plugins: [rawFonts([".ttf"])],
@@ -85,6 +95,7 @@ export default defineConfig({
 			exclude: ["@resvg/resvg-js"],
 		},
 	},
+	prefetch: true,
 });
 function rawFonts(ext) {
 	return {

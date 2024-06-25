@@ -8,32 +8,13 @@
 		--image-filter: grayscale(0%);
 		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
 		--theme-bg: 0deg 0% 100%;
-		--theme-link: 234.45deg 89.47% 65%;
+		--theme-link: 234.45deg 70% 62%;
 		--theme-text: 203deg 11% 15%;
-		--theme-accent: 234.45deg 89.47% 65%;
+		--theme-accent: 234.45deg 70% 62%;
 		--theme-accent-2: 0deg 0% 7%;
-		--theme-quote: 234.45deg 89.47% 65%;
-
-		/* --astro-code-color-foreground: #212121;
-		--astro-code-color-background: #fefefe;
-		--astro-code-token-default: #1976d2;
-		--astro-code-token-constant: #1976d2;
-		--astro-code-token-string: #22863a;
-		--astro-code-token-comment: #c2c3c5;
-		--astro-code-token-keyword: #d32f2f;
-		--astro-code-token-parameter: #ff9800;
-		--astro-code-token-function: #6f42c1;
-		--astro-code-token-string-expression: #212121;
-		--astro-code-token-info: #316bcd;
-		--astro-code-token-warn: #cd9731;
-		--astro-code-token-error: #cd3131;
-		--astro-code-token-debug: #800080;
-		--astro-code-token-strong: #212121;
-		--astro-code-token-punctuation: #212121;
-		--astro-code-token-link: #1976d2;
-		--astro-code-color-text: #212121; */
-
-		--astro-code-border: #f5f5f5;
+		--theme-quote: 234.45deg 70% 62%;
+		--code-line-highlight-color: hsl(234, 100%, 92%);
+		--astro-code-border: hsl(234.45deg 89.47% 90%) !important;
 	}
 
 	:root.dark {
@@ -45,28 +26,9 @@
 		--theme-accent: 229.66 93.55% 81.76%;
 		--theme-accent-2: 229.66 93.55% 81.76%;
 		--theme-quote: 229.66 93.55% 81.76%;
-
-		/* * available variables when using theme="custom"
-		--astro-code-color-foreground: #959cbd;
-		--astro-code-color-background: #111118;
-		--astro-code-token-default: #79b8ff;
-		--astro-code-token-constant: #79b8ff;
-		--astro-code-token-string: #ffab70;
-		--astro-code-token-comment: #6b737c;
-		--astro-code-token-keyword: #f97583;
-		--astro-code-token-parameter: #ff9800;
-		--astro-code-token-function: #b392f0;
-		--astro-code-token-string-expression: #fff;
-		--astro-code-token-info: #316bcd;
-		--astro-code-token-warn: #cd9731;
-		--astro-code-token-error: #cd3131;
-		--astro-code-token-debug: #800080;
-		--astro-code-token-strong: #fff;
-		--astro-code-token-punctuation: #bbbbbb;
-		--astro-code-token-link: #1976d2;
-		--astro-code-color-text: #fff;
-		*/
-		--astro-code-border: #262636;
+		--shiki-dark-bg: hsl(240deg 17.1% 8%);
+		--code-line-highlight-color: hsl(240deg 17.1% 14%);
+		--astro-code-border: #262636 !important;
 	}
 
 	html {
@@ -114,16 +76,27 @@
 }
 
 
-.shiki,
-.shiki span {
+.astro-code,
+.astro-code span {
 	@apply text-base leading-7;
 	tab-size: 2;
 }
 
-.dark .shiki,
-.dark .shiki span {
+.dark .astro-code span {
 	color: var(--shiki-dark) !important;
-	background-color: hsl(var(--theme-bg)) !important;
+}
+
+.dark .astro-code {
+		background-color: hsl(var(--theme-bg)) !important;
+}
+
+.astro-code .highlighted {
+	background-color: var(--code-line-highlight-color) !important;
+	transition: background-color .5s;
+	margin: 0 -24px;
+	padding: 0 24px;
+	width: calc(100% + 48px);
+	display: inline-block;
 }
 
 /* astro-tweet dark theme */

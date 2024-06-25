@@ -8,9 +8,8 @@ tags:
   - systems
 draft: true
 coverImage:
-  src: "/src/content/post/attachments/rust-compilation-dark.svg"
+  src: "/src/content/post/attachments/rust-compilation-dark.png"
   alt: "Resolving Rust Symbols Cover"
-  contain: true
 
 ---
 import { Picture, Image } from 'astro:assets';
@@ -26,7 +25,7 @@ Goals
 - Dive deeper
 - Part II follow up for Windows
 
-# Understanding Linking
+## Understanding Linking
 
 > Programmers tend to build their programs on top of libraries of reusable code. When turning your source code into an executable binary, a program called a linker resolves all these references by finding the library code and copying it into the binary. This process is called _static linking_, which means external code is included directly in the file that’s distributed.
 
@@ -166,7 +165,7 @@ However, I'm not going to do that. Instead we will try the above method akin to 
 
 Let's create a simple rust program, foo.rs:
 
-```rust
+```rs
 // foo.rs
 #![no_main]
 
@@ -191,7 +190,7 @@ When Rust code is compiled, identifiers are “mangled” ie. transformed into a
 
 Similarly let's create a `bar.rs` file:
 
-```rust
+```rs
 // bar.rs
 extern "C" {
   static mut Global: i32;
@@ -257,7 +256,7 @@ Okay, let's look at the symbol table of `bar.o`:
 
 ```bash
 $ nm bar.o
-               U __ZN4core9panicking5panic17h57fd475c037a9df3E
+               U __ZN4core9panicking5panic17h57fd475c037a9df3E  # [!code highlight]
 0000000000000000 T _bar
                  U _foo
 000000000000006c T _foo_bar
