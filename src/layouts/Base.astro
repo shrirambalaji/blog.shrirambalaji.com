@@ -24,7 +24,7 @@ const {
 <html lang={siteConfig.lang}>
 	<head>
 		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
-		<ViewTransitions />
+		<ViewTransitions transition:animate="fade" />
 	</head>
 	<body class={Astro.url.pathname === "/" ? "px-6": ""}>
 		<ThemeProvider />
