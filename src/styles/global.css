@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
 	:root {
 		color-scheme: light;
@@ -42,6 +43,39 @@
 	.prose {
 		@apply !max-w-3xl xl:max-w-4xl;
 	}
+}
+
+@layer components {
+	*:is(h1, h2, h3, h4, h5, h6) {
+		@apply scroll-mt-10;
+	}
+}
+
+span.anchor-icon {
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.25s ease-in-out;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+/* show anchor-icon only when the heading is hovered */
+h1:hover span.anchor-icon,
+h2:hover span.anchor-icon,
+h3:hover span.anchor-icon,
+h4:hover span.anchor-icon,
+h5:hover span.anchor-icon,
+h6:hover span.anchor-icon {
+	opacity: 1;
+	visibility: visible;
+}
+
+
+#themed-image {
+	opacity: 0;
+	/* Start with images invisible */
+	transition: opacity 0.25s ease-in-out;
+	/* Smooth transition for opacity change */
 }
 
 .prose-lg :where(pre):not(:where([class~="not-prose"] *)) {
