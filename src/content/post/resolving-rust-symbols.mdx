@@ -37,7 +37,9 @@ In compiled languages like C, C++, or Rust, a build step consists of two phases.
 
 In Unix-like systems, the linker is typically `ld` (linker and loader). The linker is responsible for resolving symbols in object files and generating the final executable or shared library.
 
-To understand this from a rust perspective, let's setup a simple rust project. I'll be switching back and forth between Linux and macOS, to compare and contrast things. For the Linux VM, I'm using [orbstack](https://docs.orbstack.dev/architecture#:~:text=OrbStack%20uses%20a%20lightweight%20Linux,integration%20with%20macOS%2C%20and%20more.) to create a "machine" on macOS which work like traditional vms, but shares the same kernel.
+To understand this from a rust perspective, let's setup a simple rust project. I'll be switching back and forth between Linux and macOS, to compare and contrast things.
+
+ For the Linux VM, I'm using [orbstack](https://docs.orbstack.dev/architecture#:~:text=OrbStack%20uses%20a%20lightweight%20Linux,integration%20with%20macOS%2C%20and%20more.) to create a "machine" on macOS which work like traditional vms, but shares the same kernel.
 
 After setting up rust in the vm using [rustup](https://rustup.rs), we use cargo to create a new rust project.
 
@@ -57,7 +59,7 @@ error: linker `cc` not found
 
 Hmm, an error. We run into a ``linker `cc` not found error`` because the rust installer assumes that a C linker is already installed, instead of checking for the necessary compiler toolchain.
 
-On linux machines, the de-facto toolchain is `gcc`(GNU Compiler Collection) which seems to be missing. The default linker `ld` is part of `gcc` and hence needs to be installed (the first time). The `build-essential` meta package has `gcc` and a couple other packages. Let's install that!
+On linux machines, the de-facto toolchain is `gcc`(GNU Compiler Collection) which seems to be missing. The default linker `ld` is part of `gcc` and hence needs to be installed (the first time). The `build-essential` meta package has `gcc` and a couple other packages:
 
 ```shell
 $ sudo apt install build-essential
@@ -136,6 +138,8 @@ I mentioned that rust prefers static linking, but that doesn't mean that it does
 Also, even in the case of the `bin` crate the `.o` files are present in the `/target/debug/incremental/*` directories. If you guessed it already, these are output files from rust's incremental compilation ie. it compiles parts of a crate / project that have changed since the previous build. However, these are typically managed by `rustc` and `cargo` internally.
 
 ## What's inside the `.o` file?
+
+> For some reason, when I use the Linux VM to visualize the symbol tables, the addresses are always `0000000000000000`. I'm not sure why this is the case, but I'll try to figure it out. I'm running the same commands on macOS and Linux, but the output is different. I'll update this section once I figure it out.
 
 We can use the `--emit=obj` file to instruct `rustc` to emit the object files. Yay, easy peasy right? No, it gets a bit tricky after that.
 
@@ -280,14 +284,16 @@ The error message is pretty clear - the `core::panicking::panic` symbol is undef
 Instead of us trying to link the `core` crate and bring in std dependencies, we can create a static library from the `foo.rs` and `bar.rs` files, and then link them together. Let's do that.
 
 ```bash
-$ rustc --crate-type=staticlib -o libfoo.a foo.rs
-$ rustc --crate-type=staticlib -o libbar.a bar.rs
+# create a directory to store the output
+$ mkdir -p target/out
+$ rustc --crate-type=staticlib -o target/out/libfoo.a foo.rs
+$ rustc --crate-type=staticlib -o target/out/libbar.a bar.rs
 ```
 
 Note that the output is a `.a` file, which is a static library / archive in *nix systems. It actually does have the `.o` files we saw above, and we can take a quick peek. We use the `ar` command to list the contents of the archive.
 
 ```bash
-$ ar -t libfoo.a | grep foo
+$ ar -t target/out/libfoo.a | grep foo
 foo.foo.730f9a7e513a85b2-cgu.0.rcgu.o
 foo.10ftosr6tvdwscdu.rcgu.o
 ```
@@ -297,7 +303,7 @@ Interesting, the `.a` file contains the `.o` files we saw earlier, but with a di
 Let's extract the `.o` file and look at the symbol table, again.
 
 ```bash
-$ ar -x libfoo.a foo.foo.730f9a7e513a85b2-cgu.0.rcgu.o
+$ ar -x target/out/libfoo.a foo.foo.730f9a7e513a85b2-cgu.0.rcgu.o
 $ nm foo.foo.730f9a7e513a85b2-cgu.0.rcgu.o 
 0000000000000010 D _Global
 0000000000000000 T _foo
@@ -306,18 +312,122 @@ $ nm foo.foo.730f9a7e513a85b2-cgu.0.rcgu.o
 0000000000000018 s ltmp2
 ```
 
-Ah, yes the same symbols we saw earlier. Let's link the static libraries together.
+Ah, yes the same symbols we saw earlier. 
 
+## Adding a build script
 
+Cargo lets us run a build script before building the project. The build script is a Rust file called `build.rs` that goes in the project's root.
 
+```rust
+// build.rs
+fn main() {
+    println!("cargo:rustc-link-search=native=target/out");
+    println!("cargo:rustc-link-lib=static=foo");
+    println!("cargo:rustc-link-lib=static=bar");
+}
+```
 
+The `cargo:rustc-link-search=native=target/out` tells the compiler to search for the static libraries in the `target/out` directory. The `cargo:rustc-link-lib=static=foo` and `cargo:rustc-link-lib=static=bar` tells the compiler to link the `foo` and `bar` static libraries.
 
+Now, we can compile the project with `cargo build` and it should link the static libraries. Actually, we can even add the previous `rustc` commands to run in the build script so that we can just run `cargo build` to compile the project.
 
+```rust
+use std::process::Command;
 
+fn main() {
+    // rerun if foo.rs or bar.rs changes
+    println!("cargo:rerun-if-changed=src/foo.rs");
+    println!("cargo:rerun-if-changed=src/bar.rs");
 
+    // creates the output directory in target/out
+    std::fs::create_dir_all("target/out").unwrap();
+
+    // Compile foo.rs and bar.rs into a static library
+    Command::new("rustc")
+        .args(&[
+            "--crate-type=staticlib",
+            "src/foo.rs",
+            "-o",
+            "target/out/libfoo.a",
+        ])
+        .status()
+        .unwrap();
+
+    Command::new("rustc")
+        .args(&[
+            "--crate-type=staticlib",
+            "src/bar.rs",
+            "-o",
+            "target/out/libbar.a",
+        ])
+        .status()
+        .unwrap();
+
+    // Tell cargo to tell rustc to link the system foo library
+    println!("cargo:rustc-link-search=native=target/out");
+    println!("cargo:rustc-link-lib=static=foo");
+    println!("cargo:rustc-link-lib=static=bar");
+}
+```
+
+## Validating if everything works
+
+Until now, we don't have a `main.rs` file, so let's create one that calls the `foo` and `bar` functions.
+
+```rust
+// main.rs
+extern "C" {
+    fn foo();
+    fn bar();
+    static mut Global: i32;
+}
+
+fn main() {
+    unsafe {
+        foo();
+        bar();
+        println!("Global: {}", Global);
+    }
+}
+```
+
+### Linker errors on macOS
+
+On macOS, we run into a linker error when trying to compile the project. The error is `ld: library not found for -lSystem`. This is because the linker is trying to link the `System` library, which is a system library on macOS. We can fix this by adding the `macos` linker flag to the `cargo:rustc-link-lib` directive in the build script.
+
+I tried a bunch of different options, including adding a compiler flag `-L` and even went to extent of using `lld` directly instead of the default linker. 
+
+```rust
+// build.rs
+fn main() {
+    println!("cargo:rustc-link-search=native=target/out");
+    println!("cargo:rustc-link-lib=static=foo");
+    println!("cargo:rustc-link-lib=static=bar");
+
+    // Add the macos linker flag
+    println!("cargo:rustc-link-lib=framework=System");
+}
+```
+
+Now, we can run `cargo build` to compile the project. 
 
 ```bash
+$ cargo build
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
 ```
+
+Yay! It compiled successfully, which means the linking was successful. We can run the binary with `cargo run` to see the output.
+
+```bash
+$ cargo run
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/learning-linkers`
+Global: 20
+```
+
+The output is `Global: 20`, which means the `foo` and `bar` functions were called successfully and the `Global` variable was modified by both functions (`Global` was original set to 5).
+     
+
 References:
 
 - [High Level Compiler Architecture - Rustc Guide](https://rustc-dev-guide.rust-lang.org/overview.html)

@@ -14,7 +14,7 @@
 		--theme-accent: 234.45deg 70% 62%;
 		--theme-accent-2: 0deg 0% 7%;
 		--theme-quote: 234.45deg 70% 62%;
-		--code-line-highlight-color: hsl(234, 100%, 92%);
+		--code-line-highlight-color: hsl(0, 0%, 87%);
 		--astro-code-border: hsl(234.45deg 89.47% 90%) !important;
 	}
 
