@@ -1,11 +1,14 @@
 ---
 title: Resolving Rust Symbols
-description: This article is about my understanding of Rust linking, detailing learnings along the way about Linking in Unix systems, how Rust linkage differs from C, symbol resolution, what's inside an ELF file, understanding the Rust compilation pipeline, and linking static Rust libraries manually.
+description: This article is my journey into understanding Rust linking mainly in Unix-like systems, Symbol resolution, ELF Format, Rust compilation process, and manually linking static Rust libraries.
 publishDate: Jul 1, 2024
 tags:
   - rust
-  - linking
-  - systems
+  - linkers
+  - linux
+  - macos
+  - elf
+  - systems programming
 coverImage:
   src: "./cover.png"
   alt: "Resolving Rust Symbols"
@@ -455,7 +458,7 @@ The output `Global: 20` means that the `foo` and `bar` functions were called suc
 
 ## Conclusion
 
-Writing this article was an immense learning for me, to try and understand linking in Rust, starting from the basics of linking in Unix-like systems, symbol resolution, what's inside an ELF file, understanding the Rust compilation pipeline, and finally linking static Rust libraries manually.
+Writing this article was an immense learning for me, to try and understand linking in Rust, starting from the basics of linking in Unix-like systems, symbol resolution, what's inside an ELF format `.o` file, understanding the Rust compilation pipeline, and finally linking static Rust libraries manually.
 
 I might have missed some details, or made some mistakes, so please feel free to correct me. I'm always open to learning new things. Thanks for reading! All the code samples, articles and videos I used for research are linked below in the #[References](#references) section. 
 
