@@ -12,6 +12,8 @@ tags:
 coverImage:
   src: "./cover.png"
   alt: "Resolving Rust Symbols"
+  border: true
+  shouldInvert: true
 ---
 
 import { Picture, Image } from "astro:assets";
@@ -24,8 +26,8 @@ Linking is the process of combining object files into an executable or shared li
 
 <ThemedImage
 	alt="Compiler Build Symbols Resolved by Linker"
-	src={"/public/attachments/compiler-build-symbols-resolve-linker.svg"}
-	darkSrc={"/public/attachments/compiler-build-symbols-resolve-linker-dark.svg"}
+	src={"/attachments/compiler-build-symbols-resolve-linker.svg"}
+	darkSrc={"/attachments/compiler-build-symbols-resolve-linker-dark.svg"}
 ></ThemedImage>
 
 In compiled languages like C, C++, or Rust, a build step consists of two phases. In the first phase, a compiler compiles source files into object files (`.o` files). In the second phase, a linker takes all object files and combines them into a single executable or shared library file. Let's try to understand linking in the context of Rust.
@@ -83,8 +85,8 @@ To understand linking, it's crucial to understand the rust compilation pipeline 
 
 <ThemedImage
 	alt="Rust Compilation - Lexing & Parsing Phase"
-	src={"/public/attachments/rust-compilation-lexing-parsing.svg"}
-	darkSrc={"/public/attachments/rust-compilation-lexing-parsing-dark.svg"}
+	src={"/attachments/rust-compilation-lexing-parsing.svg"}
+	darkSrc={"/attachments/rust-compilation-lexing-parsing-dark.svg"}
   borderDashed
 ></ThemedImage>
 
@@ -108,8 +110,8 @@ Monomorphization is the fancy term for generating specialized code for each type
 
 <ThemedImage
 	alt="Rust Compilation - Building the executable"
-	src={"/public/attachments/rust-compilation-building-executable.svg"}
-	darkSrc={"/public/attachments/rust-compilation-building-executable-dark.svg"}
+	src={"/attachments/rust-compilation-building-executable.svg"}
+	darkSrc={"/attachments/rust-compilation-building-executable-dark.svg"}
   borderDashed
 ></ThemedImage>
 
@@ -208,8 +210,8 @@ This is how the sections are typically organized in an ELF object file:
 
 <ThemedImage
 	alt="ELF Sections in an Object File"
-	src={"/public/attachments/elf-sections.svg"}
-	darkSrc={"/public/attachments/elf-sections-dark.svg"}
+	src={"/attachments/elf-sections.svg"}
+	darkSrc={"/attachments/elf-sections-dark.svg"}
 ></ThemedImage>
 
 <p style={{ fontSize: "0.75em !important", marginTop: '-40px', marginLeft: '25px'}}>source: [CS 361 Systems Programming by Chris Kanich](https://www.youtube.com/watch?v=6XVUIeAaROU&list=PLhy9gU5W1fvUND_5mdpbNVHC1WCIaABbP&index=10)</p>

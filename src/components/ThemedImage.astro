@@ -8,15 +8,25 @@ interface Props {
 }
 
 let { src, alt, darkSrc } = Astro.props;
-const images = import.meta.glob("/public/attachments/*.{jpeg,jpg,png,svg,gif}");
-console.log('>>SHRIRAM>> images', images);
-if (!images[src]) {
-	throw new Error(
-		`"${src}" does not exist in glob: "/attachments/*.{jpeg,jpg,png,svg,gif}"`
-	);
+
+let images;
+let absoluteImageSrc = src;
+let absoluteDarkImageSrc = darkSrc;
+
+// NOTE: when searching the image sources, we need to absolute path, but when rendering the image, we need to remove the "/public" prefix
+if (!absoluteImageSrc.startsWith("/public")) {
+	absoluteImageSrc = `/public${src}`;
+	absoluteDarkImageSrc = darkSrc ? `/public${darkSrc}` : undefined;
+	// this cannot be a string literal because it needs to be pre-compiled
+	images = import.meta.glob("/public/attachments/*.{jpeg,jpg,png,svg,gif}");
 }
 
-if (darkSrc && !images[darkSrc]) {
+if (!images?.[absoluteImageSrc]) {
+	throw new Error(`"${absoluteImageSrc}" does not exist in glob`);
+}
+
+// if darkSrc is not provided, use the src as the darkSrc
+if (darkSrc && absoluteDarkImageSrc && !images[absoluteDarkImageSrc]) {
 	darkSrc = src;
 }
 

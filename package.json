@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"scripts": {
 		"dev": "astro dev",
-		"start": "astro dev",
+		"start": "pnpm build && astro preview",
 		"build": "astro build",
 		"postbuild": "pagefind --source dist",
 		"preview": "astro preview",

@@ -10,6 +10,13 @@
 	function setTheme(theme) {
 		const colorThemeMetaTag = document.querySelector("meta[name='theme-color']");
 		document.documentElement.classList.toggle("dark", theme === "dark");
+
+		if (theme === "dark") {
+			document.documentElement.setAttribute("data-theme", "min-dark");
+		} else {
+			document.documentElement.setAttribute("data-theme", "min-light");
+		}
+
 		const bgColour = getComputedStyle(document.body).getPropertyValue("--theme-bg");
 
 		colorThemeMetaTag.setAttribute("content", `hsl(${bgColour})`);

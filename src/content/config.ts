@@ -26,6 +26,8 @@ const post = defineCollection({
 					src: image(),
 					alt: z.string(),
 					contain: z.boolean().optional(),
+					border: z.boolean().optional(),
+					shouldInvert: z.boolean().optional(),
 				})
 				.optional(),
 			draft: z.boolean().default(false),

@@ -24,7 +24,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 			<Image
 				src={data.coverImage.src}
 				alt={data.coverImage.alt}
-				class={`${data.coverImage.contain ? 'object-contain': 'object-cover'}border-1 border-indigo-400/50 rounded-lg`}
+				class={`${data.coverImage.contain ? "object-contain" : "object-cover"}border-1 rounded-lg ${data.coverImage.border && "border  border-indigo-200 dark:border-ghostindigo-700"} ${data.coverImage.shouldInvert && "border-gray-800 hue-rotate-180  invert dark:invert-0 dark:hue-rotate-0"}`}
 				loading="eager"
 				fetchpriority="high"
 			/>
@@ -33,8 +33,8 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 }
 <h1 class="title mb-3 mt-4 sm:mb-1">{data.title}</h1>
 <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-	<p class="font-semibold font-mono text-gray-400 text-sm dark:text-ghostindigo-500">
-		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} /> 
+	<p class="font-mono text-sm font-semibold text-gray-400 dark:text-ghostindigo-500">
+		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} />
 		<span class="text-gray-200 dark:text-ghostindigo-600">{" "}|{" "}</span>
 		{remarkPluginFrontmatter.minutesRead}
 	</p>
@@ -70,7 +70,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 			{data.tags.map((tag, i) => (
 				<>
 					<a
-						class="astro-link inline-block font-mono text-sm hover:underline-offset-4 hover:underline"
+						class="astro-link inline-block font-mono text-sm hover:underline hover:underline-offset-4"
 						aria-label={`View more blogs with the tag ${tag}`}
 						href={`/tags/${tag}/`}
 						data-pagefind-filter="tag"
