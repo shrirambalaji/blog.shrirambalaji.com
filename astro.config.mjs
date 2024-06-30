@@ -5,7 +5,6 @@ import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import remarkUnwrapImages from "remark-unwrap-images";
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
-import embeds from "astro-embed/integration";
 import rehypeExternalLinks from "rehype-external-links";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import { h } from "hastscript";
@@ -126,7 +125,6 @@ export default defineConfig({
 				},
 			},
 		}),
-		embeds(),
 		mdx({}),
 		tailwind({}),
 		sitemap(),
