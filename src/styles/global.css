@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
 	:root {
 		color-scheme: light;
@@ -32,12 +31,27 @@
 		--astro-code-border: #262636 !important;
 	}
 
+	:root,
+	html[data-theme="min-light"] {
+		--theme-code-tabs: #e4e4e4;
+		--theme-code-bg: #ffffff;
+		--theme-code-active-tab: #e4e4e4;
+		--theme-code-border: #d2d2d2!important;
+	}
+
+	html[data-theme="min-dark"] {
+		--theme-code-tabs: hsl(240deg 17.1% 8%);
+		--theme-code-active-tab: hsl(240deg 17.1% 8%);
+		--theme-code-bg: hsl(240deg 17.1% 9%);
+		--theme-code-border: #262636 !important;
+	}
+
 	html {
 		@apply scroll-smooth;
 	}
 
 	html body {
-		@apply mx-auto flex min-h-screen max-w-5xl xl:max-w-6xl flex-col bg-bgColor px-8 pt-8 font-sans text-lg font-normal text-textColor antialiased;
+		@apply mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor px-8 pt-8 font-sans text-lg font-normal text-textColor antialiased xl:max-w-6xl;
 	}
 
 	.prose {
@@ -70,7 +84,6 @@ h6:hover span.anchor-icon {
 	visibility: visible;
 }
 
-
 #themed-image {
 	opacity: 0;
 	/* Start with images invisible */
@@ -92,7 +105,7 @@ h6:hover span.anchor-icon {
 }
 
 .prose :where(a):not(:where([class~="not-prose"] *)) {
-	@apply hover:underline underline-offset-4;
+	@apply underline-offset-4 hover:underline;
 }
 
 .prose :where(a):not(:where([class~="not-prose"] *)) span {
@@ -109,7 +122,6 @@ h6:hover span.anchor-icon {
 	color: #111118;
 }
 
-
 .astro-code,
 .astro-code span {
 	@apply text-base leading-7;
@@ -121,12 +133,12 @@ h6:hover span.anchor-icon {
 }
 
 .dark .astro-code {
-		background-color: hsl(var(--theme-bg)) !important;
+	background-color: hsl(var(--theme-bg)) !important;
 }
 
-.astro-code .highlighted {
+.expressive-code .highlighted {
 	background-color: var(--code-line-highlight-color) !important;
-	transition: background-color .5s;
+	transition: background-color 0.5s;
 	margin: 0 -24px;
 	padding: 0 24px;
 	width: calc(100% + 48px);
@@ -141,7 +153,7 @@ h6:hover span.anchor-icon {
 		--tweet-font-color-secondary: rgb(139, 152, 165);
 		--tweet-bg-color: hsl(240, 20%, 8%) !important;
 		--tweet-bg-color-hover: hsl(240 15% 9%) !important;
-		--tweet-color-blue-secondary:hsl(234, 94%, 80%) !important;
+		--tweet-color-blue-secondary: hsl(234, 94%, 80%) !important;
 		--tweet-color-blue-secondary-hover: hsla(234, 94%, 80%, 0.147) !important;
 	}
 }
@@ -182,9 +194,11 @@ html:not(.dark) :where(.astro-tweet-theme) {
 	font-size: 1em;
 }
 
-h2, p, a {
+h2,
+p,
+a {
 	letter-spacing: -0.05px;
-		word-spacing: -0.05px;
+	word-spacing: -0.05px;
 }
 
 .prose-lg h2 {

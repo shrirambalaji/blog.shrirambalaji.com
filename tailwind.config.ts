@@ -75,6 +75,8 @@ export default {
 				},
 				DEFAULT: {
 					css: {
+						"blockquote p:first-of-type::before": false,
+						"blockquote p:first-of-type::after": false,
 						a: {
 							"@apply astro-link no-underline": "",
 						},
@@ -88,6 +90,7 @@ export default {
 						},
 						blockquote: {
 							borderLeftWidth: "0",
+							quotes: "none",
 						},
 						hr: {
 							borderTopStyle: "dashed",

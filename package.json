@@ -12,7 +12,6 @@
 	"devDependencies": {
 		"@pagefind/default-ui": "^1.1.0",
 		"@resvg/resvg-js": "^2.6.2",
-		"@shikijs/transformers": "^1.9.0",
 		"@tailwindcss/aspect-ratio": "^0.4.2",
 		"@tailwindcss/typography": "^0.5.13",
 		"@types/eslint": "^8.56.10",
@@ -53,6 +52,7 @@
 		"@motion-canvas/player": "^3.16.0",
 		"astro": "^4.11.1",
 		"astro-embed": "^0.5.1",
+		"astro-expressive-code": "^0.35.3",
 		"astro-icon": "^0.8.2",
 		"astro-tweet": "^0.0.3",
 		"hast-util-to-string": "^3.0.0",
@@ -61,7 +61,8 @@
 		"rehype-external-links": "^3.0.0",
 		"satori": "0.10.4",
 		"satori-html": "^0.3.2",
-		"sharp": "^0.32.6"
+		"sharp": "^0.32.6",
+		"unist-util-visit": "^5.0.0"
 	},
 	"packageManager": "pnpm@8.6.1"
 }

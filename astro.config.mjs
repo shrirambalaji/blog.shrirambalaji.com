@@ -8,18 +8,11 @@ import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
 import embeds from "astro-embed/integration";
 import rehypeExternalLinks from "rehype-external-links";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
-import {
-	transformerNotationHighlight,
-	transformerNotationDiff,
-	transformerNotationWordHighlight,
-	transformerNotationErrorLevel,
-	transformerMetaHighlight,
-	transformerMetaWordHighlight,
-} from "@shikijs/transformers";
 import { h } from "hastscript";
 import autolinkHeadings from "rehype-autolink-headings";
 
 // The following configuration for rehype-autolink-headings was taken from https://github.com/withastro/docs/blob/main/astro.config.ts
+import expressiveCode from "astro-expressive-code";
 const AnchorLinkIcon = h(
 	"svg",
 	{
@@ -41,21 +34,6 @@ export default defineConfig({
 	site: "https://blog.shrirambalaji.com",
 	markdown: {
 		syntaxHighlight: "shiki",
-		shikiConfig: {
-			wrap: true,
-			themes: {
-				dark: "github-dark",
-				light: "github-light",
-			},
-			transformers: [
-				transformerNotationHighlight(),
-				transformerNotationDiff(),
-				transformerNotationWordHighlight(),
-				transformerNotationErrorLevel(),
-				transformerMetaHighlight(),
-				transformerMetaWordHighlight(),
-			],
-		},
 		rehypePlugins: [
 			rehypeHeadingIds,
 			[
@@ -124,11 +102,30 @@ export default defineConfig({
 		domains: ["og.shrirambalaji.com"],
 	},
 	integrations: [
+		expressiveCode({
+			themes: ["min-dark", "min-light"],
+			useDarkModeMediaQuery: false,
+			styleOverrides: {
+				codeBackground: "var(--theme-code-bg)",
+				codeFontSize: "1rem",
+				borderColor: "var(--theme-code-border)",
+				codeFontFamily:
+					"JetBrains Mono Variable, JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+				frames: {
+					shadowColor: "transparent",
+					editorTabBarBackground: "var(--theme-code-tabs)",
+					editorActiveTabBackground: "var(--theme-code-active-tab)",
+					editorActiveTabIndicatorBottomColor: "transparent",
+					editorTabBarBorderBottomColor: "transparent",
+					terminalTitlebarBackground: "var(--theme-code-tabs)",
+					terminalTitlebarBorderBottom: "transparent",
+					terminalBackground: "var(--theme-code-bg)",
+				},
+			},
+		}),
 		embeds(),
 		mdx({}),
-		tailwind({
-			// applyBaseStyles: false,
-		}),
+		tailwind({}),
 		sitemap(),
 	],
 	vite: {
