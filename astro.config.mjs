@@ -105,6 +105,9 @@ export default defineConfig({
 		expressiveCode({
 			themes: ["min-dark", "min-light"],
 			useDarkModeMediaQuery: false,
+			frames: {
+				showCopyToClipboardButton: false,
+			},
 			styleOverrides: {
 				codeBackground: "var(--theme-code-bg)",
 				codeFontSize: "1rem",
