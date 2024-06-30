@@ -100,6 +100,8 @@ The feature list was exactly what I was looking for, and also supported **View T
 
 ### Theming and Code Highlighting
 
+> update: instead of using shiki directly, i've started using https://expressive-code.com/ which is an abstraction over shiki and works phenomenally well. 
+
 Since my portfolio was also on tailwind, it was pretty straightforward to port styles. I just had to update a couple of `css-variables` and replace the fonts to use `Inter` (probably the best font ever, thanks [@rsms](https://twitter.com/rsms)). I still had to make some more stylistic changes to make the starter attuned to my liking (changing the appearance of tags, switching from a monospace font to sans-serif font for readability etc.,)
 
 But, I ran into some troubles with code highlighting. The default Astro + Shiki configuration didn't allow me to switch code themes.
@@ -109,6 +111,8 @@ But, I ran into some troubles with code highlighting. The default Astro + Shiki 
 However, Shiki supports adding CSS Variables that allow to customize tokens in a theme individiually, and then changing those variables for light & dark theme.
 
 ### Shikiji to the rescue
+
+> shikiji has been merged back to shiki. use `shiki` directly, or switch to `astro-expressive-code`.
 
 [Shikiji](https://github.com/antfu/shikiji), a pure ESM focused rewrite of Shiki has native support for dark-light mode theme switching. [Nate Moore](https://twitter.com/n_moore) who co-created astro suggested using this as an alternative to using CSS variables with Astro + Shiki in their discord community. Thanks Nate!
 
