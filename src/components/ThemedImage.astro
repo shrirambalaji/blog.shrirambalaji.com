@@ -8,11 +8,11 @@ interface Props {
 }
 
 let { src, alt, darkSrc } = Astro.props;
-const images = import.meta.glob("/src/content/post/attachments/*.{jpeg,jpg,png,svg,gif}");
-
+const images = import.meta.glob("/public/attachments/*.{jpeg,jpg,png,svg,gif}");
+console.log('>>SHRIRAM>> images', images);
 if (!images[src]) {
 	throw new Error(
-		`"${src}" does not exist in glob: "/src/content/post/attachments/*.{jpeg,jpg,png,svg,gif}"`
+		`"${src}" does not exist in glob: "/attachments/*.{jpeg,jpg,png,svg,gif}"`
 	);
 }
 
