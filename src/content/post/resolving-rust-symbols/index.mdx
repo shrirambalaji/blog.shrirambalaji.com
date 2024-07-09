@@ -118,7 +118,7 @@ Then with the HIR, `rustc` does:
 
 HIR is further lowered into a THIR(Typed HIR) and then further into an **M**iddle-level **I**ntermediate **R**epresentation (MIR), which is a more low-level representation. During this transformation, the compiler performs a lot of optimizations and does Monomorphization.
 
-The MIR is where the mysterious (and commonly misunderstood and complained about) borrow-checker kicks in. The borrow-checker rules are validated here. Also, it looks like language servers like [`rust-analyzer`](https://rust-analyzer.github.io) do it [here](https://github.com/rust-lang/rust-analyzer/blob/da27b89ca55d066680b2ddbc53477b3816cd5407/crates/hir-ty/src/mir/borrowck.rs) as well.
+The MIR is where the mysterious (and commonly misunderstood and complained about) borrow-checker kicks in. The borrow-checker rules are validated here. Also, language servers like [`rust-analyzer`](https://rust-analyzer.github.io) seem to use the MIR for the [same](https://github.com/rust-lang/rust-analyzer/blob/da27b89ca55d066680b2ddbc53477b3816cd5407/crates/hir-ty/src/mir/borrowck.rs) as well.
 
 **Monomorphization** is the fancy term for generating specialized code for each type that a generic function is called with. This helps reduce the overhead of generics in Rust, and that's why Rust is often referred to having "zero-cost abstractions". But hey, let's not forget, there's no such thing as a **free lunch**. The cost is _most likely_ paid during compilation.
 
