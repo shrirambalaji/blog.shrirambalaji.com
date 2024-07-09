@@ -1,17 +1,17 @@
+import { rehypeHeadingIds } from "@astrojs/markdown-remark";
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
+import tailwind from "@astrojs/tailwind";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
+import expressiveCode from "astro-expressive-code";
 import { defineConfig } from "astro/config";
 import fs from "fs";
-import mdx from "@astrojs/mdx";
-import tailwind from "@astrojs/tailwind";
-import sitemap from "@astrojs/sitemap";
-import remarkUnwrapImages from "remark-unwrap-images";
-import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
-import rehypeExternalLinks from "rehype-external-links";
-import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import { h } from "hastscript";
 import autolinkHeadings from "rehype-autolink-headings";
+import rehypeExternalLinks from "rehype-external-links";
+import remarkUnwrapImages from "remark-unwrap-images";
+import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
 
-// The following configuration for rehype-autolink-headings was taken from https://github.com/withastro/docs/blob/main/astro.config.ts
-import expressiveCode from "astro-expressive-code";
 const AnchorLinkIcon = h(
 	"svg",
 	{
@@ -123,6 +123,10 @@ export default defineConfig({
 					terminalTitlebarBorderBottom: "transparent",
 					terminalBackground: "var(--theme-code-bg)",
 				},
+			},
+			plugins: [pluginLineNumbers()],
+			defaultProps: {
+				showLineNumbers: false,
 			},
 		}),
 		mdx({}),
