@@ -2,7 +2,6 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
-import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import expressiveCode from "astro-expressive-code";
 import { defineConfig } from "astro/config";
 import fs from "fs";
@@ -123,10 +122,6 @@ export default defineConfig({
 					terminalTitlebarBorderBottom: "transparent",
 					terminalBackground: "var(--theme-code-bg)",
 				},
-			},
-			plugins: [pluginLineNumbers()],
-			defaultProps: {
-				showLineNumbers: false,
 			},
 		}),
 		mdx({}),
