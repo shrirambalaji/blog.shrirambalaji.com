@@ -21,7 +21,6 @@ import ThemedImage from "@/components/ThemedImage";
 
 Linking is the process of combining object files into an executable or shared library. It's like putting together puzzle pieces to create a working program. The magic happens during symbol resolution, where the linker matches variable and function names (ie. symbols) to their specific memory addresses, making sure everything fits together.
 
-
 ## Phases of Compilation
 
 <ThemedImage
@@ -75,11 +74,17 @@ $ sudo apt install build-essential
 
 We can also choose a different linker like [`lld`](https://lld.llvm.org)which is LLVM's linker or [mold](https://github.com/rui314/mold). [LLVM](https://llvm.org)is another compiler toolchain like gcc, but aims to be modular. Mold is a more recent alternative and is several times quicker based on their benchmarks, especially on Linux.
 
-We'll come across LLVM again, because `rustc` relies heavily on LLVM during different stages of compilation. 
+We'll come across LLVM again, because `rustc` relies heavily on LLVM during different stages of compilation.
 
 ## Rust Compilation Pipeline
 
-To understand linking, it's crucial to understand the rust compilation pipeline which involves a series of steps, from source code -> executable.
+To understand linking, it's crucial to also know the rust compilation pipeline which involves a series of steps, from source code to executable.
+
+As a sidenote, I've tried to document my understanding of the compilation, but it's neither exhaustive nor a 100% accurate. `rustc` is much more advanced and uses a "query-based" approach ie. the steps / stages that you see below that appear to happen linear _may not_ occur that way.
+
+Instead, the compiler can do on-demand updates to any stage in the compilation, where you can think of individual components within each stage to be mapped to a **query** ie. a memoizable pure function that can in-turn calls sub-queries based on what needs to be done. This query-based approach enables things like [incremental compilation](https://rustc-dev-guide.rust-lang.org/queries/incremental-compilation.html). The [Rustc Dev Guide - Queries](https://rustc-dev-guide.rust-lang.org/query.html) page might be a good starting point to understand Query-Based compilation.
+
+For the sake of brevity, it's all linear from now.
 
 ### Lexing and parsing
 
@@ -87,24 +92,35 @@ To understand linking, it's crucial to understand the rust compilation pipeline 
 	alt="Rust Compilation - Lexing & Parsing Phase"
 	src={"/attachments/rust-compilation-lexing-parsing.svg"}
 	darkSrc={"/attachments/rust-compilation-lexing-parsing-dark.svg"}
-  borderDashed
+	borderDashed
 ></ThemedImage>
 
-The source code is analyzed by a [lexer (`rustc_lexer`)](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_lexer/index.html) and converted into a stream of [tokens](). Then, the [parser (`rustc_parse`)](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_parse/index.html) takes in the stream of tokens and converts it into an [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree) (AST).
+The source code is analyzed by the [lexer (`rustc_lexer`)](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_lexer/index.html) as raw strings (`&str`) and converted into a stream of [tokens](). The tokens coming out from these are not parseable from the get-go and it only produces basic tokens.
+
+The [`rustc_parse::lexer`](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_parse/lexer/index.html) library takes care of making these tokens "wide" and parseable for the [parser (`rustc_parse`)](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_parse/index.html) which takes in the stream of tokens and converts it into an [**A**bstract **S**yntax **T**ree](https://en.wikipedia.org/wiki/Abstract_syntax_tree) (AST).
+
+Many language compilers / compiler-frontends operate on these fundamentals: source code as a string → tokens → parser → tree.
 
 ### HIR & MIR
 
-The AST from the previous step is converted into a HIR (High-level Intermediate Representation), which is a friendlier representation to work with. During this step the compiler does the following:
+The AST from the previous step is lowered into a **H**igh **L**evel **I**ntermediate Representation (HIR) which is a friendlier representation to work with. During lowering - `rustc` also needs to do a couple of things, before getting to the HIR:
 
-- Performs macro expansion
-- Desugars syntactic sugar
+- Name Resolution: Resolves import and macro names.
+- Expanding Macros: The AST we have, has placeholders / todos for each macro that's invoked. For eg. the `println!` macro (yes, it's a macro and not a function). In this step, every macro invocation is enqueued, then expanded into an `ASTFragment` or `TokenStream` and merged back into the original AST and then dequeued.
+  > To put it simply, it's like copying over the entire `println!` macro defintion from the `std` library and pasting it in, into your source code.
+- Desugaring Syntax: Any syntactic sugar gets **dissolved** (ba dum tss!) into it's basic form. (for eg. if let → match)
+
+Then with the HIR, `rustc` does:
+
 - [Type inference](https://rustc-dev-guide.rust-lang.org/type-inference.html) ie. automatically deducing the types of variables and expressions
 - [Trait Solving](https://rustc-dev-guide.rust-lang.org/traits/resolution.html) → Finding the correct implementation of a trait for a type
 - [Type Checking](https://rustc-dev-guide.rust-lang.org/type-checking.html) → Converting HIR types (hir::Ty) to Rustc's internal types (ty::Ty)
 
-The process of converting AST to HIR is called **lowering**. Then, the HIR is further lowered into an MIR (Middle-level Intermediate Representation), which is a more low-level representation. During this transformation, the compiler performs optimizations and does Monomorphization.
+HIR is further lowered into a THIR(Typed HIR) and then further into an **M**iddle-level **I**ntermediate **R**epresentation (MIR), which is a more low-level representation. During this transformation, the compiler performs optimizations and does Monomorphization.
 
-Monomorphization is the fancy term for generating specialized code for each type that a generic function is called with. This helps reduce the overhead of generics in Rust, and that's why Rust is often referred to as a "zero-cost abstractions" language. But hey, let's not forget, there's no such thing as a **free lunch**. The cost is _probably_ paid during compilation.
+The MIR is where the mysterious (and commonly misunderstood and complained about) borrow-checker kicks in. The borrow-checker rules are validated here. Also, it looks like language servers like `[rust-analyzer`](https://rust-analyzer.github.io) do it [here](https://github.com/rust-lang/rust-analyzer/blob/da27b89ca55d066680b2ddbc53477b3816cd5407/crates/hir-ty/src/mir/borrowck.rs) as well.
+
+**Monomorphization** is the fancy term for generating specialized code for each type that a generic function is called with. This helps reduce the overhead of generics in Rust, and that's why Rust is often referred to having "zero-cost abstractions". But hey, let's not forget, there's no such thing as a **free lunch**. The cost is _most likely_ paid during compilation.
 
 ### Code Generation & Building the executable
 
@@ -112,17 +128,99 @@ Monomorphization is the fancy term for generating specialized code for each type
 	alt="Rust Compilation - Building the executable"
 	src={"/attachments/rust-compilation-building-executable.svg"}
 	darkSrc={"/attachments/rust-compilation-building-executable-dark.svg"}
-  borderDashed
+	borderDashed
 ></ThemedImage>
 
+After all the optimizations, the MIR needs to get ready for code generation. By default `rustc` uses `LLVM` for codegen, and hence the MIR is converted to LLVM Intermediate Representation (LLVM IR), which is what the LLVM Toolchain works with.
 
-The MIR is then converted into LLVM IR (Intermediate Representation)is used by the LLVM toolchain. We will come back to LLVM IR, because it's pretty interesting.
+The [**LLVM**](https://llvm.org) project contains a modular, reusable & pluggable compiler backend used by many compiler projects, including the `clang` C compiler and `rustc`. LLVM IR is not really human readable (normies like me, skill issue tbh) but you can think of it as being close to assembly with additional low-level types and annotations added for optimizations.
 
-The LLVM-IR is passed to LLVM, which does a bunch of fancy optimizations on it, spitting out machine code that's basically assembly code with some extra low-level types and annotations (like an ELF object or WASM). Then, all the different libraries and binaries are linked together to create the final binary.
+<details>
+    <summary>**Sidetracking: If you are curious about LLVM IR, __click__ to see it for a simple program**</summary>
 
-whew, that was a lot of information. Let's get back to linking.
+    <br />
 
-## Building the output - The `.o` object file
+    ```rust title="sum.rs"
+    pub fn sum(a: i32, b: i32) {
+        a + b
+    }
+    ```
+
+    <br />
+
+    ```bash
+    $ rustc --emit=llvm-ir
+    $ cat sum.ll
+    ```
+
+    <br />
+
+    ```bash title="cat sum.ll" {9-19}
+    ; ModuleID = 'sum.3a6aa0f926c1c175-cgu.0'
+    source_filename = "sum.3a6aa0f926c1c175-cgu.0"
+    target datalayout = "e-m:o-i64:64-i128:128-n32:64-S128"
+    target triple = "arm64-apple-macosx11.0.0"
+
+    @alloc_14e966bca779030b575586885e7465c7 = private unnamed_addr constant <{ [8 x i8] }> <{ [8 x i8] c"./sum.rs" }>, align 1
+    @alloc_ab2262a4d4eeb403539f925733c0759f = private unnamed_addr constant <{ ptr, [16 x i8] }> <{ ptr @alloc_14e966bca779030b575586885e7465c7, [16 x i8] c"\08\00\00\00\00\00\00\00\05\00\00\00\05\00\00\00" }>, align 8
+
+    ; Function Attrs: uwtable
+    define dso_local i32 @sum(i32 %a, i32 %b) unnamed_addr #0 {
+    start:
+    %0 = call { i32, i1 } @llvm.sadd.with.overflow.i32(i32 %a, i32 %b)
+    %_3.0 = extractvalue { i32, i1 } %0, 0
+    %_3.1 = extractvalue { i32, i1 } %0, 1
+    %1 = call i1 @llvm.expect.i1(i1 %_3.1, i1 false)
+    br i1 %1, label %panic, label %bb1
+
+    bb1:                                              ; preds = %start
+    ret i32 %_3.0
+
+    panic:                                            ; preds = %start
+    ; call core::panicking::panic_const::panic_const_add_overflow
+    call void @_ZN4core9panicking11panic_const24panic_const_add_overflow17h2a3701a832247fcdE(ptr align 8 @alloc_ab2262a4d4eeb403539f925733c0759f) #4
+    unreachable
+    }
+
+    ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
+    declare { i32, i1 } @llvm.sadd.with.overflow.i32(i32, i32) #1
+
+    ; Function Attrs: nocallback nofree nosync nounwind willreturn memory(none)
+    declare i1 @llvm.expect.i1(i1, i1) #2
+
+    ; core::panicking::panic_const::panic_const_add_overflow
+    ; Function Attrs: cold noinline noreturn uwtable
+    declare void @_ZN4core9panicking11panic_const24panic_const_add_overflow17h2a3701a832247fcdE(ptr align 8) unnamed_addr #3
+
+    attributes #0 = { uwtable "frame-pointer"="non-leaf" "probe-stack"="inline-asm" "target-cpu"="apple-m1" }
+    attributes #1 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
+    attributes #2 = { nocallback nofree nosync nounwind willreturn memory(none) }
+    attributes #3 = { cold noinline noreturn uwtable "frame-pointer"="non-leaf" "probe-stack"="inline-asm" "target-cpu"="apple-m1" }
+    attributes #4 = { noreturn }
+
+    !llvm.module.flags = !{!0, !1}
+    !llvm.ident = !{!2}
+
+    !0 = !{i32 8, !"PIC Level", i32 2}
+    !1 = !{i32 7, !"PIE Level", i32 2}
+    !2 = !{!"rustc version 1.79.0 (129f3b996 2024-06-10)"}
+
+    ```
+
+    After looking around for a bit, this is what I understood: The highlighted block contains the `sum` function that we defined earlier. [`@llvm.sadd.with.overflow.i32`](https://llvm.org/docs/LangRef.html#llvm-sadd-with-overflow-intrinsics) calls an LLVM intrinsic function that performs signed addition between `%a` and `%b`. I think `%_3.0 = extractvalue { i32, i1 } %0, 0` extracts the result of the addition, and the `@llvm.expect.i1` is a compiler hint mentioning that addition overflow is `false`. If there is no overflow in addition, `ret i32 %_3.0` returns the result.
+
+
+    If you want to actually understand LLVM IR better, [this](https://mcyoung.xyz/2023/08/01/llvm-ir/) is a wonderful read.
+
+</details>
+
+The LLVM IR is then passed onto the LLVM backend (also called LLVM), which does a bunch of fancy optimizations on it, spitting out assembly code packed into something like an `ELF` object or wasm, based on the target. I'd likely to understand what happens in LLVM to some more depth at some point, but needed to avoid going into this rabbit hole to save myself.
+
+This is where the Linker comes in and links all the different libraries and binaries together to create the final executable.
+
+whew, that was a lot of information - back to linking!
+
+## Rust&nbsp; 🤝 &nbsp;Static Linking
 
 Rust is a systems language, so obviously our expectation is to be similar to C - right? Just let me compile and give me an object file that I can link to later? That's called [dynamic linking](https://en.wikipedia.org/wiki/Dynamic_linker) and that's the default of how things work with C, C++.
 
@@ -130,9 +228,10 @@ By default, Rust prefers the opposite - called [static linking](https://en.wikip
 
 > NOTE: A [_crate_](https://doc.rust-lang.org/reference/crates-and-source-files.html) is a unit of compilation and linking, as well as versioning, distribution, and runtime loading. A crate contains a *tree* of nested [module](https://doc.rust-lang.org/reference/items/modules.html) scopes.
 
-In Rust, the default crate-type is `bin` for binaries and `lib` for libraries. The `bin` crate type is used for creating executables, and the `lib` crate type is used for creating libraries. The `crate-type` attribute in the `Cargo.toml` file can be used to specify the crate type or it can be specified using the `--crate-type` flag.
+The default crate-type is `bin` for binaries and `lib` for libraries. The `bin` crate type is used for creating executables, and the `lib` crate type is used for creating libraries. The `crate-type` attribute in the `Cargo.toml` file can be used to specify the crate type or it can be specified using the `--crate-type` flag.
 
 I mentioned that rust prefers static linking, but obviously it doesn't mean that there are no `.o` files. However, it's not as straightforward as C. This is what's different:
+
 - `rustc` (invoked internally by `cargo`) compiles rust source code into an executable or a library (`.rlib`), rather than separately compiling to an object file and then linking them ie. it tries to do both the phases (compilation and linking) we discussed earlier in one step.
 - `rustc` views a crate as the basic unit of compilation, not files. hence, it typically compiles an entire crate at once.
 
@@ -140,7 +239,9 @@ In case of the `bin` crate the `.o` files are present inside the `/target/debug/
 
 ## What's inside the `.o` file?
 
-We can use the `--emit=obj` file to instruct `rustc` to emit object files. Let's understand this with an example, we have two files `foo.rs` and `bar.rs` which we will try to compile and link manually. The functionality is simple - we have a global variable `Global` which is modified by two functions `foo` and `bar`.
+But, before we get to linking - we saw object files being emitted right before it. I was a bit intrigued to know what's in them. We can use the `--emit=obj` file to instruct `rustc` to emit object files.
+
+Let's understand this with an example, we have two files `foo.rs` and `bar.rs` which we will try to compile and link manually. The functionality is simple - we have a global variable `Global` which is modified by two functions `foo` and `bar`.
 
 ```rs title="foo.rs" "#![no_main]" {9-11}
 #![no_main]
@@ -159,7 +260,7 @@ pub fn foo() {
 
 The `#![no_main]` attribute is straightforward, it tells the compiler that there is no `main` function, and effectively not to throw a compiler error when it doesn't find one. If we have a `main` function, the `.o` file will contain a symbol for the `main` function and all of its linked dependencies. We want to avoid that for now so that visualizing the symbol table is easier.
 
-The [`unsafe`](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html) block tells the compiler that whatever is inside it puts the onus on the programmer to ensure memory safety. In this case, we are modifying a global variable from two different functions, which is _not safe_ in Rust. 
+[`unsafe`](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html) block tells the compiler that whatever is inside it puts the onus on the programmer to ensure memory safety. In this case, we are modifying a global variable from two different functions, which is _not safe_ in Rust.
 
 ### The `#[no_mangle]` attribute
 
@@ -168,7 +269,7 @@ The [`unsafe`](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html) block te
 pub static mut Global: i32 = 5;
 ```
 
-When Rust code is compiled, identifiers are “mangled” ie. transformed into a different name to include additional information. 
+When Rust code is compiled, identifiers are “mangled” ie. transformed into a different name to include additional information.
 
 For example, with mangling enabled (ie. by default) the above foo `Global` variable gets mangled to `__ZN11foo6Global17ha2a12041c4e557c5E`. This is done to avoid naming conflicts when linking with other libraries, however we disable it with `#[no_mangle]` so that the symbol name is preserved, and can be easily linked by name.
 
@@ -178,9 +279,9 @@ Here's, `bar.rs`:
 #![no_main]
 
 #[no_mangle]
-extern "C" { 
-    static mut Global: i32; 
-    fn foo(); 
+extern "C" {
+    static mut Global: i32;
+    fn foo();
 }
 
 #[no_mangle]
@@ -191,20 +292,26 @@ pub extern "C" fn bar() {
 }
 ```
 
-The `extern "C"` block tells the compiler that the function or variable is defined elsewhere. You may wonder why it's `extern C`, and that's because this doesn't mean we are inter-operating with C, but rather the ABI (Application Binary Interface) that the function or variable uses. In this case, it's the C ABI. (Rust has its own ABI, but AFAIK it's not stable.)
+The `extern "C"` block tells the compiler that the function or variable is defined elsewhere. You may wonder why it's `extern C`, and that's not because we are inter-operating with C, but rather the ABI (Application Binary Interface) that the function or variable uses. In this case, it's the C ABI. I also got to know that Rust has its own internal ABI, [but it's not stable](https://www.reddit.com/r/rust/comments/ss2p6c/what_does_it_mean_when_people_say_that_rust_does) - one of the main reasons I understood is that guaranteeing an ABI means optimizations in terms of field ordering / packing cannot be done. Some more reasons on what having a stable ABI means:
 
-Now, let's compile these files to object files. 
+> "It's technically not just about field ordering, although this is the easiest thing to point out. But ABI also includes function call conventions (which registers are used for what, how parts of the stack are prepared for the function call...), and also layout of implicit structures such as closures and v-tables."
 
-> NOTE: This, isn't how you would typically compile a rust program, and it is recommened to use `cargo`. We are doing this just to understand linking better.
+As much as I didn't want to use `unsafe` for such a trivial example, any FFI (Foreign Function Invocation) that goes through the "C" ABI cannot be safe. Let's think about why FFI needs to be `unsafe` for a second? What would happen if we have an FFI invocation on some C code, that can potentially be changed by another thread? All hell would break loose (not really, but ykwim). This is why all safety guarantees are off.
+
+Now, let's compile these files and emit object files to link them later.
 
 ```bash
 $ rustc --emit=obj -o foo.o foo.rs
 $ rustc --emit=obj -o bar.o bar.rs
 ```
 
+> NOTE: This isn't how you would typically compile a rust program, and it is recommended to use `cargo`. We are enduring the pain of calling `rustc` just so that we can try to manually link them.
+
 ### Symbols - A Deep Dive
 
-We mentioned earlier what symbols are, but let's take a deeper look. Symbols (for eg. function names, variables) are stored in sections of the object file in a specific format - ELF (Executable and Linkable Format) on Unix-like systems. On macOS, it's Mach-O (Mach Object) but its similar to ELF.
+Object files have these teeny-tiny things packed into them, called **symbols**. We mentioned earlier what symbols are, so let's take a deeper look.
+
+Symbols (for eg. function names, variables) are stored in sections of the object file in a specific format - ELF (**E**xecutable and **L**inkable **F**ormat) on Unix-like systems. On macOS, it's Mach-O (Mach Object) but similar to ELF.
 
 This is how the sections are typically organized in an ELF object file:
 
@@ -214,9 +321,12 @@ This is how the sections are typically organized in an ELF object file:
 	darkSrc={"/attachments/elf-sections-dark.svg"}
 ></ThemedImage>
 
-<p style={{ fontSize: "0.75em !important", marginTop: '-40px', marginLeft: '25px'}}>source: [CS 361 Systems Programming by Chris Kanich](https://www.youtube.com/watch?v=6XVUIeAaROU&list=PLhy9gU5W1fvUND_5mdpbNVHC1WCIaABbP&index=10)</p>
+<p style={{ fontSize: "0.75em !important", marginTop: "-40px", marginLeft: "25px" }}>
+	source: [CS 361 Systems Programming by Chris
+	Kanich](https://www.youtube.com/watch?v=6XVUIeAaROU&list=PLhy9gU5W1fvUND_5mdpbNVHC1WCIaABbP&index=10)
+</p>
 
-Apart from these sections, there are pseudo sections like "Common" and "Undefined", which we'll come across later. 
+Apart from these sections, there are pseudo sections like "Common" and "Undefined", which we'll come across later.
 
 Alright, let's take a peek into the object file, specifically the symbol table. [Symbol table](https://en.wikipedia.org/wiki/Symbol_table#:~:text=In%20computer%20science%2C%20a%20symbol,or%20appearance%20in%20the%20source.) is a data structure that contains a list of symbols and their addresses.
 
@@ -241,15 +351,16 @@ Symbol table '.symtab' contains 9 entries:
 > For some reason, when I use the Linux VM to visualize the symbol tables, the addresses are always `0000000000000000`. I'm not sure why this is the case, but I'll try to figure it out. I'll update this section once I figure it out.
 
 From the output, we can infer:
-* Global Symbols:
-	- `foo`: A global function of size 20 bytes, defined in section `.text.foo` (index 7).
-	- `Global`: A global object named `Global` of size 4 bytes since it's an `i32` (index 8).
-* Local Symbols:
-	- Several local symbols (e.g., $x.0, $d.1, $d.2, $d.3) without specific types, which are typically used for internal purposes by the compiler.
-* File Symbol:
-	- `foo.a147f3978a9294fa-cgu.0`: Represents the object file itself.
-* Section Symbol:
-	- `.text.foo`: Represents a text section specifically for the foo function.
+
+- Global Symbols:
+  - `foo`: A global function of size 20 bytes, defined in section `.text.foo` (index 7).
+  - `Global`: A global object named `Global` of size 4 bytes since it's an `i32` (index 8).
+- Local Symbols:
+  - Several local symbols (e.g., $x.0, $d.1, $d.2, $d.3) without specific types, which are typically used for internal purposes by the compiler.
+- File Symbol:
+  - `foo.a147f3978a9294fa-cgu.0`: Represents the object file itself.
+- Section Symbol:
+  - `.text.foo`: Represents a text section specifically for the foo function.
 
 However, `readelf` is not available on macOS, so we have to use the `nm` command to list the symbols in the object file. The `nm` command is a simpler utility that displays just the symbol table of an object file.
 
@@ -263,6 +374,7 @@ $ nm foo.o
 ```
 
 The output of `nm` is in the following format:
+
 - `D` - Global Data section symbol
 - `T` - Global Text symbol
 - `d` - Local symbol in the data section
@@ -285,18 +397,20 @@ wherein `U` denotes an Undefined symbol. Remember, the Undefined pseudo section 
 ### Rules for Symbol Resolution
 
 In the context of linking, there are two types of symbols:
-* Strong Symbol: Defined directly in the object file, like `foo` in `foo.o`.
-* Weak Symbol: Referenced but not defined, such as `Global` in `bar.o`.
+
+- Strong Symbol: Defined directly in the object file, like `foo` in `foo.o`.
+- Weak Symbol: Referenced but not defined, such as `Global` in `bar.o`.
 
 Resolution rules:
-* Simple: The linker prioritizes strong symbols over weak ones. Duplicate strong symbols cause errors, while duplicate weak symbols lead to the first encountered being used.
-* Complex: For strong symbols with the same name but differing attributes (e.g., array sizes), the linker chooses the most fitting one but issues a warning.
+
+- Simple: The linker prioritizes strong symbols over weak ones. Duplicate strong symbols cause errors, while duplicate weak symbols lead to the first encountered being used.
+- Complex: For strong symbols with the same name but differing attributes (e.g., array sizes), the linker chooses the most fitting one but issues a warning.
 
 Okay, enough about symbols. Let's move on to linking.
 
 ## Linking everything together
 
-Until now, we don't have a `main.rs` file, so let's create one that calls the `foo` and `bar` functions.
+Lets make a `main.rs` that calls the `foo` and `bar` functions.
 
 ```rust
 // main.rs
@@ -315,7 +429,7 @@ fn main() {
 }
 ```
 
-Let's compile the `main.rs` file to an object file.
+Let's compile the `main.rs` file and emit an object file like before:
 
 ```rs
 $ rustc --emit=obj -o main.o main.rs
@@ -343,13 +457,15 @@ Undefined symbols for architecture arm64:
 ld: symbol(s) not found for architecture arm64
 ```
 
-Oops, a linker error! From the mangled error message, it looks like a symbol reference to `core::ops::FnOnce::call_once` is undefined. We need to link the `core` crate to resolve this error. But, we can't just link the `core` crate, because it's not a `.o` file, but a `.rlib` file. As far as I know, there's no way to directly link a `.rlib` file with `ld` nor is it straightforward to link it with `rustc`.
+> Narrator Voice: It was at this moment, he realized he can't link them.
 
-There's an alternative way: adding the `[no_std]` attribute in `main.rs`, which instructs the compiler not to link the `std` crate. This is useful when we want to create a freestanding binary without the `std` library, for eg. when you are creating an OS. We would also need to implement the `eh_personality` language item, and implement our own panic handler. I don't think this is necessary to understand linking and I don't want to forego my precious `std` lib, so let's try a different approach.
+Oh no, a linker error! If you squint at the mangled error message, it seems like a symbol reference to `core::ops::FnOnce::call_once` is undefined. We need to link the `core` crate to resolve this error. But, we can't just link the `core` crate, because it's not a `.o` file, but a `.rlib` file. As far as I know, there's no way to directly link a `.rlib` file with `ld` nor is it straightforward to link it with `rustc`.
+
+I believe there's an alternative way: adding the `[no_std]` attribute in `main.rs`, which instructs the compiler not to link the `std` crate. This is useful when we want to create a freestanding binary without the `std` library, for eg. when you are creating an OS. We would also need to implement the `eh_personality` language item, and implement our own panic handler. I don't think this is necessary to understand linking and I don't want to forego my precious `std` lib, so let's try a different approach.
 
 ## `staticlib` to the rescue
 
-> `--crate-type=staticlib, #![crate_type = "staticlib"]` -  The purpose of this output type is to create a static library containing all of the local crate's code along with all upstream dependencies - [Linkage](https://doc.rust-lang.org/reference/linkage.html)
+> `--crate-type=staticlib, #![crate_type = "staticlib"]` - The purpose of this output type is to create a static library containing all of the local crate's code along with all upstream dependencies - [Linkage](https://doc.rust-lang.org/reference/linkage.html)
 
 Instead of us trying to link the `core` crate and bring in `std` dependencies ourselves, we can create a static library from the `foo.rs` and `bar.rs` files, and then link them manually:
 
@@ -360,9 +476,7 @@ $ rustc --crate-type=staticlib -o target/out/libfoo.a foo.rs
 $ rustc --crate-type=staticlib -o target/out/libbar.a bar.rs
 ```
 
-> The output is a `.a` file, which is a static library / archive in *nix systems. 
-
-The archive `.a` file contains the `.o` files we saw above (along with other obj files required for the program), and we can take a quick peek. We use the `ar` command to list the contents of the archive.
+The output is a `.a` file, which is a static library / archive in \*nix systems. The archive `.a` file contains the `.o` files we saw above (along with other obj files required for the program), and we can take a quick peek. We use the `ar` command to list the contents of the archive.
 
 ```bash
 $ ar -t target/out/libfoo.a | grep foo
@@ -376,7 +490,7 @@ If we extract the `.o` file and look, we can see the same symbols we saw earlier
 
 ```bash
 $ ar -x target/out/libfoo.a foo.foo.730f9a7e513a85b2-cgu.0.rcgu.o
-$ nm foo.foo.730f9a7e513a85b2-cgu.0.rcgu.o 
+$ nm foo.foo.730f9a7e513a85b2-cgu.0.rcgu.o
 0000000000000010 D _Global
 0000000000000000 T _foo
 0000000000000000 t ltmp0
@@ -384,6 +498,7 @@ $ nm foo.foo.730f9a7e513a85b2-cgu.0.rcgu.o
 0000000000000018 s ltmp2
 ```
 
+<br />
 ## Using cargo to build the project
 
 Up until now, we've been manually compiling and linking the files. But, we should ideally use `cargo`. Cargo is the build system and package manager for Rust. Additionaly, `cargo` lets us run a build script before building the project. The build script is a Rust file called `build.rs` that goes in the project's root.
@@ -396,10 +511,20 @@ fn main() {
 }
 ```
 
-* `cargo:rustc-link-search=native=target/out` instruction tells the compiler to search for the static libraries in the `target/out` directory
-* `cargo:rustc-link-lib=static=foo` and `cargo:rustc-link-lib=static=bar` tells the compiler to link the `foo` and `bar` static libraries.
+- `cargo:rustc-link-search=native=target/out` instruction tells the compiler to search for the static libraries in the `target/out` directory
+- `cargo:rustc-link-lib=static=foo` and `cargo:rustc-link-lib=static=bar` tells the compiler to link the `foo` and `bar` static libraries. As an alternative to the linking these in the build script, we can also use the `#[link](https://doc.rust-lang.org/reference/items/external-blocks.html#the-link-attribute)` attribute directly in `main.rs`
 
-> NOTE: The link flag order _can be_ important. In this case, `bar` depends on the `Global` variable in `foo.rs`, so we link `foo` first and `bar` later. Traditional unix linkers go from left to right, and resolve symbols in the order they are specified. If there are no references to a symbol mentioned later, it will be discarded. AFAIK `ld` is "smart" enough to handle this, but it's good to be aware of this.
+```rust file="main.rs"
+#[link(name = "foo", kind = "static")]
+#[link(name = "bar", kind = "static")]
+extern "C" {
+    fn foo();
+    fn bar();
+    static mut Global: i32;
+}
+```
+
+> NOTE: The linking order _can be_ important sometimes. In this case, `bar` depends on the `Global` variable in `foo.rs`, so we link `foo` first and `bar` later. Traditional unix linkers used to go from left to right, and resolve symbols in the order they are specified. If there are no references to a symbol mentioned later, it will be discarded. AFAIK `ld` is "smart" enough to handle this, but it's good to be aware of this.
 
 Now, we can compile the project with `cargo build` and it should link the static libraries. Actually, we can even add the previous `rustc` commands to run in the build script so that we can just run `cargo build` to compile the project instead of manually compiling `foo` and `bar`. The final build script looks like this:
 
@@ -442,6 +567,7 @@ fn main() {
 ```
 
 Let's build it:
+
 ```bash
 $ cargo build
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
@@ -462,9 +588,9 @@ The output `Global: 20` means that the `foo` and `bar` functions were called suc
 
 Writing this article was an immense learning for me, to try and understand linking in Rust, starting from the basics of linking in Unix-like systems, symbol resolution, what's inside an ELF format `.o` file, understanding the Rust compilation pipeline, and finally linking static Rust libraries manually.
 
-Thanks for reading! Please feel free to reach out on twitter: [@shrirambalaji](https://twitter.com/shrirambalaji) if you would like to provide feedback. I'm always open to learning new things. 
+Thanks for reading! Please feel free to reach out on twitter: [@shrirambalaji](https://twitter.com/shrirambalaji) if you would like to provide feedback. I'm always open to learning new things.
 
-All the code samples, articles and videos I used for research are linked below in the [References](#references) section. 
+All the code samples, articles and videos I used for research are linked below in the [References](#references) section.
 
 Until next time 👋
 
@@ -480,3 +606,4 @@ Until next time 👋
 - [nm man page](https://man7.org/linux/man-pages/man1/nm.1.html)
 - [Freestanding Rust Binary - Writing an OS in Rust by Philipp Oppermann](https://os.phil-opp.com/freestanding-rust-binary/)
 - [Rules for Symbol Resolution](https://docs.oracle.com/cd/E19120-01/open.solaris/819-0690/chapter2-93321/index.html)
+- [A Gentle Introduction to LLVM IR](https://mcyoung.xyz/2023/08/01/llvm-ir/)
