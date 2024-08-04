@@ -80,7 +80,7 @@ We'll come across LLVM again, because `rustc` relies heavily on LLVM during diff
 
 To understand linking, it's crucial to also know the rust compilation pipeline which involves a series of steps, from source code to executable.
 
-As a sidenote, I've tried to document my understanding of the compilation, but it's neither exhaustive nor a 100% accurate. `rustc` is much more advanced and uses a "query-based" approach ie. the steps / stages that you see below that appear to happen linear _may not_ occur that way.
+As a sidenote, I've tried to document my understanding of the compilation, but it's neither exhaustive nor a 100% accurate. `rustc` is much more advanced and uses a "query-based" approach ie. the steps / stages that you see below that appear to happen linearly _may not_ occur that way.
 
 Instead, the compiler can do on-demand updates to any stage in the compilation, where you can think of individual components within each stage to be mapped to a **query** ie. a memoizable pure function that can in-turn calls sub-queries based on what needs to be done. This query-based approach enables things like [incremental compilation](https://rustc-dev-guide.rust-lang.org/queries/incremental-compilation.html). The [Rustc Dev Guide - Queries](https://rustc-dev-guide.rust-lang.org/query.html) page might be a good starting point to understand Query-Based compilation.
 
@@ -116,9 +116,9 @@ Then with the HIR, `rustc` does:
 - [Trait Solving](https://rustc-dev-guide.rust-lang.org/traits/resolution.html) → Finding the correct implementation of a trait for a type
 - [Type Checking](https://rustc-dev-guide.rust-lang.org/type-checking.html) → Converting HIR types (hir::Ty) to Rustc's internal types (ty::Ty)
 
-HIR is further lowered into a THIR(Typed HIR) and then further into an **M**iddle-level **I**ntermediate **R**epresentation (MIR), which is a more low-level representation. During this transformation, the compiler performs optimizations and does Monomorphization.
+HIR is further lowered into a THIR(Typed HIR) and then further into an **M**iddle-level **I**ntermediate **R**epresentation (MIR), which is a more low-level representation. During this transformation, the compiler performs a lot of optimizations and does Monomorphization.
 
-The MIR is where the mysterious (and commonly misunderstood and complained about) borrow-checker kicks in. The borrow-checker rules are validated here. Also, it looks like language servers like `[rust-analyzer`](https://rust-analyzer.github.io) do it [here](https://github.com/rust-lang/rust-analyzer/blob/da27b89ca55d066680b2ddbc53477b3816cd5407/crates/hir-ty/src/mir/borrowck.rs) as well.
+The MIR is where the mysterious (and commonly misunderstood and complained about) borrow-checker kicks in. The borrow-checker rules are validated here. Also, language servers like [`rust-analyzer`](https://rust-analyzer.github.io) seem to use the MIR for the [same](https://github.com/rust-lang/rust-analyzer/blob/da27b89ca55d066680b2ddbc53477b3816cd5407/crates/hir-ty/src/mir/borrowck.rs) as well.
 
 **Monomorphization** is the fancy term for generating specialized code for each type that a generic function is called with. This helps reduce the overhead of generics in Rust, and that's why Rust is often referred to having "zero-cost abstractions". But hey, let's not forget, there's no such thing as a **free lunch**. The cost is _most likely_ paid during compilation.
 
