@@ -9,7 +9,11 @@ import { h } from "hastscript";
 import autolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import remarkUnwrapImages from "remark-unwrap-images";
+import remarkParse from "remark-parse";
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
+import remarkDirective from "remark-directive"
+import remarkCalloutDirectives from "@microflash/remark-callout-directives"
+import githubCalloutOptions from "@microflash/remark-callout-directives/config/github"
 
 const AnchorLinkIcon = h(
 	"svg",
@@ -89,7 +93,13 @@ export default defineConfig({
 				},
 			],
 		],
-		remarkPlugins: [remarkUnwrapImages, remarkReadingTime],
+		remarkPlugins: [
+		  remarkParse,
+			remarkUnwrapImages,
+			remarkReadingTime,
+			remarkDirective,
+			[remarkCalloutDirectives, { ...githubCalloutOptions }]
+		],
 		remarkRehype: {
 			footnoteLabelProperties: {
 				className: [""],

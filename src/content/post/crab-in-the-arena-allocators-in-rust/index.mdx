@@ -1,0 +1,27 @@
+---
+title: Crab in the Arena - Arena Allocators in Rust
+description: Sharing my learnings on memory allocators in Rust, and how to write a simple arena allocator.
+tags: []
+draft: true
+publishDate: "Sept 25 2024"
+---
+
+## Agenda
+
+- [ ] Allocators
+- [ ] Comparison with allocators in C / Zig
+- [ ] Arena Allocators
+- [ ] Writing a simple arena allocator
+
+## Allocators
+
+Memory allocation is fundamental to programming. In C, we typically have `malloc` or `calloc` to allocate memory. Rust standard library uses a "global" memory allocator that is used by smart pointers like `Box` and `Vec`.
+
+Just to be clear, when we talk about "allocation", we are talking about allocating memory on the heap. Heap allocations are known to be expensive compared to stack allocations. This is _mostly_ because it requires the OS to find a contiguous block of memory that is large enough to hold the requested size.
+
+> Heap allocations are moderately expensive. The exact details depend on which allocator is in use, but each allocation (and deallocation) typically involves acquiring a global lock, doing some non-trivial data structure manipulation, and possibly executing a system call. - [Rust Performance Book by ]
+
+
+## References
+
+- [Visualizing memory layout Rust's data types](https://www.youtube.com/watch?v=7_o-YRxf_cc&t=223s)

@@ -3,7 +3,7 @@ title: "Advent of Code 2020 - Day 08"
 description: "Solving Day 08 / Advent of Code 2020 in Rust"
 publishDate: "Dec 8 2020"
 tags: ["rust", "adventofcode"]
-slug: rust-advent-of-code-2020-day-08
+slug: rust-aoc/2020/day-08
 ---
 
 Hello! We are on [Day 08](https://adventofcode.com/2020/day/8) of our Advent of Code journey. Today's puzzle involves a lot of jumping, let's see if we can hop around and solve it 😀.

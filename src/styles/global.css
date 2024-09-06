@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,6 +16,8 @@
 		--theme-quote: 234.45deg 70% 62%;
 		--code-line-highlight-color: hsl(0, 0%, 87%);
 		--astro-code-border: hsl(234.45deg 89.47% 90%) !important;
+		--summary-marker-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.2em' height='1.2em' viewBox='0 0 24 24' fill='none' stroke='hsl(203deg 11% 15%)' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-down'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+		--summary-marker-closed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.2em' height='1.2em' viewBox='0 0 24 24' fill='none' stroke='hsl(203deg 11% 15%)' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-right'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
 	}
 
 	:root.dark {
@@ -29,6 +32,8 @@
 		--shiki-dark-bg: hsl(240deg 17.1% 8%);
 		--code-line-highlight-color: hsl(240deg 17.1% 14%);
 		--astro-code-border: #262636 !important;
+		--summary-marker-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.2em' height='1.2em' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-down'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+		--summary-marker-closed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.2em' height='1.2em' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-right'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
 	}
 
 	:root,
@@ -63,6 +68,83 @@
 	*:is(h1, h2, h3, h4, h5, h6) {
 		@apply scroll-mt-10;
 	}
+}
+
+:root {
+	--callout-accent-note: 212 92% 45%;
+	--callout-accent-tip: 137 66% 30%;
+	--callout-accent-important: 261 69% 59%;
+	--callout-accent-warning: 40 100% 30%;
+	--callout-accent-caution: 356 71% 48%;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--callout-accent-note: 215 93% 58%;
+		--callout-accent-tip: 128 49% 49%;
+		--callout-accent-important: 262 89% 71%;
+		--callout-accent-warning: 41 72% 48%;
+		--callout-accent-caution: 3 93% 63%;
+	}
+}
+
+.callout {
+	--calloutAccent: hsl(var(--callout-accent, var(--callout-accent-note)));
+	border-left: .25em solid var(--calloutAccent);
+	/* add background color that is the same color as calloutAccent with a transparency */
+	background-color: hsl(var(--callout-accent, var(--callout-accent-note))/ 0.09);
+	border-radius: 2px;
+	padding: 0.5rem 1rem;
+	color: inherit;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.callout-indicator {
+	display: flex;
+	align-items: center;
+	line-height: 1;
+	color: var(--calloutAccent);
+}
+
+.callout-hint > svg {
+	margin-right: 0.5rem;
+	width: 1em;
+	display: flex;
+	vertical-align: text-bottom;
+	fill: var(--calloutAccent);
+}
+
+.callout-content:first-child,
+.callout-content:only-child {
+	margin-block-start: 0;
+}
+
+.callout-content > * {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.callout-content:last-child,
+.callout-content:only-child {
+	margin-block-end: 0;
+}
+
+.callout-commend {
+	--callout-accent: var(--callout-accent-tip);
+}
+.callout-warn {
+	--callout-accent: var(--callout-accent-warning);
+}
+.callout-deter {
+	--callout-accent: var(--callout-accent-caution);
+}
+.callout-assert {
+	--callout-accent: var(--callout-accent-important);
+}
+
+.callout-title {
+    font-weight: 600;
 }
 
 span.anchor-icon {
@@ -212,4 +294,24 @@ a {
 
 .prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *))::after {
 	content: "";
+}
+
+::marker,
+::-webkit-details-marker {
+   display: none;
+ }
+
+details summary::before {
+    color: var(--calloutAccent);
+    content: var(--summary-marker-closed);
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 0.25em;
+    margin-right: 0.25em;
+    /* font-size: 1.5em; */
+}
+
+details[open] summary::before {
+    content: var(--summary-marker-open);
 }

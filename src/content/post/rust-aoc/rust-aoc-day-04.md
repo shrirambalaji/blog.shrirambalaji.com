@@ -3,7 +3,7 @@ title: "Advent of Code 2020 - Day 04"
 description: "Solving Day 04 / Advent of Code 2020 in Rust"
 publishDate: "Dec 4 2020"
 tags: ["rust", "adventofcode"]
-slug: rust-advent-of-code-2020-day-04
+slug: rust-aoc/2020/day-04
 ---
 
 Hello! Let's take a look at solving the problem for [day 04](https://adventofcode.com/2020/day/4).
