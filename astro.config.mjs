@@ -111,7 +111,7 @@ export default defineConfig({
 	},
 	integrations: [
 		expressiveCode({
-			themes: ["min-dark", "min-light"],
+			themes: ["catppuccin-mocha", "min-light"],
 			useDarkModeMediaQuery: false,
 			frames: {
 				showCopyToClipboardButton: false,
@@ -126,7 +126,10 @@ export default defineConfig({
 					shadowColor: "transparent",
 					editorTabBarBackground: "var(--theme-code-tabs)",
 					editorActiveTabBackground: "var(--theme-code-active-tab)",
+          editorActiveTabForeground: "var(--theme-code-active-tab-text)",
 					editorActiveTabIndicatorBottomColor: "transparent",
+					editorActiveTabIndicatorTopColor: "transparent",
+					editorTabBarBorderTopColor: "transparent",
 					editorTabBarBorderBottomColor: "transparent",
 					terminalTitlebarBackground: "var(--theme-code-tabs)",
 					terminalTitlebarBorderBottom: "transparent",
