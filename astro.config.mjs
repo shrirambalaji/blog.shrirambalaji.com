@@ -11,9 +11,9 @@ import rehypeExternalLinks from "rehype-external-links";
 import remarkUnwrapImages from "remark-unwrap-images";
 import remarkParse from "remark-parse";
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
-import remarkDirective from "remark-directive"
-import remarkCalloutDirectives from "@microflash/remark-callout-directives"
-import githubCalloutOptions from "@microflash/remark-callout-directives/config/github"
+import remarkDirective from "remark-directive";
+import remarkCalloutDirectives from "@microflash/remark-callout-directives";
+import githubCalloutOptions from "@microflash/remark-callout-directives/config/github";
 
 const AnchorLinkIcon = h(
 	"svg",
@@ -94,11 +94,11 @@ export default defineConfig({
 			],
 		],
 		remarkPlugins: [
-		  remarkParse,
+			remarkParse,
 			remarkUnwrapImages,
 			remarkReadingTime,
 			remarkDirective,
-			[remarkCalloutDirectives, { ...githubCalloutOptions }]
+			[remarkCalloutDirectives, { ...githubCalloutOptions }],
 		],
 		remarkRehype: {
 			footnoteLabelProperties: {
@@ -111,7 +111,7 @@ export default defineConfig({
 	},
 	integrations: [
 		expressiveCode({
-			themes: ["catppuccin-mocha", "min-light"],
+			themes: ["github-dark", "min-light"],
 			useDarkModeMediaQuery: false,
 			frames: {
 				showCopyToClipboardButton: false,
@@ -126,7 +126,7 @@ export default defineConfig({
 					shadowColor: "transparent",
 					editorTabBarBackground: "var(--theme-code-tabs)",
 					editorActiveTabBackground: "var(--theme-code-active-tab)",
-          editorActiveTabForeground: "var(--theme-code-active-tab-text)",
+					editorActiveTabForeground: "var(--theme-code-active-tab-text)",
 					editorActiveTabIndicatorBottomColor: "transparent",
 					editorActiveTabIndicatorTopColor: "transparent",
 					editorTabBarBorderTopColor: "transparent",
