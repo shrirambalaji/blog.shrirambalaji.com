@@ -1,0 +1,100 @@
+---
+title: First contribution to the Rust Project
+description: As I started reading a lot more about Rust compilation, I realized that I needed to find a way to contribute to the rust project and eventually , and validate my assumptions / understanding of the compiler.
+publishDate: Oct 13, 2024
+tags: []
+draft: true
+---
+
+I've been reading about Rust compilation stages, and wrote about some of my learnings in a [previous post](https://blog.shrirambalaji.com/posts/resolving-rust-symbols/). As I started reading more, I realized that it might be helpful to find a way to contribute to the project, learn more about the compiler and validate my assumptions / understanding of the compiler.
+
+## Finding an issue to work on
+
+The `rustc` compiler is a large codebase, and I was a bit intimidated by the size of the codebase. I started looking at the issues that were tagged as `E-mentor` and found an issue that was tagged as `E-mentor` and `E-easy` and landed on https://github.com/rust-lang/rust/issues/129599.
+
+It involved adding a new `std_features` flag to the bootstrap phase of the compiler, that helps in enabling `std` features for compiler development. This could be features like enabling `panic-unwind` or `backtrace` features when building the compiler.
+
+This felt like a good issue to start with, and it was relatively straightforward to understand the issue, but I had to understand how the compiler was bootstrapped and how the `std_features` flag was passed to the compiler.
+
+I also connected with [`Onur Ozkan`](https://onurozkan.dev) who was the mentor for the issue on zulip chat, and he was very helpful and welcoming throughout the process. Thanks Onur!
+
+## What's bootstrapping?
+
+Bootstrapping is how the compiler compiles itself, typically by using an older version to build a newer version. For rust to bootstrap, it has 4 stages:
+
+- Stage 0: Pre-compiled Compiler
+  This is the current beta `rustc` and is downloaded from the internet.
+- Stage 1: Compiler built with the pre-compiled compiler from Stage 0
+- Stage 2: Rebuilding the stage 1 compiler with itself, and this is what get's distributed with `rustup`.
+- Stage 3 (optional): We can build libs with this compiler to sanity check that the compiler result is the same as the stage 2 compiler.
+
+The [Rustc Dev Guide on Bootstrapping](https://rustc-dev-guide.rust-lang.org/building/bootstrapping/what-bootstrapping-does.html) has a lot more details on bootstrapping, if you're interested in learning more.
+
+## Getting started
+
+I followed the steps in the [Quick Start](https://rustc-dev-guide.rust-lang.org/building/how-to-build-and-run.html#quick-start) guide on my macOs machine, and I ran into my first issue.
+
+
+### Lesson: Don't install `binutils` via `brew`
+
+The `./x.py setup` command failed with the following error:
+
+```shell
+~/Repositories/rust master
+./x setup
+downloading https://static.rust-lang.org/dist/2024-07-26/rust-std-beta-aarch64-apple-darwin.tar.xz
+############################################################ 100.0%
+downloading https://static.rust-lang.org/dist/2024-07-26/rustc-beta-aarch64-apple-darwin.tar.xz
+############################################################ 100.0%
+downloading https://static.rust-lang.org/dist/2024-07-26/cargo-beta-aarch64-apple-darwin.tar.xz
+############################################################ 100.0%
+extracting /Users/shrirambalaji/Repositories/rust/build/cache/2024-07-26/rustc-beta-aarch64-apple-darwin.tar.xz
+extracting /Users/shrirambalaji/Repositories/rust/build/cache/2024-07-26/rust-std-beta-aarch64-apple-darwin.tar.xz
+extracting /Users/shrirambalaji/Repositories/rust/build/cache/2024-07-26/cargo-beta-aarch64-apple-darwin.tar.xz
+Building bootstrap
+   Compiling libc v0.2.157
+   Compiling proc-macro2 v1.0.86
+   Compiling unicode-ident v1.0.12
+   Compiling typenum v1.17.0
+   Compiling version_check v0.9.5
+   Compiling memchr v2.7.4
+   Compiling crossbeam-utils v0.8.20
+   Compiling serde v1.0.208
+   Compiling rustix v0.38.34
+   Compiling cc v1.0.97
+error: failed to run custom build command for `serde v1.0.208`
+
+Caused by:
+  process didn't exit successfully: `/Users/shrirambalaji/Repositories/rust/build/bootstrap/debug/build/serde-19a5005084e51914/build-script-build` (signal: 9, SIGKILL: kill)
+warning: build failed, waiting for other jobs to finish...
+error: failed to run custom build command for `crossbeam-utils v0.8.20`
+
+Caused by:
+  process didn't exit successfully: `/Users/shrirambalaji/Repositories/rust/build/bootstrap/debug/build/crossbeam-utils-b20f738aa3e877a6/build-script-build` (signal: 9, SIGKILL: kill)
+failed to run: /Users/shrirambalaji/Repositories/rust/build/aarch64-apple-darwin/stage0/bin/cargo build --manifest-path /Users/shrirambalaji/Repositories/rust/src/bootstrap/Cargo.toml
+Build completed unsuccessfully in 0:00:13
+```
+
+It looked like the build failed because the dependencies couldn't be compiled. Initially I thought that I had some system dependencies missing, but later found out that it was because of conflicting system dependencies. Specifically, I had `binutils` installed via `brew` and I had `strip` in my path, which was conflicting with the `strip` that was being used by the compiler.
+
+So I had to remove `binutils` from my path, and then the build was successful:
+
+```shell
+brew uninstall binutils
+```
+
+### What's that python script doing in my rust compiler?
+
+Wait a minute - why's there a python script to build the compiler? 🤔
+
+`x.py` a wrapper that calls into `bootstrap` which is a cross-platform build tool backed by `cargo` specifically for the rust project. `x.py` by itself doesn't do a lot more, other than checking for the python version and subsequently invoking the `bootstrap.py` script, which does the following:
+- Parses the CLI arguments and passes it on the `bootstrap` tool, located at `src/bootstrap`.
+- Downloads the rust toolchain, and makes sure that the necessary build tools `rustc`, `cargo` etc., are available.
+- Runs the bootstrap build using `cargo` to compile the bootstrap tool. The CLI arguments from earlier are passed to the `bootstrap` tool.
+- Finally, the `bootstrap` tool is run with the CLI arguments.
+
+So when we call `./x <subcommand>`, it's actually invoking the `bootstrap` CLI with the subcommand.
+
+:::note
+I understand the convenience of having a python script to wrap the build process, but it was a bit surprising to look at first. Also it does seem like Python is preferred for build scripts that run in CI, and it's not overused. There's a discussion to purge python, and over time it seems like a lot of the python scripts have been replaced. https://github.com/rust-lang/rust/issues/110479
+:::
