@@ -1,12 +1,18 @@
 ---
-title: Contributing to the Rust Project
+title: Learnings from Contributing to the Rust Project
 description: As I started reading a lot more about Rust compilation, I realized that I needed to find a way to contribute to the rust project and eventually , and validate my assumptions / understanding of the compiler.
 publishDate: Oct 24, 2024
 tags: ["rust", "oss", "compiler"]
+coverImage:
+  src: "./cover.png"
+  alt: "Learnings from Contributing to the Rust Project"
+  border: true
 draft: true
 ---
 
+import { Image } from "astro:assets";
 import Tweet from "astro-tweet";
+import rustContributorsScreenshot from "../../attachments/rust-contributors.png";
 
 I've been reading about Rust compilation stages, and wrote about some of my learnings in a [previous post](https://blog.shrirambalaji.com/posts/resolving-rust-symbols/). As I started reading more, I realized that it might be helpful to find a way to contribute to the project, learn more about the compiler and validate my assumptions / understanding of the compiler.
 
@@ -89,9 +95,9 @@ Wait a minute - why's there a python script to build the compiler? 🤔
 
 `x.py` a wrapper that calls into `bootstrap` which is a cross-platform build tool backed by `cargo` specifically for the rust project. `x.py` by itself doesn't do a lot more, other than checking for the python version and subsequently invoking the `bootstrap.py` script, which does the following:
 
-- Parses the CLI arguments and passes it on the `bootstrap` tool, located at `src/bootstrap`.
+- Parses the CLI arguments and passes it on the `bootstrap` tool
 - Downloads the rust toolchain, and makes sure that the necessary build tools `rustc`, `cargo` etc., are available.
-- Runs the bootstrap build using `cargo` to compile the bootstrap tool. The CLI arguments from earlier are passed to the `bootstrap` tool.
+- Runs the bootstrap build using `cargo` to compile the bootstrap tool in `src/bootstrap`. The CLI arguments from earlier are passed to the `bootstrap` tool.
 - Finally, the `bootstrap` tool is run with the CLI arguments.
 
 So when we call `./x <subcommand>`, it's actually invoking the `bootstrap` CLI with the subcommand.
@@ -110,7 +116,7 @@ I've started using Zed for all of my personal work, and it's been fantastic.
 
 `./x setup` has an option to add settings for VSCode, but none for Zed. Specifically, this is important for `rust_analyzer` to work correctly during rust compiler dev. The configuration for `rust_analyzer` is not very different from VSCode, but needs to be added in a `.zed/settings.json` in the root of the repo:
 
-```json
+```json title=".zed/settings.json"
 {
 	"lsp": {
 		"rust-analyzer": {
@@ -169,7 +175,9 @@ The change involved a couple of steps:
 std-features = ["panic_unwind"]
 ```
 
-`panic-unwind` is enabled by default, btw. The internal `toml` parser, parses all the fields in a predefined `struct` from the config file, so it was as easy as adding a new field in there.
+### The internal toml parser
+
+The internal `toml` parser, parses the `config.toml` and all its sections and fields in predefined [`structs`](https://github.com/shrirambalaji/rust/blob/8b968764f15ea84b389b2af98297b9d30fb9952e/src/bootstrap/src/core/config/config.rs#L1101) from the config file, so I just had to add a field in the `Rust` struct, mapping it to the field name [here](https://github.com/shrirambalaji/rust/blob/8b968764f15ea84b389b2af98297b9d30fb9952e/src/bootstrap/src/core/config/config.rs#L1156).
 
 For deduplicating, I originally used a `HashSet` on the list of values, but was recommended a `BTreeSet` to get deterministic ordering - which made sense, and should've been my first choice.
 
@@ -198,6 +206,22 @@ macro_rules! err {
 
 I usually stay away from macros (skill issue tbh), I liked this one. However, this could have very well been a function too if you ask me.
 
-### Merging the change
+### Merging the change - Squashing commits
 
-I addressed all the feedback comments, and the PR was ready for merge.
+I addressed all the feedback comments, and the PR was ready for merge. But `rustc` compiler development follows rebase + squash for contributors. I generally have my own reservations about rebase:
+
+<div class="tweet-embed">
+	<Tweet id="1769207470814269687" />
+</div>
+
+I learnt that most of my pain with rebase was mostly due to my ignorance of [`rerere`](https://git-scm.com/book/en/v2/Git-Tools-Rerere) which solves a lot of issues dealing with rebase merge conflicts in the past.
+
+Rebasing by itself wasn't tricky, but I'm not generally used to squashing, so this was new. The first time around I botched the squash and messed up the branch. Since it was also a rebase and I pushed upstream, there was no way to undo it (maybe there's one, but I gave up pretty quickly).
+
+So I made a new branch, rebased upstream onto it and cherry-picked my changes from the previous changes, and then squashed all of them into a single commit after following through this [article](https://www.git-tower.com/learn/git/faq/git-squash).
+
+Finally, after a couple of weeks of picking up my first issue, I got my first PR merged - https://github.com/rust-lang/rust/pull/131315. This might all sound trivial, but hey - I would not have imagined me being able to contribute something to the rust project a couple of years ago, it's good to count the small wins! https://thanks.rust-lang.org/rust/1.83.0/ now lists me as a contributor 😄
+
+Looking forward to contributing and learning a lot more about `rustc`.
+
+See you in the next one 👋
