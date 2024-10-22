@@ -1,16 +1,18 @@
 ---
-title: First contribution to the Rust Project
+title: Contributing to the Rust Project
 description: As I started reading a lot more about Rust compilation, I realized that I needed to find a way to contribute to the rust project and eventually , and validate my assumptions / understanding of the compiler.
-publishDate: Oct 13, 2024
-tags: []
+publishDate: Oct 24, 2024
+tags: ["rust", "oss", "compiler"]
 draft: true
 ---
+
+import Tweet from "astro-tweet";
 
 I've been reading about Rust compilation stages, and wrote about some of my learnings in a [previous post](https://blog.shrirambalaji.com/posts/resolving-rust-symbols/). As I started reading more, I realized that it might be helpful to find a way to contribute to the project, learn more about the compiler and validate my assumptions / understanding of the compiler.
 
 ## Finding an issue to work on
 
-The `rustc` compiler is a large codebase, and I was a bit intimidated by the size of the codebase. I started looking at the issues that were tagged as `E-mentor` and found an issue that was tagged as `E-mentor` and `E-easy` and landed on https://github.com/rust-lang/rust/issues/129599.
+The `rustc` compiler is a large codebase, and I was a bit intimidated by the size of the codebase. I started looking at the issues that were tagged as `E-mentor` and found an issue that was tagged as `E-mentor` and `E-easy` and landed on [#129599](https://github.com/rust-lang/rust/issues/129599).
 
 It involved adding a new `std_features` flag to the bootstrap phase of the compiler, that helps in enabling `std` features for compiler development. This could be features like enabling `panic-unwind` or `backtrace` features when building the compiler.
 
@@ -22,8 +24,7 @@ I also connected with [`Onur Ozkan`](https://onurozkan.dev) who was the mentor f
 
 Bootstrapping is how the compiler compiles itself, typically by using an older version to build a newer version. For rust to bootstrap, it has 4 stages:
 
-- Stage 0: Pre-compiled Compiler
-  This is the current beta `rustc` and is downloaded from the internet.
+- Stage 0: Pre-compiled Compiler - the current beta `rustc` and is downloaded from the internet.
 - Stage 1: Compiler built with the pre-compiled compiler from Stage 0
 - Stage 2: Rebuilding the stage 1 compiler with itself, and this is what get's distributed with `rustup`.
 - Stage 3 (optional): We can build libs with this compiler to sanity check that the compiler result is the same as the stage 2 compiler.
@@ -33,7 +34,6 @@ The [Rustc Dev Guide on Bootstrapping](https://rustc-dev-guide.rust-lang.org/bui
 ## Getting started
 
 I followed the steps in the [Quick Start](https://rustc-dev-guide.rust-lang.org/building/how-to-build-and-run.html#quick-start) guide on my macOs machine, and I ran into my first issue.
-
 
 ### Lesson: Don't install `binutils` via `brew`
 
@@ -88,6 +88,7 @@ brew uninstall binutils
 Wait a minute - why's there a python script to build the compiler? 🤔
 
 `x.py` a wrapper that calls into `bootstrap` which is a cross-platform build tool backed by `cargo` specifically for the rust project. `x.py` by itself doesn't do a lot more, other than checking for the python version and subsequently invoking the `bootstrap.py` script, which does the following:
+
 - Parses the CLI arguments and passes it on the `bootstrap` tool, located at `src/bootstrap`.
 - Downloads the rust toolchain, and makes sure that the necessary build tools `rustc`, `cargo` etc., are available.
 - Runs the bootstrap build using `cargo` to compile the bootstrap tool. The CLI arguments from earlier are passed to the `bootstrap` tool.
@@ -98,3 +99,105 @@ So when we call `./x <subcommand>`, it's actually invoking the `bootstrap` CLI w
 :::note
 I understand the convenience of having a python script to wrap the build process, but it was a bit surprising to look at first. Also it does seem like Python is preferred for build scripts that run in CI, and it's not overused. There's a discussion to purge python, and over time it seems like a lot of the python scripts have been replaced. https://github.com/rust-lang/rust/issues/110479
 :::
+
+## Setting up Zed for Compiler Development
+
+I've started using Zed for all of my personal work, and it's been fantastic.
+
+<div class="tweet-embed">
+	<Tweet id="1847665535502213165" />
+</div>
+
+`./x setup` has an option to add settings for VSCode, but none for Zed. Specifically, this is important for `rust_analyzer` to work correctly during rust compiler dev. The configuration for `rust_analyzer` is not very different from VSCode, but needs to be added in a `.zed/settings.json` in the root of the repo:
+
+```json
+{
+	"lsp": {
+		"rust-analyzer": {
+			"initialization_options": {
+				"check": {
+					"invocationLocation": "root",
+					"invocationStrategy": "once",
+					"overrideCommand": ["python3", "x.py", "check", "--json-output"]
+				},
+				"linkedProjects": [
+					"Cargo.toml",
+					"src/tools/x/Cargo.toml",
+					"src/bootstrap/Cargo.toml",
+					"src/tools/rust-analyzer/Cargo.toml",
+					"compiler/rustc_codegen_cranelift/Cargo.toml",
+					"compiler/rustc_codegen_gcc/Cargo.toml"
+				],
+				"rustfmt": {
+					"overrideCommand": ["./build/host/rustfmt/bin/rustfmt", "--edition=2021"]
+				},
+				"procMacro": {
+					"enable": true,
+					"server": "./build/host/stage0/libexec/rust-analyzer-proc-macro-srv"
+				},
+				"cargo": {
+					"buildScripts": {
+						"enable": true,
+						"invocationLocation": "root",
+						"invocationStrategy": "once",
+						"overrideCommand": ["python3", "x.py", "check", "--json-output"]
+					},
+					"sysrootSrc": "./library",
+					"extraEnv": {
+						"RUSTC_BOOTSTRAP": "1"
+					}
+				}
+			}
+		}
+	}
+}
+```
+
+There's an open issue to add a step for setting Zed for compiler dev, and I just assigned it to myself to get it fixed: https://github.com/rust-lang/rust/issues/126931
+
+## Making the change
+
+The change involved a couple of steps:
+
+- Adding a new field `std_features` in the `config.toml` file
+- Parsing (deduplicated) and updating the internal rust `features` config to be passed on the compiler bootstrap process
+- Unit tests
+
+```toml title="config.toml"
+[rust]
+# other options for compiling rust . . .
+std-features = ["panic_unwind"]
+```
+
+`panic-unwind` is enabled by default, btw. The internal `toml` parser, parses all the fields in a predefined `struct` from the config file, so it was as easy as adding a new field in there.
+
+For deduplicating, I originally used a `HashSet` on the list of values, but was recommended a `BTreeSet` to get deterministic ordering - which made sense, and should've been my first choice.
+
+### Error Handling
+
+The `toml` parser handles parsing errors by default, so I didn't have to do anything there. Since the `std_features` option can fundamentally change the output of the compiler, we should throw an error if this configuration is passed in CI builds. I really liked the `err` macro that they had setup for making this easy.
+
+```rust
+macro_rules! err {
+  ($current:expr, $expected:expr) => {
+      if let Some(current) = &$current {
+          if Some(current) != $expected.as_ref() {
+              return Err(format!(
+                  "ERROR: Setting `llvm.{}` is incompatible with `llvm.download-ci-llvm`. \
+                  Current value: {:?}, Expected value(s): {}{:?}",
+                  stringify!($expected).replace("_", "-"),
+                  $current,
+                  if $expected.is_some() { "None/" } else { "" },
+                  $expected,
+              ));
+          };
+      };
+  };
+}
+```
+
+I usually stay away from macros (skill issue tbh), I liked this one. However, this could have very well been a function too if you ask me.
+
+### Merging the change
+
+I addressed all the feedback comments, and the PR was ready for merge.
