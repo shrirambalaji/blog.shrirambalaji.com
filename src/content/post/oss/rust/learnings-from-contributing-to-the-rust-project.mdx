@@ -21,7 +21,7 @@ I've been reading about stages of Rust compilation, and wrote about some of my l
 
 The `rustc` compiler is a large codebase, and definitely intimidating at first glance. As with contributing to any new OSS project, I started by looking at the issues that were tagged as beginner friendly and found an issue that was tagged as `E-mentor` and `E-easy`: [#129599](https://github.com/rust-lang/rust/issues/129599).
 
-It involved adding a new `std_features` flag to the bootstrap phase of the compiler, that helps in enabling `std` features for compiler development. This could be features like enabling `panic-unwind` or `backtrace` features when building the compiler. When you e
+It involved adding a new `std_features` flag to the bootstrap phase of the compiler, that helps in enabling `std` features for compiler development. This could be features like enabling `panic-unwind` or `backtrace` features when building the compiler.
 
 This felt like a good issue to start with, and it was relatively straightforward to understand the issue, but I had to understand how the compiler was bootstrapped and how the `std_features` flag was passed to the compiler.
 
