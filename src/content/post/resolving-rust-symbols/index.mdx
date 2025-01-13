@@ -14,6 +14,7 @@ coverImage:
   alt: "Resolving Rust Symbols"
   border: true
   shouldInvert: true
+ogImage: "/covers/resolving-rust-symbols.png"
 ---
 
 import { Picture, Image } from "astro:assets";
@@ -103,7 +104,7 @@ Many language compilers / compiler-frontends operate on these fundamentals: sour
 
 ### HIR & MIR
 
-The AST from the previous step is lowered into a **H**igh **L**evel **I**ntermediate Representation (HIR) which is a friendlier representation to work with. During lowering - `rustc` also needs to do a couple of things, before getting to the HIR:
+The AST from the previous step is lowered into a **H**igh-Level **I**ntermediate **R**epresentation (HIR) which is a friendlier representation to work with. During lowering - `rustc` also needs to do a couple of things, before getting to the HIR:
 
 - Name Resolution: Resolves import and macro names.
 - Expanding Macros: The AST we have, has placeholders / todos for each macro that's invoked. For eg. the `println!` macro (yes, it's a macro and not a function). In this step, every macro invocation is enqueued, then expanded into an `ASTFragment` or `TokenStream` and merged back into the original AST and then dequeued.

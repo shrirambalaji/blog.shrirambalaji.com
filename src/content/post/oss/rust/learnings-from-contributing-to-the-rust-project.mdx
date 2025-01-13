@@ -1,0 +1,291 @@
+---
+title: Learnings from Contributing to the Rust Project
+description: As I started reading a lot more about Rust compilation, I realized that I needed to find a way to contribute to the rust project and eventually , and validate my assumptions / understanding of the compiler.
+publishDate: Oct 28, 2024
+tags: ["rust", "oss", "compiler"]
+coverImage:
+  src: "./cover.png"
+  alt: "Learnings from Contributing to the Rust Project"
+  border: true
+ogImage: "/covers/learnings-from-contributing-to-the-rust-project.png"
+---
+
+import { Image } from "astro:assets";
+import Tweet from "astro-tweet";
+import rustContributorsScreenshot from "../../attachments/rust-contributors-purple.png";
+import ThemedImage from "@/components/ThemedImage";
+
+I've been reading about stages of Rust compilation, and wrote about some of my learnings in a [previous post](https://blog.shrirambalaji.com/posts/resolving-rust-symbols/). As I started reading more, I realized that it might be helpful to find a way to contribute to the project, learn more about the compiler and validate my assumptions / understanding of the compiler.
+
+## Finding an issue to work on
+
+The `rustc` compiler is a large codebase, and definitely intimidating at first glance. As with contributing to any new OSS project, I started by looking at the issues that were tagged as beginner friendly and found an issue that was tagged as `E-mentor` and `E-easy`: [#129599](https://github.com/rust-lang/rust/issues/129599).
+
+It involved adding a new `std_features` flag to the bootstrap phase of the compiler, that helps in enabling `std` features for compiler development. This could be features like enabling `panic-unwind` or `backtrace` features when building the compiler.
+
+This felt like a good issue to start with, and it was relatively straightforward to understand the issue, but I had to understand how the compiler was bootstrapped and how the `std_features` flag was passed to the compiler.
+
+I also connected with [`Onur Ozkan`](https://onurozkan.dev) who was the mentor for the issue on zulip chat, and he was very helpful and welcoming throughout the process. Thanks Onur!
+
+## What's bootstrapping?
+
+Bootstrapping is how the compiler compiles itself, typically by using an older version to build a newer version. For rust to bootstrap, it has 4 stages:
+
+<ThemedImage
+	alt="Rust Bootstrap Stages"
+	src={"/attachments/rust-bootstrap-stages.svg"}
+	darkSrc={"/attachments/rust-bootstrap-stages-dark.svg"}
+></ThemedImage>
+
+- Stage 0: Pre-compiled Compiler - the current beta `rustc` and is downloaded from the internet.
+- Stage 1: Compiler built with the pre-compiled compiler from Stage 0
+- Stage 2: Rebuilding the stage 1 compiler with itself, and this is what get's distributed with `rustup`.
+- Stage 3 (optional): We can build libs with this compiler to sanity check that the compiler result is the same as the stage 2 compiler.
+
+The [Rustc Dev Guide on Bootstrapping](https://rustc-dev-guide.rust-lang.org/building/bootstrapping/what-bootstrapping-does.html) has a lot more details on bootstrapping, if you're interested in learning more.
+
+## Getting started
+
+I followed the steps in the [Quick Start](https://rustc-dev-guide.rust-lang.org/building/how-to-build-and-run.html#quick-start) guide on my macOS machine, and I ran into my first issue:
+
+The `./x.py setup` command failed with the following error:
+
+```shell
+~/Repositories/rust master
+./x setup
+downloading https://static.rust-lang.org/dist/2024-07-26/rust-std-beta-aarch64-apple-darwin.tar.xz
+############################################################ 100.0%
+downloading https://static.rust-lang.org/dist/2024-07-26/rustc-beta-aarch64-apple-darwin.tar.xz
+############################################################ 100.0%
+downloading https://static.rust-lang.org/dist/2024-07-26/cargo-beta-aarch64-apple-darwin.tar.xz
+############################################################ 100.0%
+extracting /Users/shrirambalaji/Repositories/rust/build/cache/2024-07-26/rustc-beta-aarch64-apple-darwin.tar.xz
+extracting /Users/shrirambalaji/Repositories/rust/build/cache/2024-07-26/rust-std-beta-aarch64-apple-darwin.tar.xz
+extracting /Users/shrirambalaji/Repositories/rust/build/cache/2024-07-26/cargo-beta-aarch64-apple-darwin.tar.xz
+Building bootstrap
+   Compiling libc v0.2.157
+   Compiling proc-macro2 v1.0.86
+   Compiling unicode-ident v1.0.12
+   Compiling typenum v1.17.0
+   Compiling version_check v0.9.5
+   Compiling memchr v2.7.4
+   Compiling crossbeam-utils v0.8.20
+   Compiling serde v1.0.208
+   Compiling rustix v0.38.34
+   Compiling cc v1.0.97
+error: failed to run custom build command for `serde v1.0.208`
+
+Caused by:
+  process didn't exit successfully: `/Users/shrirambalaji/Repositories/rust/build/bootstrap/debug/build/serde-19a5005084e51914/build-script-build` (signal: 9, SIGKILL: kill)
+warning: build failed, waiting for other jobs to finish...
+error: failed to run custom build command for `crossbeam-utils v0.8.20`
+
+Caused by:
+  process didn't exit successfully: `/Users/shrirambalaji/Repositories/rust/build/bootstrap/debug/build/crossbeam-utils-b20f738aa3e877a6/build-script-build` (signal: 9, SIGKILL: kill)
+failed to run: /Users/shrirambalaji/Repositories/rust/build/aarch64-apple-darwin/stage0/bin/cargo build --manifest-path /Users/shrirambalaji/Repositories/rust/src/bootstrap/Cargo.toml
+Build completed unsuccessfully in 0:00:13
+```
+
+It looked like the build failed because the dependencies couldn't be compiled. Initially, I thought that I had some system dependencies missing, but later found out that it was because of conflicting system dependencies. I had `binutils` installed via `brew` and I had `strip` in my path, which was conflicting with the `strip` that was being used by the compiler.
+
+So I had to remove `binutils` from my path, and then the build was successful:
+
+```shell
+brew uninstall binutils
+```
+
+### What's that python script doing in my rust compiler?
+
+Wait a minute - why's there a python script to build the compiler? 🤔
+
+`x.py` is a wrapper script that calls into the `bootstrap` tool - a cross-platform build tool backed by `cargo`, used specifically for the rust project. `x.py` by itself doesn't do a lot more, other than checking for the python version and subsequently invoking the `bootstrap.py` script, which does the following:
+
+- Parses the CLI arguments and passes it on the `bootstrap` tool
+- Downloads the rust toolchain, and makes sure that the necessary build tools `rustc`, `cargo` etc., are available.
+- Runs the bootstrap build using `cargo` to compile the bootstrap tool in `src/bootstrap`. The CLI arguments from earlier are passed to the `bootstrap` tool.
+- Finally, the `bootstrap` tool is run with the CLI arguments.
+
+So when we call `./x <subcommand>`, it's actually invoking the `bootstrap` CLI with the subcommand.
+
+:::note
+I understand the convenience of having a python script to wrap the build process, but it was a bit surprising at first. Also it does seem like Python is preferred for build scripts that run in CI, and it's not overused. There's a discussion to purge python, and over time it seems like a lot of the python scripts have been replaced. https://github.com/rust-lang/rust/issues/110479
+:::
+
+## Setting up Zed for Compiler Development
+
+I've started using Zed for all of my personal work and I've been liking it a lot.
+
+<div class="tweet-embed">
+	<Tweet id="1847665535502213165" />
+</div>
+
+`./x setup` has an option to add settings to configure VSCode, but not for Zed. This is important for `rust_analyzer` to work correctly during compiler development. The configuration for `rust_analyzer` is not very different from VSCode, but needs to be added in a `.zed/settings.json` in the root of the repo:
+
+```json title=".zed/settings.json"
+{
+	"lsp": {
+		"rust-analyzer": {
+			"initialization_options": {
+				"check": {
+					"invocationLocation": "root",
+					"invocationStrategy": "once",
+					"overrideCommand": ["python3", "x.py", "check", "--json-output"]
+				},
+				"linkedProjects": [
+					"Cargo.toml",
+					"src/tools/x/Cargo.toml",
+					"src/bootstrap/Cargo.toml",
+					"src/tools/rust-analyzer/Cargo.toml",
+					"compiler/rustc_codegen_cranelift/Cargo.toml",
+					"compiler/rustc_codegen_gcc/Cargo.toml"
+				],
+				"rustfmt": {
+					"overrideCommand": ["./build/host/rustfmt/bin/rustfmt", "--edition=2021"]
+				},
+				"procMacro": {
+					"enable": true,
+					"server": "./build/host/stage0/libexec/rust-analyzer-proc-macro-srv"
+				},
+				"cargo": {
+					"buildScripts": {
+						"enable": true,
+						"invocationLocation": "root",
+						"invocationStrategy": "once",
+						"overrideCommand": ["python3", "x.py", "check", "--json-output"]
+					},
+					"sysrootSrc": "./library",
+					"extraEnv": {
+						"RUSTC_BOOTSTRAP": "1"
+					}
+				}
+			}
+		}
+	}
+}
+```
+
+:::note
+There's an open issue to add a step for setting Zed for compiler dev, and I just assigned it to myself to get it fixed: https://github.com/rust-lang/rust/issues/126931
+:::
+
+## Making the change
+
+The change involved a couple of steps:
+
+- Adding a new field `std_features` in the `config.toml` file
+- Parsing (deduplicated) and updating the internal rust `features` config to be passed on the compiler bootstrap process
+- Unit tests
+
+```toml title="config.toml"
+[rust]
+# other options for compiling rust . . .
+std-features = ["panic_unwind"]
+```
+
+### How does bootstrap read the `config.toml` file?
+
+Bootstrap uses [toml-rs](https://crates.io/crates/toml) to parse the `config.toml`. Also since configuration can be overridden from both the `toml` file and from command line arguments, the `TomlConfig` struct implements a `Merge` trait:
+
+```rust
+
+/// Denotes how the config needs to be merged, specifically when handling duplicates.
+enum ReplaceOpt {
+    /// Silently ignore a duplicated value
+    IgnoreDuplicate,
+    /// Override the current value, even if it's `Some`
+    Override,
+    /// Exit with an error on duplicate values
+    ErrorOnDuplicate,
+}
+
+impl Merge for TomlConfig {
+    fn merge(
+        &mut self,
+		// other options from `TomlConfig` are also required here
+        TomlConfig { rust }: Self,
+        replace: ReplaceOpt,
+    ) {
+        fn do_merge<T: Merge>(x: &mut Option<T>, y: Option<T>, replace: ReplaceOpt) {
+            if let Some(new) = y {
+                if let Some(original) = x {
+                    original.merge(new, replace);
+                } else {
+                    *x = Some(new);
+                }
+            }
+        }
+        do_merge(&mut self.rust, rust, replace);
+		// merge other fields in `TomlConfig` . . .
+    }
+}
+```
+
+The config fields are not directly decoded, but decoded into separate sections represented by their own [`struct`](https://github.com/shrirambalaji/rust/blob/8b968764f15ea84b389b2af98297b9d30fb9952e/src/bootstrap/src/core/config/config.rs#L1101). In my case, I only needed to add a field in the `Rust` struct, corresponding to the `[rust]` section in the `config.toml` [here](https://github.com/shrirambalaji/rust/blob/8b968764f15ea84b389b2af98297b9d30fb9952e/src/bootstrap/src/core/config/config.rs#L1156).
+
+### Deduplicating `std_features`
+
+Although the previous step handled merging, since we are dealing with a list of values there needed to be some way to deduplicate it, because the internal `features` representation needs to be based on that.
+
+I reached for the handy [`HashSet`](https://doc.rust-lang.org/std/collections/struct.HashSet.html) collection, but from the review I understood that the order of `std_features` could be important, and the current implementation works with this assumption. `HashSet` does not have deterministic ordering and so I cannot use it, this is because it's backed by a hashtable and needs to be compute the hashcode for every element and then puts it in a "bucket". The bucket has no connection to the insertion order, so there's no way to keep track of the insertion order.
+
+So I implemented it with a [`BTreeSet`](https://doc.rust-lang.org/std/collections/struct.BTreeSet.html) instead as suggested in the initial review.
+
+### Error Handling in CI Builds
+
+The `toml` parser handles parsing errors by default, so I didn't have to do anything there. Since the `std_features` option can fundamentally change the output of the compiler, we need to throw an error if this config gets passed in CI builds. I really liked the `err` macro that they had setup for making this easy.
+
+```rust
+macro_rules! err {
+  ($current:expr, $expected:expr) => {
+      if let Some(current) = &$current {
+          if Some(current) != $expected.as_ref() {
+              return Err(format!(
+                  "ERROR: Setting `llvm.{}` is incompatible with `llvm.download-ci-llvm`. \
+                  Current value: {:?}, Expected value(s): {}{:?}",
+                  stringify!($expected).replace("_", "-"),
+                  $current,
+                  if $expected.is_some() { "None/" } else { "" },
+                  $expected,
+              ));
+          };
+      };
+  };
+}
+```
+
+I usually stay away from macros (skill issue tbh), but I liked this one. I'm still contemplating if this could have been a function, but I digress.
+
+### Merging the change - Squashing commits
+
+I addressed all the feedback comments, and the PR was ready for merge. The rust project follows a rebase + squash workflow for contributors. I have had my own reservations about rebase in the past:
+
+<div class="tweet-embed">
+	<Tweet id="1769207470814269687" />
+</div>
+
+I learnt that most of my pain with rebase was probably due to not knowing about [`rerere`](https://git-scm.com/book/en/v2/Git-Tools-Rerere) which solved a lot of issues dealing with rebase merge conflicts.
+
+However, squashing was new to me and the first time around I botched the squash and messed up the branch. Since it was also a rebase and I pushed upstream, there was no way to undo it (maybe there's a way, but I gave up pretty quickly).
+
+So I made a new branch, rebased upstream onto it and cherry-picked my changes from the previous changes, and then squashed all of them into a single commit after following through this [article](https://www.git-tower.com/learn/git/faq/git-squash).
+
+Finally, after a couple of weeks of picking up my first issue, I got my first PR merged - https://github.com/rust-lang/rust/pull/131315. This might all sound trivial, but hey - I would not have imagined me being able to contribute to the rust project a couple of years ago, it's good to count the small wins! https://thanks.rust-lang.org/rust/1.83.0/ now lists me as a contributor 😄
+
+<Image
+	src={rustContributorsScreenshot}
+	alt="Contributor's Screenshot"
+	width="800"
+	quality="max"
+	class="border border-indigo-300"
+></Image>
+
+Looking forward to contributing, learning and sharing a lot more about `rustc`.
+
+See you in the next one 👋
+
+### References
+
+- [Contributing to Rust: Video Series by Felix K](https://www.youtube.com/watch?v=9H9SO2u6Q20)
+- [Hacking rustc: Talk by Esteban Kuber](https://www.youtube.com/watch?v=9H9SO2u6Q20)
+- [Bootstrapping: Talk by Jynn Nelson](https://www.youtube.com/watch?v=9H9SO2u6Q20)
+- [Rustc Compiler Dev Guide](https://rustc-dev-guide.rust-lang.org)
