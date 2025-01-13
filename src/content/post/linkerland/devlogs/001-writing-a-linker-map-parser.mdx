@@ -28,7 +28,7 @@ Hello! I'm building [**linkerland**](https://github.com/shrirambalaji/linkerland
 
 ## What is a `.map` file?
 
-A [Linker](https://en.wikipedia.org/wiki/Linker_(computing)) map file contains information about the memory layout of the program. It is efectively a map of the memory address offsets to variables and functions in a program.
+A [Linker](https://en.wikipedia.org/wiki/Linker_(computing)) map file contains information about the memory layout of the program. It is effectively a map of the memory address offsets to variables and functions in a program.
 
 A map file typically has these sections:
 - Object files referenced in a program during linking
@@ -162,7 +162,6 @@ I wanted to parse the map files and take a peek into what the linker has done. T
 I looked at [MapFileViewer](https://github.com/govind-mukundan/MapViewer) and it seems like a really good tool, but it's Windows specific. I wanted to build something similar for macOS and Linux. So here we are!
 
 I'v read that firmware engineers working in embedded systems use map files for debugging. I don't have a lot of experience with embedded systems, but maybe this tool could be useful for them too.
-
 
 
 ## Writing a parser
