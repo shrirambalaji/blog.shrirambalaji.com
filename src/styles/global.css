@@ -57,7 +57,7 @@
 	}
 
 	html body {
-		@apply mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor px-8 pt-8 font-sans text-lg font-normal text-textColor antialiased xl:max-w-6xl;
+		@apply mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor pt-20 font-sans font-normal text-textColor antialiased 
 	}
 
 	.prose {
