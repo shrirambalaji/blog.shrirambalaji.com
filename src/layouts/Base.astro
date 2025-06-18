@@ -9,6 +9,7 @@ import ThemeProvider from "@/components/ThemeProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SkipLink from "@/components/SkipLink";
+import MobileMenu from "@/components/MobileMenu";
 import { siteConfig } from "@/site-config";
 
 interface Props {
@@ -18,7 +19,6 @@ interface Props {
 const {
 	meta: { title, description = siteConfig.description, ogImage, articleDate },
 } = Astro.props;
-
 ---
 
 <html lang={siteConfig.lang}>
@@ -26,11 +26,12 @@ const {
 		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
 		<ViewTransitions transition:animate="fade" />
 	</head>
-	<body class={Astro.url.pathname === "/" ? "px-6": ""}>
+	<body class={Astro.url.pathname === "/" ? "px-6" : ""}>
 		<ThemeProvider />
 		<SkipLink />
 		<Header />
-		<main id="main">
+		<MobileMenu />
+		<main id="main" class="container px-8 lg:px-0">
 			<slot />
 		</main>
 		<Footer />

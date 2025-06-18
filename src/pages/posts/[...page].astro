@@ -10,7 +10,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 	const allPosts = await getAllPosts();
 	const allPostsByDate = sortMDByDate(allPosts);
 	const uniqueTags = getUniqueTags(allPosts);
-	return paginate(allPostsByDate, { props: { uniqueTags }, pageSize: 15 });
+	return paginate(allPostsByDate, { props: { uniqueTags }, pageSize: 6 });
 }) satisfies GetStaticPaths;
 
 interface Props {
@@ -29,26 +29,26 @@ const paginationProps = {
 	...(page.url.prev && {
 		prevUrl: {
 			url: page.url.prev,
-			text: `← Previous Posts`,
+			text: `← Latest Posts`,
 		},
 	}),
 	...(page.url.next && {
 		nextUrl: {
 			url: page.url.next,
-			text: `Next Posts →`,
+			text: `Older Posts →`,
 		},
 	}),
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-6">Blog</h1>
+	<h1 class="text-xl font-bold mb-6 mt-2">Latest Posts</h1>
 	<div class="grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8">
 		<section aria-label="Blog post list">
-			<ul class="space-y-8 text-start">
+			<ul class="space-y-6 text-start">
 				{
 					page.data.map((p) => (
-						<li class="flex flex-col items-center flex-wrap gap-2 sm:flex-row [&_q]:basis-full">
+						<li class="flex flex-col items-start md:items-center flex-wrap gap-2 sm:flex-row [&_q]:basis-full">
 							<PostPreview post={p} as="h2" withDesc />
 						</li>
 					))
@@ -82,7 +82,7 @@ const paginationProps = {
 						{uniqueTags.map((tag) => (
 							<li>
 								<a
-									class="flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-ghostindigo-800 px-3 py-1.5 font-mono text-sm text-black dark:text-white hover:bg-gray-200 hover:dark:bg-ghostindigo-700 min-w-12"
+									class="flex items-center justify-center rounded-lg bg-gray-100 dark:bg-ghostindigo-800 px-3 py-1.5 font-mono text-sm text-black dark:text-white hover:bg-gray-200 hover:dark:bg-ghostindigo-700 min-w-12"
 									href={`/tags/${tag}/`}
 									aria-label={`View all posts with the tag: ${tag}`}
 								>
