@@ -90,10 +90,26 @@ const isActive = (href: string, external: boolean) => {
 	});
 </script>
 
+<style>
+	/* Browser-specific tracking for mobile menu links */
+	.mobile-nav-item a {
+		@apply tracking-normal; /* Default for Chrome/others */
+	}
+	
+	/* Safari-specific tracking using more reliable detection */
+	@supports (background: -webkit-named-image(i)) {
+		.mobile-nav-item a {
+			@apply tracking-wide;
+		}
+	}
+	
+
+</style>
+
 <!-- Mobile fullscreen menu - positioned at viewport level like React Menu component -->
 <nav
 	id="mobile-menu"
-	class="backdrop-blur-50 fixed left-0 top-0 z-40 hidden h-full min-h-full w-full flex-col gap-5 overflow-y-hidden bg-white px-6 pt-28 dark:bg-ghostindigo-900 md:hidden"
+	class="fixed left-0 top-0 z-40 hidden h-full min-h-full w-full flex-col gap-5 overflow-y-hidden bg-white px-6 pt-28 dark:bg-ghostindigo-900 md:hidden"
 	aria-labelledby="mobile sidebar menu"
 	style="opacity: 0"
 >
@@ -106,16 +122,16 @@ const isActive = (href: string, external: boolean) => {
 						target={link.external ? "_blank" : undefined}
 						rel={link.external ? "noopener noreferrer" : undefined}
 						class={`
-							w-full rounded-lg p-4 text-center transition-all hover:bg-gray-100 hover:backdrop-blur-xl dark:hover:bg-ghostindigo-800 sm:px-3 sm:py-2 md:w-20 inline-flex items-center justify-start pl-3 text-xl font-sans tracking-tighter
+						block w-full p-4 text-xl font-sans no-underline rounded-lg transition-colors hover:bg-gray-100 dark:hover:bg-ghostindigo-800
 							${
 								isActive(link.href, link.external)
 									? "bg-gray-100 font-semibold text-ghostindigo-800 dark:bg-ghostindigo-800 dark:text-white"
-									: "font-medium text-ghostindigo-400 dark:text-ghostindigo-300"
+									: "font-normal text-ghostindigo-400 dark:text-ghostindigo-300"
 							}
 						`}
 						data-mobile-nav-link
 					>
-						<span class="capsize">{link.text}</span>
+						{link.text}
 					</a>
 				</li>
 			))
@@ -126,7 +142,7 @@ const isActive = (href: string, external: boolean) => {
 		<li class="px-3">
 			<a
 				href="https://github.com/shrirambalaji"
-				class="mr-0 fill-ghostindigo-300 transition-all duration-75 ease-in-out hover:fill-ghostindigo-800 dark:fill-ghostindigo-300 dark:hover:fill-ghostindigo-100"
+				class="mr-0 fill-ghostindigo-300 dark:fill-ghostindigo-300 transition-colors hover:fill-ghostindigo-800 dark:hover:fill-ghostindigo-100"
 			>
 				<svg width="30" height="30" viewBox="0 0 24 24" >
 					<path
@@ -138,7 +154,7 @@ const isActive = (href: string, external: boolean) => {
 		<li class="px-2">
 			<a
 				href="https://x.com/shrirambalaji"
-				class="mr-0 fill-ghostindigo-300 transition-all duration-75 ease-in-out hover:fill-ghostindigo-800 dark:fill-ghostindigo-300 dark:hover:fill-ghostindigo-100"
+				class="mr-0 fill-ghostindigo-300 dark:fill-ghostindigo-300 transition-colors hover:fill-ghostindigo-800 dark:hover:fill-ghostindigo-100"
 			>
 				<svg width="30" height="30" viewBox="0 0 24 24">
 					<path
@@ -150,7 +166,7 @@ const isActive = (href: string, external: boolean) => {
 		<li class="px-3">
 			<a
 				href="https://linkedin.com/in/shrirambalaji"
-				class="mr-0 fill-ghostindigo-300 transition-all duration-75 ease-in-out hover:fill-ghostindigo-800 dark:fill-ghostindigo-300 dark:hover:fill-ghostindigo-100"
+				class="mr-0 fill-ghostindigo-300 dark:fill-ghostindigo-300 transition-colors hover:fill-ghostindigo-800 dark:hover:fill-ghostindigo-100"
 			>
 				<svg width="30" height="30" viewBox="0 0 24 24">
 					<path
