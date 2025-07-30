@@ -1,6 +1,7 @@
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import robotsTxt from "astro-robots-txt";
 import tailwind from "@astrojs/tailwind";
 import expressiveCode from "astro-expressive-code";
 import { defineConfig } from "astro/config";
@@ -34,6 +35,7 @@ const AnchorLinkIcon = h(
 // https://astro.build/config
 export default defineConfig({
 	site: "https://blog.shrirambalaji.com",
+	trailingSlash: "never",
 	markdown: {
 		syntaxHighlight: "shiki",
 		rehypePlugins: [
@@ -140,6 +142,7 @@ export default defineConfig({
 		mdx({}),
 		tailwind({}),
 		sitemap(),
+		robotsTxt(),
 	],
 	vite: {
 		plugins: [rawFonts([".ttf"])],
