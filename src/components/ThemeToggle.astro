@@ -25,6 +25,8 @@
 	customElements.define("theme-toggle", ThemeToggle);
 </script>
 
+<!-- Theme toggle is hidden - dark mode is default -->
+<!-- 
 <theme-toggle
 	class="-mt-1.5 flex cursor-pointer items-center rounded-lg p-2 text-center text-current hover:bg-gray-100 hover:dark:bg-ghostindigo-800"
 	tabindex="0"
@@ -35,7 +37,6 @@
 		class="group relative h-[22px] w-[22px]"
 		aria-label="Toggle Dark Mode"
 	>
-		<!-- Light Mode Icon (Sun) - Shows when in dark mode -->
 		<svg
 			id="sun-svg"
 			class="absolute inset-0 scale-0 opacity-0 transition-all group-aria-pressed:scale-100 group-aria-pressed:opacity-100"
@@ -52,7 +53,6 @@
 				d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
 			></path>
 		</svg>
-		<!-- Dark Mode Icon (Moon) - Shows when in light mode -->
 		<svg
 			id="moon-svg"
 			class="absolute inset-0 scale-100 opacity-100 transition-all group-aria-pressed:scale-0 group-aria-pressed:opacity-0"
@@ -71,8 +71,10 @@
 		</svg>
 	</button>
 </theme-toggle>
+-->
 
 {/* Inlined to avoid FOUC on full page load, runs once to set initial attribute */}
+<!-- Button is hidden, so this script is commented out
 <script is:inline>
 	const button = document.getElementById("toggle-theme");
 
@@ -82,6 +84,7 @@
 	}
 	setButtonPresssed();
 </script>
+-->
 
 <script is:inline>
 	function getCookie(name) {
@@ -118,10 +121,8 @@
 			}
 		}
 
-		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-			return "dark";
-		}
-		return "light";
+		// Default to dark mode instead of checking system preference
+		return "dark";
 	}
 
 	function setStoredTheme(theme) {
@@ -146,6 +147,8 @@
 	// Ensure theme is persisted
 	setStoredTheme(theme);
 
+	// Theme toggle functionality is disabled - dark mode is default
+	/*
 	const handleToggleClick = () => {
 		const element = document.documentElement;
 		element.classList.toggle("dark");
@@ -159,4 +162,5 @@
 	};
 
 	document.getElementById("toggle-theme").addEventListener("click", handleToggleClick);
+	*/
 </script>
