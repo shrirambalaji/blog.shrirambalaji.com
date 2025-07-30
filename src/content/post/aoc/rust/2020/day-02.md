@@ -4,7 +4,7 @@ description: "Solving Day 02 / Advent of Code 2020 in Rust"
 publishDate: "Dec 2 2020"
 tags: ["rust", "adventofcode"]
 slug: rust-aoc/2020/day-02
-
+series: "Advent of Code 2020"
 ---
 
 Hello Again! We'll be looking at the solution for [puzzles on Day-02](https://adventofcode.com/2020/day/2) of Advent of Code using rust.

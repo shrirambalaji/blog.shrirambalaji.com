@@ -4,6 +4,7 @@ description: "Solving Day 09 / Advent of Code 2020 in Rust"
 publishDate: "Dec 9 2020"
 tags: ["rust", "adventofcode"]
 slug: rust-aoc/2020/day-09
+series: "Advent of Code 2020"
 ---
 
 Hello! We are on [Day 09](https://adventofcode.com/2020/day/9) of Advent of Code 2020.

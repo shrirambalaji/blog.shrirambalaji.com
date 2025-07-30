@@ -4,6 +4,7 @@ description: "Solving Day 05 / Advent of Code 2020 in Rust"
 publishDate: "Dec 5 2020"
 tags: ["rust", "adventofcode"]
 slug: rust-aoc/2020/day-05
+series: "Advent of Code 2020"
 ---
 
 Hello! Let's continue with our advent of code 2020 streak. We're now at [Day 05](https://adventofcode.com/2020/day/5).

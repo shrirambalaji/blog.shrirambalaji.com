@@ -15,7 +15,12 @@ const postDate = post.data.updatedDate ?? post.data.publishDate;
 <FormattedDate date={postDate} class="min-w-[100px] font-medium text-gray-500 dark:text-ghostindigo-400 self-start md:self-center" />
 <Tag>
 	<a href={`/posts/${post.slug}/`} class="astro-link text-lg self-start font-semibold" rel="prefetch">
-		{post.data.title}
+		{post.data.seriesCount ? post.data.series : post.data.title}
+		{post.data.seriesCount && (
+			<span class="ml-2 inline-flex items-center rounded-full bg-ablue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+				Series &bull; {post.data.seriesCount} posts
+			</span>
+		)}
 	</a>
 </Tag>
 {withDesc && <span class="line-clamp-3 block leading-7 text-gray-500 dark:text-ghostindigo-200">{post.data.description}</span>}

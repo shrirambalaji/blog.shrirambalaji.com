@@ -1,0 +1,82 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getAllPosts } from "../../utils/post";
+
+interface Props {
+	post: CollectionEntry<"post">;
+}
+
+const { post } = Astro.props;
+
+// Only show navigation if this post is part of a series
+if (!post.data.series) {
+	return;
+}
+
+// Get all posts in the same series
+const allPosts = await getAllPosts();
+const seriesPosts = allPosts
+	.filter(p => p.data.series === post.data.series)
+	.sort((a, b) => {
+		const aDate = new Date(a.data.publishDate).valueOf();
+		const bDate = new Date(b.data.publishDate).valueOf();
+		return aDate - bDate; // Sort by publish date ascending (oldest first)
+	});
+
+// Find current post index
+const currentIndex = seriesPosts.findIndex(p => p.slug === post.slug);
+const previousPost = currentIndex > 0 ? seriesPosts[currentIndex - 1] : null;
+const nextPost = currentIndex < seriesPosts.length - 1 ? seriesPosts[currentIndex + 1] : null;
+---
+
+{seriesPosts.length > 1 && (
+	<div class="mt-12 border-t border-gray-200 dark:border-ghostindigo-700 pt-8">
+		<div class="mb-6">
+			<h3 class="text-lg font-semibold text-accent-2 mb-2">
+				{post.data.series} Series
+			</h3>
+			<p class="text-sm text-gray-600 dark:text-ghostindigo-300">
+				Part {currentIndex + 1} of {seriesPosts.length}
+			</p>
+		</div>
+		
+		<div class="flex flex-col sm:flex-row gap-4 justify-between">
+			{previousPost ? (
+				<a 
+					href={`/posts/${previousPost.slug}/`} 
+					class="flex-1 group p-4 rounded-lg border border-gray-200 dark:border-ghostindigo-700 hover:border-gray-300 dark:hover:border-ghostindigo-600 transition-colors"
+				>
+					<div class="text-sm text-gray-500 dark:text-ghostindigo-400 mb-1">← Previous</div>
+					<div class="font-medium group-hover:text-accent transition-colors">{previousPost.data.title}</div>
+				</a>
+			) : (
+				<div class="flex-1"></div>
+			)}
+			
+			{nextPost ? (
+				<a 
+					href={`/posts/${nextPost.slug}/`} 
+					class="flex-1 group p-4 rounded-lg border border-gray-200 dark:border-ghostindigo-700 hover:border-gray-300 dark:hover:border-ghostindigo-600 transition-colors text-right"
+				>
+					<div class="text-sm text-gray-500 dark:text-ghostindigo-400 mb-1">Next →</div>
+					<div class="font-medium group-hover:text-accent transition-colors">{nextPost.data.title}</div>
+				</a>
+			) : (
+				<div class="flex-1"></div>
+			)}
+		</div>
+		
+		{/* Series overview link */}
+		<div class="mt-6 text-center">
+			<a 
+				href="/posts/" 
+				class="inline-flex items-center text-sm text-accent hover:underline"
+			>
+				View all posts in this series
+				<svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+				</svg>
+			</a>
+		</div>
+	</div>
+)}

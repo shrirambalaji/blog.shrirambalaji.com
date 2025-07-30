@@ -4,6 +4,7 @@ description: "Solving Day 06 / Advent of Code 2020 in Rust"
 publishDate: "Dec 6 2020"
 tags: ["rust", "adventofcode"]
 slug: rust-aoc/2020/day-06
+series: "Advent of Code 2020"
 ---
 
 Hello! We are on [Day 06](https://adventofcode.com/2020/day/6) of Advent of Code. Let's explore how we can solve this puzzle.

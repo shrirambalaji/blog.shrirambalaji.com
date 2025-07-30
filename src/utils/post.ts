@@ -16,6 +16,43 @@ export function sortMDByDate(posts: Array<CollectionEntry<"post">>) {
 	});
 }
 
+export function getPostsGroupedBySeries(posts: Array<CollectionEntry<"post">>) {
+	const seriesMap = new Map<string, CollectionEntry<"post">[]>();
+	const standaloneePosts: CollectionEntry<"post">[] = [];
+
+	// Group posts by series
+	posts.forEach((post) => {
+		const series = post.data.series;
+		if (series) {
+			if (!seriesMap.has(series)) {
+				seriesMap.set(series, []);
+			}
+			seriesMap.get(series)!.push(post);
+		} else {
+			standaloneePosts.push(post);
+		}
+	});
+
+	// Get the first post from each series (sorted by date)
+	const seriesRepresentatives: CollectionEntry<"post">[] = [];
+	seriesMap.forEach((seriesPosts) => {
+		const sortedSeries = sortMDByDate(seriesPosts);
+		const representative = {
+			...sortedSeries[0],
+			data: {
+				...sortedSeries[0].data,
+				// Mark as series representative with count
+				seriesCount: seriesPosts.length,
+				seriesPosts: sortedSeries,
+			},
+		};
+		seriesRepresentatives.push(representative);
+	});
+
+	// Combine and sort all posts
+	return sortMDByDate([...standaloneePosts, ...seriesRepresentatives]);
+}
+
 /** Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so. */
 export function getAllTags(posts: Array<CollectionEntry<"post">>) {
 	return posts.flatMap((post) => [...post.data.tags]);

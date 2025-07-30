@@ -4,6 +4,7 @@ description: "Solving Day 07 / Advent of Code 2020 in Rust"
 publishDate: "Dec 7 2020"
 tags: ["rust", "adventofcode"]
 slug: rust-aoc/2020/day-07
+series: "Advent of Code 2020"
 ---
 
 Hola! We're on [Day 07](https://adventofcode.com/2020/day/7) of our Advent of Code Journey 2020. With our trusty rust ferris by our side, we have been able to solve some puzzles in the past couple of days. Let's look at how we can get through today's puzzle.

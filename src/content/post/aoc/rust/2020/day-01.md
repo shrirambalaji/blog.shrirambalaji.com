@@ -4,6 +4,7 @@ description: "Solving Day 01 / Advent of Code 2020 in Rust"
 publishDate: "Dec 1 2020"
 tags: ["rust", "adventofcode"]
 slug: rust-aoc/2020/day-01
+series: "Advent of Code 2020"
 ---
 
 Hello there!
