@@ -1,9 +1,8 @@
 {
-	"redirects": [
+	"rewrites": [
 		{
 			"source": "/",
-			"destination": "https://blog.shrirambalaji.com/posts",
-			"statusCode": 308
+			"destination": "/posts"
 		}
 	]
 }
