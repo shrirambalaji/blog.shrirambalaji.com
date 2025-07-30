@@ -42,13 +42,13 @@ const paginationProps = {
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="text-xl font-bold mb-6 mt-2">Latest Posts</h1>
-	<div class="grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8">
+	<h1 class="text-xl font-bold mb-6">Latest Posts</h1>
+	<div class="grid gap-y-16 sm:grid-cols-[5fr_1.4fr] sm:gap-x-8">
 		<section aria-label="Blog post list">
 			<ul class="space-y-6 text-start">
 				{
 					page.data.map((p) => (
-						<li class="flex flex-col items-start md:items-center flex-wrap gap-2 sm:flex-row [&_q]:basis-full">
+						<li class="flex md:flex-row flex-col items-start md:items-center flex-wrap gap-2 [&_q]:basis-full">
 							<PostPreview post={p} as="h2" withDesc />
 						</li>
 					))
@@ -82,7 +82,7 @@ const paginationProps = {
 						{uniqueTags.map((tag) => (
 							<li>
 								<a
-									class="flex items-center justify-center rounded-lg bg-gray-100 dark:bg-ghostindigo-800 px-3 py-1.5 font-mono text-sm text-black dark:text-white hover:bg-gray-200 hover:dark:bg-ghostindigo-700 min-w-12"
+									class="flex items-center justify-center rounded-md bg-gray-100 dark:bg-ghostindigo-800 px-3 py-1.5 font-mono text-xs text-black  font-semibold tracking-wide dark:text-white hover:bg-gray-200 hover:dark:bg-ghostindigo-700 min-w-12"
 									href={`/tags/${tag}/`}
 									aria-label={`View all posts with the tag: ${tag}`}
 								>
