@@ -98,22 +98,6 @@ const isActive = (href: string, external: boolean) => {
 	});
 </script>
 
-<style>
-	/* Browser-specific tracking for mobile menu links */
-	.mobile-nav-item a {
-		@apply tracking-normal; /* Default for Chrome/others */
-	}
-	
-	/* Safari-specific tracking using more reliable detection */
-	@supports (background: -webkit-named-image(i)) {
-		.mobile-nav-item a {
-			@apply tracking-wide;
-		}
-	}
-	
-
-</style>
-
 <!-- Mobile fullscreen menu - positioned at viewport level like React Menu component -->
 <nav
 	id="mobile-menu"
@@ -155,7 +139,7 @@ const isActive = (href: string, external: boolean) => {
 							${
 								isActive(link.href, link.external)
 									? "bg-gray-100 font-semibold text-ghostindigo-800 dark:bg-ghostindigo-800 dark:text-white"
-									: "font-normal text-ghostindigo-400 dark:text-ghostindigo-300"
+									: "font-medium text-ghostindigo-400 dark:text-ghostindigo-300"
 							}
 						`}
 						data-mobile-nav-link
