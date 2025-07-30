@@ -16,13 +16,6 @@
 	}
 }
 
-/* Preload optimization */
-@media (hover: hover) {
-	a:hover {
-		content-visibility: auto;
-	}
-}
-
 @layer base {
 	:root {
 		color-scheme: light;
@@ -78,7 +71,7 @@
 	}
 
 	html body {
-		@apply mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor pt-20 font-sans font-normal text-textColor antialiased 
+		@apply mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor font-sans font-normal text-textColor antialiased 
 	}
 
 	.prose {

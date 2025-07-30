@@ -63,11 +63,12 @@ const getPageHeading = () => {
 	});
 </script>
 
+<div class="fixed inset-x-0 top-0 z-10 h-[56px] bg-white/80 backdrop-blur-md dark:bg-ghostindigo-900/80"></div>
 <header
-	class="fixed inset-x-0 top-0 z-20 h-[60px] bg-white/80 backdrop-blur-sm dark:bg-ghostindigo-900/90"
+	class="container sticky top-0 z-20"
 >
 	<nav
-		class="mx-auto flex w-full h-full max-w-5xl dpr35:max-w-5xl dpr4:max-w-3xl items-center justify-between border-gray-200 bg-transparent bg-opacity-60 px-4 py-2 text-gray-900 dark:border-gray-700 dark:text-gray-100 md:items-center md:px-8 xl:px-0 dpr35:px-8"
+		class="flex w-full h-full items-center justify-between border-gray-200 bg-transparent bg-opacity-60 px-8 lg:px-0 py-2 text-gray-900 dark:border-gray-700 dark:text-gray-100 md:items-center sticky"
 		aria-labelledby="main navigation bar"
 	>
 		<button
@@ -121,7 +122,7 @@ const getPageHeading = () => {
 			}
 		</ul>
 
-		<ul class="flex items-center justify-center gap-4">
+		<ul class="flex items-center justify-center gap-4 md:mr-2.5">
 			<li>
 				<span
 					role="link"
