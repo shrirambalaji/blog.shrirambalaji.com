@@ -100,14 +100,14 @@ const getPageHeading = () => {
 		</h1>
 
 		<!-- Desktop navigation -->
-		<ul class="hidden gap-3 md:ml-[-.75rem] md:flex">
+		<ul class="hidden gap-[0.7rem] md:ml-[-.75rem] md:flex">
 			{
 				navLinks.map((link) => (
 					<li>
 						<a
 							href={link.href}
 							class={`
-							w-full rounded-lg p-4 text-center font-sans transition-all hover:bg-gray-100 hover:backdrop-blur-xl dark:hover:bg-ghostindigo-800 sm:px-3 sm:py-2 md:w-20 tracking-tight
+							w-full rounded-lg p-4 text-center font-sans transition-all hover:bg-gray-100 hover:backdrop-blur-xl dark:hover:bg-ghostindigo-800 sm:px-3 sm:py-2 md:w-20 tracking-normal
 							${
 								isActive(link.href, link.external)
 									? "font-semibold text-ghostindigo-800 dark:text-white"
