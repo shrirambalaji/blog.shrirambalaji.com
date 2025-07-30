@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Optimized view transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 150ms;
+	animation-timing-function: ease-out;
+}
+
+/* Faster transitions for Safari */
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		view-transition-name: none;
+	}
+}
+
+/* Preload optimization */
+@media (hover: hover) {
+	a:hover {
+		content-visibility: auto;
+	}
+}
+
 @layer base {
 	:root {
 		color-scheme: light;

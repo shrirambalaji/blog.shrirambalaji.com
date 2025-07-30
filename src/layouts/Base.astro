@@ -24,7 +24,7 @@ const {
 <html lang={siteConfig.lang}>
 	<head>
 		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
-		<ViewTransitions transition:animate="fade" />
+		<ViewTransitions transition:animate="none" fallback="swap" />
 	</head>
 	<body class={Astro.url.pathname === "/" ? "px-6" : ""}>
 		<ThemeProvider />
@@ -35,5 +35,32 @@ const {
 			<slot />
 		</main>
 		<Footer />
+		<script>
+			// Optimize view transitions for Safari
+			document.addEventListener('astro:before-preparation', () => {
+				// Preload critical resources
+				document.documentElement.style.scrollBehavior = 'auto';
+			});
+			
+			document.addEventListener('astro:after-swap', () => {
+				// Re-enable smooth scrolling after transition
+				document.documentElement.style.scrollBehavior = 'smooth';
+			});
+
+			// Prefetch links on hover for faster navigation
+			let prefetchTimeout: ReturnType<typeof setTimeout>;
+			document.addEventListener('mouseover', (e) => {
+				const target = e.target as HTMLElement;
+				if (target && target.matches && target.matches('a[href^="/"]')) {
+					clearTimeout(prefetchTimeout);
+					prefetchTimeout = setTimeout(() => {
+						const link = document.createElement('link');
+						link.rel = 'prefetch';
+						link.href = (target as HTMLAnchorElement).href;
+						document.head.appendChild(link);
+					}, 100);
+				}
+			});
+		</script>
 	</body>
 </html>
