@@ -292,15 +292,18 @@ html:not(.dark) :where(.astro-tweet-theme) {
 }
 
 .prose-lg p {
+	margin-bottom: 1em;
+}
+
+.prose-lg p, .prose-lg li {
 	letter-spacing: -0.05px;
 	word-spacing: -0.05px;
-	margin-bottom: 1em;
 	font-size: 0.9em;
 	@apply text-pretty;
 }
 
 @media (min-width: 768px) {
-	.prose-lg p {
+	.prose-lg p, .prose-lg li {
 		font-size: 1em;
 	}
 }
