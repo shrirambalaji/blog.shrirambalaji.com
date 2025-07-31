@@ -48,7 +48,7 @@ export default {
 			fontFamily: {
 				// Add any custom fonts here
 				mono: ["JetBrains Mono Variable", "JetBrains Mono", ...fontFamily.mono],
-				sans: ["Inter", ...fontFamily.sans],
+				sans: ["Inter Variable", "Inter", ...fontFamily.sans],
 				serif: [...fontFamily.serif],
 			},
 			transitionProperty: {
