@@ -16,5 +16,11 @@
 		"astro", // Enable .astro
 		"typescript", // Enable .ts
 		"typescriptreact"
-	]
+	],
+	"search.exclude": {
+		".obsidian/**": true
+	},
+	"files.exclude": {
+		".obsidian/**": true
+	}
 }
