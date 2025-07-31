@@ -40,9 +40,8 @@ const { headings } = await post.render();
 </script>
 
 <BaseLayout meta={{ title, description, articleDate, ogImage: socialImage }}>
-	<div class="gap-x-10 lg:flex lg:items-start">
-		{!!headings.length && <TOC headings={headings} />}
-		<article class="flex-grow break-words" data-pagefind-body>
+	<div class="grid gap-x-10 lg:grid-cols-[5fr_1.4fr] lg:items-start w-full max-w-none">
+		<article class="break-words min-w-0" data-pagefind-body>
 			<div id="blog-hero"><BlogHero content={post} /></div>
 			<div
 				class="prose prose-lg prose-astro mt-12 prose-headings:font-semibold prose-headings:text-accent-2 prose-blockquote:border-l-4 prose-blockquote:not-italic prose-th:before:content-none"
@@ -51,6 +50,7 @@ const { headings } = await post.render();
 			</div>
 			<SeriesNavigation post={post} />
 		</article>
+		{!!headings.length && <TOC headings={headings} />}
 	</div>
 	<button
 		id="to-top-btn"
