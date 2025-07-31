@@ -120,7 +120,7 @@ export default defineConfig({
 			},
 			styleOverrides: {
 				codeBackground: "var(--theme-code-bg)",
-				codeFontSize: "1rem",
+				codeFontSize: "var(--code-font-size)",
 				borderColor: "var(--theme-code-border)",
 				codeFontFamily:
 					"JetBrains Mono Variable, JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",

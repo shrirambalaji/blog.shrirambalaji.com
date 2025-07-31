@@ -29,6 +29,7 @@
 		--theme-quote: 234.45deg 70% 62%;
 		--code-line-highlight-color: hsl(0, 0%, 87%);
 		--astro-code-border: hsl(234.45deg 89.47% 90%) !important;
+		--code-font-size: 0.875rem; /* 14px - smaller for mobile */
 		--summary-marker-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.2em' height='1.2em' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-down'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 		--summary-marker-closed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.2em' height='1.2em' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-right'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
 	}
@@ -82,6 +83,13 @@
 @layer components {
 	*:is(h1, h2, h3, h4, h5, h6) {
 		@apply scroll-mt-10;
+	}
+}
+
+/* Responsive code font size */
+@media (min-width: 768px) {
+	:root {
+		--code-font-size: 1rem; /* 16px - larger for desktop */
 	}
 }
 
@@ -287,7 +295,18 @@ html:not(.dark) :where(.astro-tweet-theme) {
 	letter-spacing: -0.05px;
 	word-spacing: -0.05px;
 	margin-bottom: 1em;
-	font-size: 1em;
+	font-size: 0.9em;
+	@apply text-pretty;
+}
+
+@media (min-width: 768px) {
+	.prose-lg p {
+		font-size: 1em;
+	}
+}
+
+.prose-lg :where(h2):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	font-size: 1.25em;
 }
 
 h2,

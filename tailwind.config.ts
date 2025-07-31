@@ -84,7 +84,6 @@ export default {
 							fontWeight: "700",
 						},
 						code: {
-							padding: "5px",
 							borderRadius: "6px",
 							backgroundColor: "var(--astro-code-color-background)",
 						},
@@ -145,7 +144,7 @@ export default {
 					"@apply hover:underline hover:underline-offset-4": {},
 				},
 				".title": {
-					"@apply text-3xl font-bold text-accent-2": {},
+					"@apply text-2xl md:text-3xl leading-normal font-bold text-accent-2": {},
 				},
 			});
 		}),

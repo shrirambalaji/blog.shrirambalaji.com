@@ -55,46 +55,65 @@ const isActive = (href: string, external: boolean) => {
 		mobileMenuEl.style.display = 'none';
 	}
 
-	document.addEventListener("DOMContentLoaded", () => {
+	function initializeMobileMenu() {
 		mobileMenuEl = document.getElementById("mobile-menu")!;
 		navItemsEl = mobileMenuEl?.querySelectorAll(".mobile-nav-item") as NodeListOf<HTMLElement>;
 
 		// Back button functionality
 		const backButton = document.getElementById("back-button");
-		backButton?.addEventListener("click", () => {
-			hideMobileMenu();
-			// Emit event to update header state
-			document.dispatchEvent(new CustomEvent("mobile-menu-closed"));
-		});
+		if (backButton) {
+			// Remove existing listener to prevent duplicates
+			backButton.removeEventListener("click", handleBackButtonClick);
+			backButton.addEventListener("click", handleBackButtonClick);
+		}
 
-		document.addEventListener("toggle-mobile-menu", (e: Event) => {
-			const customEvent = e as CustomEvent;
-			if (customEvent.detail.open) {
-				showMobileMenu();
-			} else {
-				hideMobileMenu();
-			}
-		});
+		// Remove existing toggle listener to prevent duplicates
+		document.removeEventListener("toggle-mobile-menu", handleToggleMobileMenu);
+		document.addEventListener("toggle-mobile-menu", handleToggleMobileMenu);
 
 		// Close mobile menu when clicking on nav links
 		const mobileNavLinks = mobileMenuEl?.querySelectorAll("[data-mobile-nav-link]");
 		mobileNavLinks?.forEach((link) => {
-			link.addEventListener("click", (e) => {
-				const href = link.getAttribute("href");
-				const isCurrentPage = !link.getAttribute("target") && href === window.location.pathname;
-				
-				if (isCurrentPage) {
-					e.preventDefault();
-				}
-				hideMobileMenu();
-				// Emit event to update header state
-				document.dispatchEvent(new CustomEvent("mobile-menu-closed"));
-			});
+			// Remove existing listener to prevent duplicates
+			link.removeEventListener("click", handleNavLinkClick);
+			link.addEventListener("click", handleNavLinkClick);
 		});
-	});
+	}
+
+	function handleBackButtonClick() {
+		hideMobileMenu();
+		// Emit event to update header state
+		document.dispatchEvent(new CustomEvent("mobile-menu-closed"));
+	}
+
+	function handleToggleMobileMenu(e: Event) {
+		const customEvent = e as CustomEvent;
+		if (customEvent.detail.open) {
+			showMobileMenu();
+		} else {
+			hideMobileMenu();
+		}
+	}
+
+	function handleNavLinkClick(e: Event) {
+		const link = e.currentTarget as HTMLElement;
+		const href = link.getAttribute("href");
+		const isCurrentPage = !link.getAttribute("target") && href === window.location.pathname;
+		
+		if (isCurrentPage) {
+			e.preventDefault();
+		}
+		hideMobileMenu();
+		// Emit event to update header state
+		document.dispatchEvent(new CustomEvent("mobile-menu-closed"));
+	}
+
+	document.addEventListener("DOMContentLoaded", initializeMobileMenu);
 
 	document.addEventListener("astro:after-swap", () => {
 		hideMobileMenu();
+		// Re-initialize mobile menu after navigation
+		initializeMobileMenu();
 	});
 </script>
 
@@ -107,7 +126,7 @@ const isActive = (href: string, external: boolean) => {
 >
 	<button
 		id="back-button"
-		class="absolute top-[0.325rem] left-6 p-2 rounded-lg transition-colors flex items-center gap-2"
+		class="absolute top-[0.325rem] left-6 p-2 rounded-lg transition-colors flex items-center gap-2 "
 		aria-label="Close menu"
 	>
 		<svg
