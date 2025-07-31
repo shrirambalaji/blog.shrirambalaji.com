@@ -80,7 +80,7 @@ const getPageHeading = () => {
 	class="fixed inset-x-0 top-0 z-10 h-[56px] bg-white/80 backdrop-blur-md dark:bg-ghostindigo-900/80"
 >
 </div>
-<header class="lg:container sticky top-0 z-20">
+<header class="sticky top-0 z-20 lg:container">
 	<nav
 		class="sticky -ml-3.5 flex h-full w-full items-center justify-between border-gray-200 bg-transparent bg-opacity-60 px-8 py-2 text-gray-900 dark:border-gray-700 dark:text-gray-100 md:ml-0 md:items-center md:pt-4 lg:px-0"
 		aria-labelledby="main navigation bar"
@@ -120,6 +120,8 @@ const getPageHeading = () => {
 					<li>
 						<a
 							href={link.href}
+							target="_blank"
+							rel="noopener noreferrer"
 							class={`
 							w-full rounded-lg p-4 text-center font-sans tracking-normal transition-all hover:bg-gray-100 hover:backdrop-blur-xl dark:hover:bg-ghostindigo-800 sm:px-3 sm:py-2 md:w-20
 							${
@@ -136,7 +138,7 @@ const getPageHeading = () => {
 			}
 		</ul>
 
-		<ul class="flex items-center justify-center gap-4 md:mr-0 lg:mr-12 md:mt-[1px]">
+		<ul class="flex items-center justify-center gap-4 md:mr-0 md:mt-[1px] lg:mr-12">
 			<li>
 				<span
 					role="link"
@@ -148,6 +150,8 @@ const getPageHeading = () => {
 			<li class="hidden px-3 md:inline-block">
 				<a
 					href="https://github.com/shrirambalaji"
+					target="_blank"
+					rel="noopener noreferrer"
 					class="mr-0 fill-ghostindigo-300 transition-all duration-75 ease-in-out hover:fill-ghostindigo-800 dark:fill-ghostindigo-300 dark:hover:fill-ghostindigo-100"
 				>
 					<svg width="20" height="20" viewBox="0 0 24 24">
@@ -160,6 +164,8 @@ const getPageHeading = () => {
 			<li class="hidden px-3 md:inline-block">
 				<a
 					href="https://x.com/shrirambalaji"
+					target="_blank"
+					rel="noopener noreferrer"
 					class="mr-0 fill-ghostindigo-300 transition-all duration-75 ease-in-out hover:fill-ghostindigo-800 dark:fill-ghostindigo-300 dark:hover:fill-ghostindigo-100"
 				>
 					<svg width="20" height="20" viewBox="0 0 24 24">
@@ -173,7 +179,9 @@ const getPageHeading = () => {
 			<li class="hidden px-3 md:inline-block">
 				<a
 					href="https://linkedin.com/in/shrirambalaji"
-					class="mr-0fill-ghostindigo-300 transition-all duration-75 ease-in-out hover:fill-ghostindigo-800 dark:fill-ghostindigo-300 dark:hover:fill-ghostindigo-100"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="mr-0 fill-ghostindigo-300 transition-all duration-75 ease-in-out hover:fill-ghostindigo-800 dark:fill-ghostindigo-300 dark:hover:fill-ghostindigo-100"
 				>
 					<svg width="20" height="20" viewBox="0 0 24 24">
 						<path
