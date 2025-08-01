@@ -23,7 +23,9 @@ const getPageHeading = () => {
 	if (pathname.startsWith("/posts") || pathname.startsWith("/tags") || pathname === "/")
 		return "Blog";
 	const path = pathname.slice(1).trim();
-	return path.charAt(0).toUpperCase() + path.slice(1) || "Blog";
+	// Decode URL-encoded characters like %20 (spaces)
+	const decodedPath = decodeURIComponent(path);
+	return decodedPath.charAt(0).toUpperCase() + decodedPath.slice(1) || "Blog";
 };
 ---
 
