@@ -69,7 +69,7 @@ const nextPost = currentIndex < seriesPosts.length - 1 ? seriesPosts[currentInde
 		{/* Series overview link */}
 		<div class="mt-6 text-center">
 			<a 
-				href="/posts/" 
+				href={`/series/${post.data.series}/`}
 				class="inline-flex items-center text-sm text-accent hover:underline"
 			>
 				View all posts in this series
