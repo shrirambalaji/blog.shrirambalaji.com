@@ -4,7 +4,7 @@ import type { CollectionEntry } from "astro:content";
 import PageLayout from "@/layouts/Base";
 import PostPreview from "@/components/blog/PostPreview";
 import Pagination from "@/components/Paginator";
-import { getAllPosts, getUniqueSeries, sortMDByDate } from "@/utils";
+import { getAllPosts, getUniqueSeries, sortMDByDate, slugify } from "@/utils";
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 	const allPosts = await getAllPosts();
@@ -14,7 +14,8 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 	return uniqueSeries.flatMap((series) => {
 		const filterPosts = allPostsByDate.filter((post) => post.data.series === series);
 		return paginate(filterPosts, {
-			params: { series: series }, // Don't encode here, let Astro handle it
+			params: { series: slugify(series) }, // Use slugified series name for URL
+			props: { originalSeriesName: series }, // Pass original series name as prop
 			pageSize: 10,
 		});
 	});
@@ -22,13 +23,13 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 
 interface Props {
 	page: Page<CollectionEntry<"post">>;
+	originalSeriesName: string;
 }
 
-const { page } = Astro.props;
+const { page, originalSeriesName } = Astro.props;
 const { series } = Astro.params;
 
-// The series param will already be properly decoded by Astro
-const seriesName = series || "";
+const seriesName = originalSeriesName;
 
 const meta = {
 	title: `Series: ${seriesName}`,
@@ -62,7 +63,7 @@ const paginationProps = {
 			{
 				page.data.map((p) => (
 					<li class="flex flex-col flex-wrap sm:flex-row [&_q]:basis-full items-center gap-2">
-						<PostPreview post={p} as="h2" withDesc />
+						<PostPreview post={p} as="h2" class="w-full" withDesc />
 					</li>
 				))
 			}

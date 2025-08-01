@@ -9,6 +9,7 @@ export {
 	getAllSeries,
 	getUniqueSeries,
 	getUniqueSeriesWithCount,
+	slugify,
 } from "./post";
 export { generateToc } from "./generateToc";
 export type { TocItem } from "./generateToc";

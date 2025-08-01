@@ -59,7 +59,7 @@ const paginationProps = {
 			{
 				page.data.map((p) => (
 					<li class="flex flex-col flex-wrap sm:flex-row [&_q]:basis-full items-center gap-2">
-						<PostPreview post={p} as="h2" withDesc />
+						<PostPreview post={p} as="h2" class="w-full" withDesc />
 					</li>
 				))
 			}

@@ -77,7 +77,7 @@ export function getUniqueTagsWithCount(
 
 /** Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so. */
 export function getAllSeries(posts: Array<CollectionEntry<"post">>) {
-	return posts.flatMap((post) => post.data.series ? [post.data.series] : []);
+	return posts.flatMap((post) => (post.data.series ? [post.data.series] : []));
 }
 
 /** Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so. */
@@ -95,4 +95,16 @@ export function getUniqueSeriesWithCount(
 			new Map<string, number>(),
 		),
 	].sort((a, b) => b[1] - a[1]);
+}
+
+export function slugify(text: string): string {
+	return text
+		.toString()
+		.toLowerCase()
+		.trim()
+		.replace(/\s+/g, "-") // Replace spaces with -
+		.replace(/[^\w\-]+/g, "") // Remove all non-word chars
+		.replace(/\-\-+/g, "-") // Replace multiple - with single -
+		.replace(/^-+/, "") // Trim - from start of text
+		.replace(/-+$/, ""); // Trim - from end of text
 }
