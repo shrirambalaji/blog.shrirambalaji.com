@@ -4,17 +4,18 @@ import type { CollectionEntry } from "astro:content";
 import PageLayout from "@/layouts/Base";
 import PostPreview from "@/components/blog/PostPreview";
 import Pagination from "@/components/Paginator";
-import { getAllPosts, getUniqueTags, sortMDByDate } from "@/utils";
+import { getAllPosts, getUniqueSeries, sortMDByDate, slugify } from "@/utils";
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 	const allPosts = await getAllPosts();
 	const allPostsByDate = sortMDByDate(allPosts);
-	const uniqueTags = getUniqueTags(allPostsByDate);
+	const uniqueSeries = getUniqueSeries(allPostsByDate);
 
-	return uniqueTags.flatMap((tag) => {
-		const filterPosts = allPostsByDate.filter((post) => post.data.tags.includes(tag));
+	return uniqueSeries.flatMap((series) => {
+		const filterPosts = allPostsByDate.filter((post) => post.data.series === series);
 		return paginate(filterPosts, {
-			params: { tag },
+			params: { series: slugify(series) }, // Use slugified series name for URL
+			props: { originalSeriesName: series }, // Pass original series name as prop
 			pageSize: 10,
 		});
 	});
@@ -22,27 +23,30 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 
 interface Props {
 	page: Page<CollectionEntry<"post">>;
+	originalSeriesName: string;
 }
 
-const { page } = Astro.props;
-const { tag } = Astro.params;
+const { page, originalSeriesName } = Astro.props;
+const { series } = Astro.params;
+
+const seriesName = originalSeriesName;
 
 const meta = {
-	title: `Tag: ${tag}`,
-	description: `View all posts with the tag - ${tag}`,
+	title: `Series: ${seriesName}`,
+	description: `View all posts in the series - ${seriesName}`,
 };
 
 const paginationProps = {
 	...(page.url.prev && {
 		prevUrl: {
 			url: page.url.prev,
-			text: `← Previous Tags`,
+			text: `← Previous Posts`,
 		},
 	}),
 	...(page.url.next && {
 		nextUrl: {
 			url: page.url.next,
-			text: `Next Tags →`,
+			text: `Next Posts →`,
 		},
 	}),
 };
@@ -50,10 +54,10 @@ const paginationProps = {
 
 <PageLayout meta={meta}>
 	<h1 class="text-xl font-bold mb-6 flex items-center mt-2">
-		<a href="/tags/" class="sm:hover:underline underline-offset-4">Tags</a>
-		<span class="me-3 ms-2 text-lg">→</span>
-		<span class="text-xl font-mono">#{tag}</span>
-</h1>
+		<a href="/series/" class="sm:hover:underline underline-offset-4">Series</a>
+		<span class="me-3 ms-3 text-lg">→</span>
+		<span class="text-xl">{seriesName}</span>
+	</h1>
 	<section aria-label="Blog post list">
 		<ul class="space-y-8">
 			{

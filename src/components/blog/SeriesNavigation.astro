@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getAllPosts } from "../../utils/post";
+import { getAllPosts, slugify } from "../../utils/post";
 
 interface Props {
 	post: CollectionEntry<"post">;
@@ -69,7 +69,7 @@ const nextPost = currentIndex < seriesPosts.length - 1 ? seriesPosts[currentInde
 		{/* Series overview link */}
 		<div class="mt-6 text-center">
 			<a 
-				href="/posts/" 
+				href={`/series/${slugify(post.data.series)}/`}
 				class="inline-flex items-center text-sm text-accent hover:underline"
 			>
 				View all posts in this series

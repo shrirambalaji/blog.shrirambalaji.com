@@ -2,24 +2,30 @@
 import type { CollectionEntry } from "astro:content";
 import type { HTMLTag, Polymorphic } from "astro/types";
 import FormattedDate from "../FormattedDate.astro";
+import { slugify } from "../../utils/post";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 	post: CollectionEntry<"post">;
 	withDesc?: boolean;
 };
 
-const { post, as: Tag = "div", withDesc = false } = Astro.props;
+const { post, as: Tag = "div", withDesc = false, ...rest } = Astro.props;
 const postDate = post.data.updatedDate ?? post.data.publishDate;
 ---
 
 <FormattedDate date={postDate} class="min-w-[100px] font-medium text-gray-500 dark:text-ghostindigo-400 self-start md:self-center" />
-<Tag>
+<Tag {...rest}>
 	<a href={`/posts/${post.slug}/`} class="astro-link text-lg self-start font-semibold" rel="prefetch">
 		{post.data.seriesCount ? post.data.series : post.data.title}
 		{post.data.seriesCount && (
-			<span class="ml-2 inline-flex items-center rounded-full bg-ablue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+			<a 
+				href={`/series/${slugify(post.data.series)}/`} 
+				class="ml-2 inline-flex items-center rounded-full bg-ablue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200 hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+				rel="prefetch"
+				onclick="event.stopPropagation()"
+			>
 				Series &bull; {post.data.seriesCount} posts
-			</span>
+			</a>
 		)}
 	</a>
 </Tag>

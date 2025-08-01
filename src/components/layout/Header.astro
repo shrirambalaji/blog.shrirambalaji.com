@@ -20,10 +20,12 @@ const isActive = (href: string, external: boolean) => {
 // Helper function to get page heading
 const getPageHeading = () => {
 	// Since this is the blog site, default to "Blog"
-	if (pathname.startsWith("/posts") || pathname.startsWith("/tags") || pathname === "/")
+	const blogPaths = ["/posts", "/tags", "/series", "/"];
+	if (blogPaths.some(path => pathname.startsWith(path) || pathname === path))
 		return "Blog";
 	const path = pathname.slice(1).trim();
-	return path.charAt(0).toUpperCase() + path.slice(1) || "Blog";
+	const decodedPath = decodeURIComponent(path);
+	return decodedPath.charAt(0).toUpperCase() + decodedPath.slice(1) || "Blog";
 };
 ---
 
