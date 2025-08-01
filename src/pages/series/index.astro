@@ -2,6 +2,9 @@
 import PageLayout from "@/layouts/Base";
 import { getAllPosts, getUniqueSeriesWithCount } from "@/utils";
 
+// Redirect to /posts since we don't want a standalone series index page
+return Astro.redirect("/posts");
+
 const allPosts = await getAllPosts();
 const allSeries = getUniqueSeriesWithCount(allPosts);
 
