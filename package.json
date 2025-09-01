@@ -64,7 +64,7 @@
 		"motion": "^12.23.11",
 		"rehype-autolink-headings": "^7.1.0",
 		"rehype-external-links": "^3.0.0",
-		"remark-directive": "^3.0.1",
+		"remark-directive": "^4.0.0",
 		"remark-parse": "^11.0.0",
 		"satori": "0.10.4",
 		"satori-html": "^0.3.2",
