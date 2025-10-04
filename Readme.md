@@ -6,8 +6,6 @@ Built with:
 - [Tailwind](https://tailwindcss.com)
 - [MDX](https://mdxjs.com)
 
-Read the story behind how this blog was built:
-https://blog.shrirambalaji.com/posts/astro-nomical-switch-hashnode-to-astro
 
 ## Credits
 
