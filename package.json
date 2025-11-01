@@ -55,7 +55,7 @@
 		"astro": "^4.16.18",
 		"astro-embed": "^0.9.0",
 		"astro-expressive-code": "^0.35.6",
-		"astro-icon": "^0.8.2",
+		"astro-icon": "^1.1.5",
 		"astro-tweet": "^0.0.5",
 		"classnames": "^2.5.1",
 		"framer-motion": "^12.23.11",
