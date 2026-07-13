@@ -1,0 +1,16 @@
+---
+interface Props {
+	id: string;
+}
+
+const { id } = Astro.props;
+const tweetUrl = `https://twitter.com/i/web/status/${id}`;
+---
+
+<div class="tweet-embed not-prose">
+	<blockquote class="twitter-tweet" data-theme="dark">
+		<a class="editorial-link" href={tweetUrl}>View this post on X ↗</a>
+	</blockquote>
+</div>
+
+<script is:inline async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

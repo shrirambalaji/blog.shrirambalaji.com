@@ -1,8 +1,6 @@
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
-import robotsTxt from "astro-robots-txt";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import expressiveCode from "astro-expressive-code";
 import { defineConfig } from "astro/config";
 import fs from "fs";
@@ -34,8 +32,11 @@ const AnchorLinkIcon = h(
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://blog.shrirambalaji.com",
-	trailingSlash: "never",
+	site: "https://www.shrirambalaji.com",
+	trailingSlash: "ignore",
+	build: {
+		assetsPrefix: "https://blog.shrirambalaji.com",
+	},
 	markdown: {
 		syntaxHighlight: "shiki",
 		rehypePlugins: [
@@ -49,7 +50,7 @@ export default defineConfig({
 						properties: {
 							viewBox: "0 0 20 20",
 							fill: "#8282A6",
-							class: "ml-4 w-4 h-4 inline-block",
+							class: "external-link-icon",
 						},
 						children: [
 							{
@@ -82,7 +83,7 @@ export default defineConfig({
 						h(`div.heading-wrapper.level-${tagName}`, {
 							tabIndex: -1,
 						}),
-					content: (heading) => [
+					content: () => [
 						h(
 							`span.anchor-icon`,
 							{
@@ -140,12 +141,9 @@ export default defineConfig({
 			},
 		}),
 		mdx({}),
-		tailwind({}),
-		sitemap(),
-		robotsTxt(),
 	],
 	vite: {
-		plugins: [rawFonts([".ttf"])],
+		plugins: [tailwindcss(), rawFonts([".ttf"])],
 		optimizeDeps: {
 			exclude: ["@resvg/resvg-js"],
 		},

@@ -1,26 +1,20 @@
-import { z, defineCollection } from "astro:content";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 function removeDupsAndLowerCase(array: string[]) {
 	if (!array.length) return array;
-	const lowercaseItems = array.map((str) => str.toLowerCase());
-	const distinctItems = new Set(lowercaseItems);
-	return Array.from(distinctItems);
+	return Array.from(new Set(array.map((item) => item.toLowerCase())));
 }
 
 const post = defineCollection({
-	type: "content",
+	loader: glob({ base: "./src/content/post", pattern: "**/*.{md,mdx}" }),
 	schema: ({ image }) =>
 		z.object({
 			title: z.string().max(60),
 			description: z.string().max(250),
-			publishDate: z
-				.string()
-				.or(z.date())
-				.transform((val) => new Date(val)),
-			updatedDate: z
-				.string()
-				.optional()
-				.transform((str) => (str ? new Date(str) : undefined)),
+			publishDate: z.coerce.date(),
+			updatedDate: z.coerce.date().optional(),
 			coverImage: z
 				.object({
 					src: image(),

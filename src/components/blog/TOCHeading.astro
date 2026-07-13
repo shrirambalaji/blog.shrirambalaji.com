@@ -12,7 +12,7 @@ const {
 
 <li>
 	<a
-		class={`block line-clamp-2 hover:text-accent mt-3`}
+		class:list={["toc-link", { "toc-link--nested": depth > 2 }]}
 		href={`#${slug}`}
 		aria-label={`Scroll to section: ${text}`}>{text}</a
 	>
