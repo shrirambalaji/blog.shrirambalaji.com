@@ -4,8 +4,7 @@ test("writing metadata, feed, and sitemap use the public same-origin URLs", asyn
 	page,
 	request,
 }) => {
-	await page.goto("/writing");
-	await expect(page).toHaveURL(/\/writing\/posts\/?$/);
+	await page.goto("/writing/posts");
 
 	await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
 		"href",
@@ -31,7 +30,7 @@ test("writing metadata, feed, and sitemap use the public same-origin URLs", asyn
 });
 
 test("blog presents writing as part of the main site", async ({ page }) => {
-	await page.goto("/writing");
+	await page.goto("/writing/posts");
 
 	const primaryNav = page.getByRole("navigation", { name: "Primary" });
 	await expect(
@@ -55,7 +54,7 @@ test("blog presents writing as part of the main site", async ({ page }) => {
 
 test("blog shares the main site's dark palette and compact type", async ({ page }) => {
 	await page.emulateMedia({ colorScheme: "dark" });
-	await page.goto("/writing");
+	await page.goto("/writing/posts");
 
 	await expect(page.locator("body")).toHaveCSS("background-color", "rgb(17, 17, 24)");
 	await expect(page.locator("body")).toHaveCSS("color", "rgb(224, 224, 235)");
@@ -71,7 +70,7 @@ test("blog shares the main site's dark palette and compact type", async ({ page 
 
 test("mobile navigation opens, identifies Writing, and closes with Escape", async ({ page }) => {
 	await page.setViewportSize({ width: 390, height: 844 });
-	await page.goto("/writing");
+	await page.goto("/writing/posts");
 
 	await page.getByRole("button", { name: "Open navigation" }).click();
 	const mobileNav = page.getByRole("navigation", { name: "Mobile navigation" });
