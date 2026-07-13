@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/jetbrains-mono";
 
@@ -19,26 +19,25 @@ interface Props {
 const {
 	meta: { title, description = siteConfig.description, ogImage, articleDate },
 } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <html lang={siteConfig.lang}>
 	<head>
 		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
-		<ViewTransitions transition:animate="none" fallback="swap" />
+		<ClientRouter />
 	</head>
-	<body class={Astro.url.pathname === "/" ? "px-6" : ""}>
+	<body data-page={currentPath}>
 		<ThemeProvider />
 		<SkipLink />
 		<Header />
 		<MobileMenu />
-		<main id="main" class="container px-8 pt-8 lg:px-0">
+		<main id="main" class="site-main page-content">
 			<slot />
 		</main>
 		<Footer />
 		<script>
-			// Optimize view transitions for Safari
 			document.addEventListener('astro:before-preparation', () => {
-				// Preload critical resources
 				document.documentElement.style.scrollBehavior = 'auto';
 			});
 			
@@ -47,7 +46,6 @@ const {
 				document.documentElement.style.scrollBehavior = 'smooth';
 			});
 
-			// Prefetch links on hover for faster navigation
 			let prefetchTimeout: ReturnType<typeof setTimeout>;
 			document.addEventListener('mouseover', (e) => {
 				const target = e.target as HTMLElement;

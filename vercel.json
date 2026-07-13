@@ -1,8 +1,25 @@
 {
-	"rewrites": [
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"redirects": [
 		{
 			"source": "/",
-			"destination": "/posts"
+			"destination": "https://www.shrirambalaji.com/writing",
+			"permanent": true
+		},
+		{
+			"source": "/posts/:path*",
+			"destination": "https://www.shrirambalaji.com/writing/posts/:path*",
+			"permanent": true
+		},
+		{
+			"source": "/tags/:path*",
+			"destination": "https://www.shrirambalaji.com/writing/tags/:path*",
+			"permanent": true
+		},
+		{
+			"source": "/series/:path*",
+			"destination": "https://www.shrirambalaji.com/writing/series/:path*",
+			"permanent": true
 		}
 	]
 }

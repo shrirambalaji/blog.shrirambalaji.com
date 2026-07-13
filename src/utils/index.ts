@@ -12,4 +12,5 @@ export {
 	slugify,
 } from "./post";
 export { generateToc } from "./generateToc";
+export { blogAssetUrl } from "./blog-asset-url";
 export type { TocItem } from "./generateToc";

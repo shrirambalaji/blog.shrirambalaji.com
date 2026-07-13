@@ -30,7 +30,7 @@ const socialLinks = [
 	{
 		name: "mdi:rss",
 		friendlyName: "RSS Feed",
-		link: "/rss.xml",
+		link: "/writing/rss.xml",
 	},
 ];
 ---
@@ -38,17 +38,22 @@ const socialLinks = [
 <div class="flex flex-wrap items-end gap-x-4">
 	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
 		{
-			socialLinks.map(({ link, name, friendlyName,iconClass }) => {
+			socialLinks.map(({ link, name, friendlyName, iconClass }) => {
 				const isEmail = name.includes("email") || friendlyName.toLowerCase().includes("email");
 				return (
 					<li class="flex">
 						<a
-							class="inline-block p-1 sm:hover:text-link"
+							class="sm:hover:text-link inline-block p-1"
 							href={link}
 							target="_blank"
 							rel={`noopener noreferrer me ${isEmail ? "authn" : ""}`}
 						>
-							<Icon class={iconClass ?? "h-6 w-6"} name={name} aria-hidden="true" focusable="false" />
+							<Icon
+								class={iconClass ?? "h-6 w-6"}
+								name={name}
+								aria-hidden="true"
+								focusable="false"
+							/>
 							<span class="sr-only">{friendlyName}</span>
 						</a>
 					</li>

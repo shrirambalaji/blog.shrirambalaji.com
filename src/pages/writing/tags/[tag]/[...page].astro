@@ -24,7 +24,7 @@ interface Props {
 	page: Page<CollectionEntry<"post">>;
 }
 
-const { page } = Astro.props;
+const { page } = Astro.props as unknown as Props;
 const { tag } = Astro.params;
 
 const meta = {
@@ -49,16 +49,12 @@ const paginationProps = {
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="text-xl font-bold mb-6 flex items-center mt-2">
-		<a href="/tags/" class="sm:hover:underline underline-offset-4">Tags</a>
-		<span class="me-3 ms-2 text-lg">→</span>
-		<span class="text-xl font-mono">#{tag}</span>
-</h1>
+	<h1 class="section-label"><a href="/writing/tags" class="editorial-link">Topics</a> <span aria-hidden="true">·</span> {tag}</h1>
 	<section aria-label="Blog post list">
-		<ul class="space-y-8">
+		<ul class="post-list">
 			{
 				page.data.map((p) => (
-					<li class="flex flex-col flex-wrap sm:flex-row [&_q]:basis-full items-center gap-2">
+					<li class="post-list-item">
 						<PostPreview post={p} as="h2" class="w-full" withDesc />
 					</li>
 				))

@@ -1,13 +1,15 @@
 ---
+import { blogAssetUrl } from "@/utils";
+
 interface Props {
 	src: string;
 	darkSrc?: string;
 	alt: string;
-	name: string;
-	age: number;
+	class?: string;
+	borderDashed?: boolean;
 }
 
-let { src, alt, darkSrc } = Astro.props;
+let { src, alt, darkSrc, borderDashed, class: className, ...imageProps } = Astro.props;
 
 let images;
 let absoluteImageSrc = src;
@@ -30,25 +32,20 @@ if (darkSrc && absoluteDarkImageSrc && !images[absoluteDarkImageSrc]) {
 	darkSrc = src;
 }
 
-// @ts-ignore
-const { border, borderDashed, ...themedImageProps } = Astro.props;
+const renderedSrc = blogAssetUrl(src);
+const renderedDarkSrc = darkSrc ? blogAssetUrl(darkSrc) : undefined;
 ---
 
-<!-- pass all props to img -->
-<img
-	id="themed-image"
-	{...themedImageProps}
-	class:list={[
-		{
-			"border-2 border-indigo-300 dark:border-ghostindigo-600": border,
-			"border-2 border-dashed border-indigo-300 dark:border-ghostindigo-600": borderDashed,
-		},
-	]}
-	src={src}
-	alt={alt}
-	data-dark-src={darkSrc}
-	data-src={src}
-/>
+<figure class:list={["themed-image-frame", { "themed-image-frame--dashed": borderDashed }]}>
+	<img
+		{...imageProps}
+		class:list={["themed-image", className]}
+		src={renderedSrc}
+		alt={alt}
+		data-dark-src={renderedDarkSrc}
+		data-src={renderedSrc}
+	/>
+</figure>
 
 <script is:inline data-astro-rerun>
 	function updateImageSrc(event) {
@@ -56,7 +53,7 @@ const { border, borderDashed, ...themedImageProps } = Astro.props;
 		if (event && event.detail?.theme === "dark") {
 			isDarkMode = true;
 		}
-		const images = document.querySelectorAll("#themed-image");
+		const images = document.querySelectorAll(".themed-image");
 
 		for (const img of images) {
 			if (img && img.src) {
