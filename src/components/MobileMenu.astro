@@ -1,31 +1,44 @@
 ---
 const navLinks = [
-	{ href: "https://www.shrirambalaji.com/#about", text: "About" },
-	{ href: "https://www.shrirambalaji.com/#projects", text: "Projects" },
+	{ href: "https://www.shrirambalaji.com/#about", text: "About", external: true },
+	{ href: "https://www.shrirambalaji.com/#projects", text: "Projects", external: true },
 	{ href: "/writing/posts", text: "Writing", current: true },
-	{ href: "https://www.shrirambalaji.com/#talks", text: "Talks" },
-	{ href: "https://www.shrirambalaji.com/uses", text: "Uses" },
+	{ href: "https://www.shrirambalaji.com/#talks", text: "Talks", external: true },
+	{ href: "https://www.shrirambalaji.com/uses", text: "Uses", external: true },
 ];
 ---
 
 <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile navigation" aria-hidden="true">
-	<div class="mobile-menu__header">
-		<a class="site-title-link" href="https://www.shrirambalaji.com/">Shriram Balaji</a>
-		<button id="mobile-menu-close" class="mobile-menu-button" type="button" aria-label="Close navigation">
-			Close
-		</button>
+	<div class="mobile-menu__inner">
+		<div class="mobile-menu__header">
+			<span>Navigate</span>
+			<button
+				id="mobile-menu-close"
+				class="mobile-menu-button"
+				type="button"
+				aria-label="Close navigation"
+			>
+				Close
+			</button>
+		</div>
+		<ul>
+			{
+				navLinks.map((link) => (
+					<li>
+						<a
+							class="mobile-nav-link"
+							href={link.href}
+							aria-current={link.current ? "page" : undefined}
+							rel={link.external ? "noreferrer" : undefined}
+						>
+							<span>{link.text}</span>
+							<span aria-hidden="true">{link.external ? "↗" : "→"}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
 	</div>
-	<ul>
-		{
-			navLinks.map((link) => (
-				<li>
-					<a class="mobile-nav-link" href={link.href} aria-current={link.current ? "page" : undefined}>
-						{link.text}
-					</a>
-				</li>
-			))
-		}
-	</ul>
 </nav>
 
 <script>
@@ -33,7 +46,12 @@ const navLinks = [
 		const menu = document.getElementById("mobile-menu");
 		const closeButton = document.getElementById("mobile-menu-close");
 		const openButton = document.getElementById("mobile-menu-button");
-		if (!(menu instanceof HTMLElement) || !(closeButton instanceof HTMLButtonElement) || menu.dataset.ready) return;
+		if (
+			!(menu instanceof HTMLElement) ||
+			!(closeButton instanceof HTMLButtonElement) ||
+			menu.dataset.ready
+		)
+			return;
 
 		menu.dataset.ready = "true";
 		const close = () => {
