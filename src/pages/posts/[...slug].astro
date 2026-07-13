@@ -1,0 +1,15 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getAllPosts } from "@/utils";
+
+export const getStaticPaths = (async () => {
+	const posts = await getAllPosts();
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: { redirectUrl: `/writing/posts/${post.id}` },
+	}));
+}) satisfies GetStaticPaths;
+
+const { redirectUrl } = Astro.props;
+return Astro.redirect(redirectUrl, 308);
+---

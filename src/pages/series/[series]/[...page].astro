@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getAllPosts, getUniqueSeries, slugify, sortMDByDate } from "@/utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const allPosts = await getAllPosts();
+	const allPostsByDate = sortMDByDate(allPosts);
+	const uniqueSeries = getUniqueSeries(allPostsByDate);
+
+	return uniqueSeries.flatMap((series) => {
+		const filteredPosts = allPostsByDate.filter((post) => post.data.series === series);
+		return paginate(filteredPosts, {
+			params: { series: slugify(series) },
+			pageSize: 10,
+		});
+	});
+}) satisfies GetStaticPaths;
+
+interface Props {
+	page: Page<CollectionEntry<"post">>;
+}
+
+const { page } = Astro.props as Props;
+const { series } = Astro.params;
+const redirectUrl =
+	page.currentPage === 1
+		? `/writing/series/${series}`
+		: `/writing/series/${series}/${page.currentPage}`;
+return Astro.redirect(redirectUrl, 308);
+---

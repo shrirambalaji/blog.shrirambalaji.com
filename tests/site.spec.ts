@@ -27,6 +27,31 @@ test("writing metadata, feed, and sitemap use the public same-origin URLs", asyn
 	expect(await feedResponse.text()).toContain(
 		"https://www.shrirambalaji.com/writing/posts/resolving-rust-symbols/",
 	);
+
+	const writingFeedResponse = await request.get("/writing/rss.xml");
+	expect(writingFeedResponse.ok()).toBe(true);
+	expect(await writingFeedResponse.text()).toContain(
+		"https://www.shrirambalaji.com/writing/posts/resolving-rust-symbols/",
+	);
+});
+
+test("legacy writing URLs redirect to the canonical writing hierarchy", async ({ page }) => {
+	await page.goto("/posts/oss/rust/learnings-from-contributing-to-the-rust-project");
+	await expect(page).toHaveURL(
+		/\/writing\/posts\/oss\/rust\/learnings-from-contributing-to-the-rust-project$/,
+	);
+	await expect(
+		page.getByRole("heading", {
+			level: 1,
+			name: "Learnings from Contributing to the Rust Project",
+		}),
+	).toBeVisible();
+
+	await page.goto("/tags/rust");
+	await expect(page).toHaveURL(/\/writing\/tags\/rust$/);
+
+	await page.goto("/series/advent-of-code-2020");
+	await expect(page).toHaveURL(/\/writing\/series\/advent-of-code-2020$/);
 });
 
 test("blog presents writing as part of the main site", async ({ page }) => {

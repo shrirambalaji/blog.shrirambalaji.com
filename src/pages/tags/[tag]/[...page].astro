@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getAllPosts, getUniqueTags, sortMDByDate } from "@/utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const allPosts = await getAllPosts();
+	const allPostsByDate = sortMDByDate(allPosts);
+	const uniqueTags = getUniqueTags(allPostsByDate);
+
+	return uniqueTags.flatMap((tag) => {
+		const filteredPosts = allPostsByDate.filter((post) => post.data.tags.includes(tag));
+		return paginate(filteredPosts, {
+			params: { tag },
+			pageSize: 10,
+		});
+	});
+}) satisfies GetStaticPaths;
+
+interface Props {
+	page: Page<CollectionEntry<"post">>;
+}
+
+const { page } = Astro.props as Props;
+const { tag } = Astro.params;
+const redirectUrl =
+	page.currentPage === 1 ? `/writing/tags/${tag}` : `/writing/tags/${tag}/${page.currentPage}`;
+return Astro.redirect(redirectUrl, 308);
+---

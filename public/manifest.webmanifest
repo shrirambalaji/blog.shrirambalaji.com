@@ -14,7 +14,7 @@
 			"type": "image/png"
 		}
 	],
-	"start_url": "https://www.shrirambalaji.com/writing",
+	"start_url": "https://www.shrirambalaji.com/writing/posts",
 	"background_color": "#111118",
 	"theme_color": "#A0A0BB",
 	"display": "standalone"

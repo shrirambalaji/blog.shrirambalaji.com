@@ -1,0 +1,24 @@
+---
+import type { GetStaticPaths, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getAllPosts, getPostsGroupedBySeries } from "@/utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const allPosts = await getAllPosts();
+	const groupedPosts = getPostsGroupedBySeries(allPosts);
+
+	return paginate(groupedPosts, {
+		pageSize: 10,
+		props: { legacyBase: "/writing/posts" },
+	});
+}) satisfies GetStaticPaths;
+
+interface Props {
+	page: Page<CollectionEntry<"post">>;
+	legacyBase: string;
+}
+
+const { page, legacyBase } = Astro.props as Props;
+const redirectUrl = page.currentPage === 1 ? legacyBase : `${legacyBase}/${page.currentPage}`;
+return Astro.redirect(redirectUrl, 308);
+---
