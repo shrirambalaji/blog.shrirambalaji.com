@@ -1,3 +1,7 @@
 ---
-return Astro.redirect("/writing/tags", 308);
+const redirectPath = "/writing/tags";
+const redirectUrl = import.meta.env.DEV
+	? redirectPath
+	: new URL(redirectPath, Astro.site).toString();
+return Astro.redirect(redirectUrl, 308);
 ---

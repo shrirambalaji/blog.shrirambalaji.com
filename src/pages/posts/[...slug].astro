@@ -6,10 +6,12 @@ export const getStaticPaths = (async () => {
 	const posts = await getAllPosts();
 	return posts.map((post) => ({
 		params: { slug: post.id },
-		props: { redirectUrl: `/writing/posts/${post.id}` },
 	}));
 }) satisfies GetStaticPaths;
 
-const { redirectUrl } = Astro.props;
+const redirectPath = `/writing${Astro.url.pathname.replace(/\/$/, "")}`;
+const redirectUrl = import.meta.env.DEV
+	? redirectPath
+	: new URL(redirectPath, Astro.site).toString();
 return Astro.redirect(redirectUrl, 308);
 ---

@@ -9,16 +9,18 @@ export const getStaticPaths = (async ({ paginate }) => {
 
 	return paginate(groupedPosts, {
 		pageSize: 10,
-		props: { legacyBase: "/writing/posts" },
 	});
 }) satisfies GetStaticPaths;
 
 interface Props {
 	page: Page<CollectionEntry<"post">>;
-	legacyBase: string;
 }
 
-const { page, legacyBase } = Astro.props as Props;
-const redirectUrl = page.currentPage === 1 ? legacyBase : `${legacyBase}/${page.currentPage}`;
+const { page } = Astro.props as Props;
+const redirectPath =
+	page.currentPage === 1 ? "/writing/posts" : `/writing/posts/${page.currentPage}`;
+const redirectUrl = import.meta.env.DEV
+	? redirectPath
+	: new URL(redirectPath, Astro.site).toString();
 return Astro.redirect(redirectUrl, 308);
 ---

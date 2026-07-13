@@ -22,10 +22,10 @@ interface Props {
 }
 
 const { page } = Astro.props as Props;
-const { series } = Astro.params;
-const redirectUrl =
-	page.currentPage === 1
-		? `/writing/series/${series}`
-		: `/writing/series/${series}/${page.currentPage}`;
+const legacyPath = Astro.url.pathname.replace(/\/$/, "");
+const redirectPath = `/writing${legacyPath}`;
+const redirectUrl = import.meta.env.DEV
+	? redirectPath
+	: new URL(redirectPath, Astro.site).toString();
 return Astro.redirect(redirectUrl, 308);
 ---
