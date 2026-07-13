@@ -3,7 +3,17 @@
 	"redirects": [
 		{
 			"source": "/",
-			"destination": "https://www.shrirambalaji.com/writing",
+			"destination": "https://www.shrirambalaji.com/writing/posts",
+			"permanent": true
+		},
+		{
+			"source": "/writing",
+			"destination": "https://www.shrirambalaji.com/writing/posts",
+			"permanent": true
+		},
+		{
+			"source": "/writing/series",
+			"destination": "https://www.shrirambalaji.com/writing/posts",
 			"permanent": true
 		},
 		{
